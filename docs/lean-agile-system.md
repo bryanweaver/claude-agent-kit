@@ -3,32 +3,73 @@
 ## Philosophy
 **Ship fast, learn faster.** Minimal agents, rapid iteration, continuous deployment, parallel workflows.
 
-## The Lean Team (5 Core Agents)
+## The Lean Team (4 Core Agents)
 
-### 1. **Builder Agent**
-**Purpose:** Rapid feature implementation across the full stack
+### 1. **Full Stack Developer Agent**
+**Purpose:** Rapid feature implementation and bug fixes across the entire stack
 
 **Key Responsibilities:**
-- Write working code quickly (frontend, backend, database)
+- Write working code quickly (frontend, backend, APIs, integrations)
 - Implement features end-to-end
-- Create minimal viable tests for critical paths
+- Debug and fix issues across all layers
+- Write minimal tests for CRITICAL functionality only (auth, payments, core business logic)
+- Add regression tests ONLY for bugs that could recur in production
 - Add clear TODOs for technical debt
 - Prefer simple, working solutions over complex architectures
+- Apply targeted fixes for production issues
 
 **Approach:**
 - Make it work first, optimize later
 - Ship in small, deployable increments
 - Write self-documenting code
 - Keep dependencies minimal
+- Fix first, refactor later when debugging
+- Minimal change for maximum impact
+- Test only what could break production
 
 **Tools Needed:** Read, Write, Edit, MultiEdit, Bash, Grep, Glob
 
 ---
 
-### 2. **Shipper Agent**
-**Purpose:** Automated testing, building, and deployment
+### 2. **Database Admin Agent**
+**Purpose:** Database design, optimization, and data layer implementation
 
 **Key Responsibilities:**
+- Design and implement database schemas
+- Write and optimize queries
+- Handle migrations and data transformations
+- Implement data access layers and ORMs
+- Write tests ONLY for critical data integrity (no data loss, no corruption)
+- Test migrations that could break production
+- Debug data-related issues
+- Ensure data integrity and consistency
+- Optimize database performance
+- Create database backups and recovery procedures
+- Fix data corruption or query issues
+
+**Approach:**
+- Data integrity first, performance second
+- Use appropriate indexes and constraints
+- Write efficient, scalable queries
+- Document schema changes clearly
+- Quick fixes for data issues when needed
+- Monitor and optimize slow queries
+- Test only what could lose or corrupt data
+
+**Tools Needed:** Read, Write, Edit, MultiEdit, Bash, Grep, Glob
+
+---
+
+### 3. **Shipper Agent**
+**Purpose:** Complete pipeline ownership - git operations, testing, building, and deployment
+
+**Key Responsibilities:**
+- Handle all git commits with clear, conventional messages
+- Create and manage branches (feature, hotfix, release)
+- Push/pull from remote repositories
+- Create pull requests with comprehensive descriptions
+- Handle merge conflicts
+- Tag releases and versions
 - Run test suites and fail fast on errors
 - Build and package applications
 - Deploy to appropriate environments (dev/staging/prod)
@@ -36,16 +77,20 @@
 - Execute rollbacks when critical issues detected
 
 **Approach:**
+- Atomic commits (one logical change per commit)
+- Descriptive commit messages following conventional format
+- Keep main branch always deployable
+- Use feature branches for all development
 - Automate everything possible
 - Zero-downtime deployments
 - Quick rollback capability
-- Clear deployment logs
+- Clear deployment and git history logs
 
-**Tools Needed:** Bash, Read, Grep
+**Tools Needed:** Bash (for git commands and deployment), Read, Grep
 
 ---
 
-### 3. **Reviewer Agent**
+### 4. **Reviewer Agent**
 **Purpose:** Pragmatic code quality checks
 
 **Key Responsibilities:**
@@ -65,47 +110,54 @@
 
 ---
 
-### 4. **Fixer Agent**
-**Purpose:** Rapid debugging and issue resolution
+## Agent Communication Protocol
 
-**Key Responsibilities:**
-- Reproduce reported issues
-- Identify root causes quickly
-- Apply minimal, targeted fixes
-- Verify fixes work correctly
-- Add regression tests
+All agents communicate with the Main Orchestrator using a universal format to ensure consistent handoffs and decision-making.
 
-**Approach:**
-- Fix first, refactor later
-- Minimal change for maximum impact
-- Document the issue and fix
-- Learn from failures
+### Universal Response Format
+```
+STATUS: SUCCESS|FAILED|BLOCKED|IN_PROGRESS
+SUMMARY: Brief description of what was accomplished
+DETAILS: [Agent-specific information, findings, or metrics]
+NEXT: Continue with [agent name]|Stop|Need user input
+CONTEXT: [Information the next agent needs to proceed]
+```
 
-**Tools Needed:** Read, Edit, Bash, Grep, Glob
+### Communication Flow
+1. **Main Orchestrator** invokes an agent with task and context
+2. **Agent** performs work and reports back using the universal format
+3. **Main Orchestrator** reads STATUS and NEXT to determine routing
+4. **Main Orchestrator** passes CONTEXT to the next agent
+5. **Process repeats** until workflow completes
 
----
+### Example Communications
 
-### 5. **DevOps Agent**
-**Purpose:** Manage all git operations and version control
+**Full Stack Developer Response:**
+```
+STATUS: SUCCESS
+SUMMARY: Implemented user authentication feature
+DETAILS: Added login/logout endpoints, JWT tokens, session management
+NEXT: Continue with Database Admin
+CONTEXT: Need users table with email, password_hash, created_at fields
+```
 
-**Key Responsibilities:**
-- Handle all git commits with clear, conventional messages
-- Create and manage branches (feature, hotfix, release)
-- Push/pull from remote repositories
-- Create pull requests with comprehensive descriptions
-- Handle merge conflicts
-- Tag releases and versions
-- Ensure git history stays clean and meaningful
+**Shipper Response (Testing):**
+```
+STATUS: FAILED
+SUMMARY: Test suite completed with 3 failures
+DETAILS: Failed: auth_test.js, user_test.js, session_test.js (45/48 passing)
+NEXT: Continue with Full Stack Developer
+CONTEXT: auth_test fails on line 23 - expects 200 got 401, user_test fails on null check, session_test timeout
+```
 
-**Approach:**
-- Atomic commits (one logical change per commit)
-- Descriptive commit messages following conventional format
-- Keep main branch always deployable
-- Use feature branches for all development
-- Automate PR creation with context
-- Never force push to main
-
-**Tools Needed:** Bash (for git commands), Read
+**Reviewer Response:**
+```
+STATUS: SUCCESS
+SUMMARY: Code review completed, found 1 critical issue
+DETAILS: SQL injection risk in user.js:45, performance suggestion for query.js:80
+NEXT: Stop
+CONTEXT: Critical issue should be fixed before next deployment
+```
 
 ---
 
@@ -114,34 +166,60 @@
 ### `/ship` - Build and Deploy Features
 **Purpose:** Implement new features or enhancements from start to production
 
+**Workflow Diagram:**
+```
+┌─────────┐     ┌──────────┐     ┌─────────┐     ┌──────────┐     ┌─────────┐
+│ Shipper │────►│Full Stack│────►│ Shipper │────►│ Reviewer │────►│ Shipper │
+│ Branch  │     │ Dev & DB │     │ Commit  │     │  Review  │     │Run Tests│
+└─────────┘     └──────────┘     └─────────┘     └──────────┘     └─────────┘
+                                                                         │
+                                              ┌──────────────────────────┴──────┐
+                                              │                                 │
+                                          [Tests Pass]                    [Tests Fail]
+                                              │                                 │
+                                              ▼                                 ▼
+                                       ┌──────────┐                     ┌──────────┐
+                                       │ Shipper  │                     │Full Stack│
+                                       │Deploy &  │                     │ Fix      │
+                                       │ PR/Merge │                     │Regressions│
+                                       └──────────┘                     └──────────┘
+```
+
 **Workflow:**
-1. **DevOps** creates feature branch
+1. **Shipper** creates feature branch
    - Creates branch from main: `feature/[feature-name]`
    - Sets up tracking with remote
    
-2. **Builder** implements the feature
-   - Creates/modifies code files
+2. **Full Stack Developer** and/or **Database Admin** implement the feature
+   - Creates/modifies code files across all layers
+   - Database Admin handles schema/query changes if needed
    - Writes minimal tests for critical paths
    - Ensures code runs locally
    
-3. **DevOps** commits changes
+3. **Shipper** commits changes
    - Creates atomic commits with clear messages
    - Pushes to feature branch
    
-4. **Shipper** deploys the feature
-   - Runs existing test suite
-   - Builds the application
-   - Deploys to staging
-   - Runs smoke tests
-   - Deploys to production (if tests pass)
-   
-5. **Reviewer** validates the implementation
+4. **Reviewer** validates the implementation
    - Reviews code for security issues
    - Identifies potential bugs
    - Flags performance concerns
    - Creates TODOs for improvements (non-blocking)
    
-6. **DevOps** creates PR and merges
+5. **Shipper** runs full test suite
+   - Executes all tests to check for regressions
+   - If tests pass → proceed to deployment
+   - If tests fail → report to Main Orchestrator
+   
+6. **If tests fail:** Fix regressions
+   - Main Orchestrator assigns fixes to developers
+   - Full Stack Developer/Database Admin fix breaking changes
+   - Shipper re-runs tests until all pass
+   
+7. **Shipper** deploys and finalizes
+   - Deploys to staging
+   - Runs smoke tests
+   - Deploys to production
    - Creates PR with description and test results
    - Merges to main after approval
    - Tags release if needed
@@ -151,28 +229,40 @@
 ### `/fix` - Emergency Bug Fixes
 **Purpose:** Rapidly diagnose and fix production issues
 
+**Workflow Diagram:**
+```
+┌─────────┐     ┌──────────┐     ┌─────────┐     ┌──────────┐     ┌─────────┐
+│ Shipper │────►│Full Stack│────►│ Shipper │────►│ Shipper  │────►│ Shipper │
+│ Hotfix  │     │Dev or DB │     │ Commit  │     │Quick Test│     │ Deploy  │
+│ Branch  │     │  Admin   │     │   Fix   │     │  & Deploy│     │PR/Merge │
+└─────────┘     └──────────┘     └─────────┘     └──────────┘     └─────────┘
+                     ↑                                                    
+                 [Diagnose]                                               
+                 [Fix Fast]                                               
+```
+
 **Workflow:**
-1. **DevOps** creates hotfix branch
+1. **Shipper** creates hotfix branch
    - Creates branch from main: `hotfix/[issue-id]`
    
-2. **Fixer** diagnoses and patches
+2. **Full Stack Developer** (or **Database Admin** for data issues) diagnoses and patches
    - Reproduces the issue
    - Identifies root cause
    - Implements minimal fix
    - Adds regression test
    
-3. **DevOps** commits fix
+3. **Shipper** commits fix
    - Commits with message: `fix: [description] (fixes #[issue-id])`
    - Pushes to hotfix branch
    
-4. **Shipper** fast-tracks deployment
+4. **Shipper** fast-tracks testing and deployment
    - Runs focused tests on fix
    - Skips full suite for speed
    - Deploys directly to production
    - Monitors for immediate issues
    - Ready to rollback if needed
    
-5. **DevOps** merges hotfix
+5. **Shipper** merges hotfix
    - Creates PR for audit trail
    - Merges to main
    - Tags as patch release
@@ -182,8 +272,22 @@
 ### `/cleanup` - Technical Debt and Refactoring
 **Purpose:** Improve code quality, performance, and maintainability
 
+**Workflow Diagram:**
+```
+┌─────────┐     ┌──────────┐     ┌──────────┐     ┌─────────┐     ┌─────────┐
+│ Shipper │────►│ Reviewer │────►│Full Stack│────►│ Shipper │────►│ Shipper │
+│ Branch  │     │ Analyze  │     │Dev or DB │     │ Commit  │     │Test/Deploy│
+└─────────┘     └──────────┘     └──────────┘     └─────────┘     └─────────┘
+                     ↓                                                  │
+              [Identify Issues]                                         ▼
+              [Prioritize]                                        ┌─────────┐
+                                                                  │ Shipper │
+                                                                  │PR/Merge │
+                                                                  └─────────┘
+```
+
 **Workflow:**
-1. **DevOps** creates cleanup branch
+1. **Shipper** creates cleanup branch
    - Creates branch: `refactor/[area-name]`
    
 2. **Reviewer** identifies improvements
@@ -192,97 +296,150 @@
    - Lists refactoring opportunities
    - Prioritizes by impact
    
-3. **Builder** refactors code
+3. **Full Stack Developer** (or **Database Admin** for data layer) refactors code
    - Implements improvements
    - Maintains functionality
    - Updates tests as needed
    - Documents changes
    
-4. **DevOps** commits refactoring
+4. **Shipper** commits refactoring
    - Creates clear commits for each logical change
    - Uses conventional commit format: `refactor: [description]`
    
-5. **Shipper** validates changes
+5. **Shipper** tests and validates changes
    - Runs full test suite
    - Checks performance metrics
    - Deploys to staging first
    - Monitors for regressions
    - Deploys to production if stable
    
-6. **DevOps** completes merge
+6. **Shipper** completes merge
    - Creates PR with before/after metrics
    - Merges after review
 
 ---
 
-### `/test` - Parallel Test and Fix Workflow
-**Purpose:** Run comprehensive tests with immediate fixes, maximizing parallel work
+### `/test` - Batch Test and Fix Workflow
+**Purpose:** Run comprehensive tests, identify all issues, then fix systematically
+
+**Workflow Diagram:**
+```
+     Phase 1: Discovery          Phase 2: Fix              Phase 3: Verify
+┌─────────┐     ┌─────────┐     ┌──────────┐     ┌─────────┐     ┌─────────┐
+│ Shipper │────►│ Shipper │────►│Full Stack│────►│ Shipper │────►│ Shipper │
+│ Branch  │     │Run Tests│     │  & DB    │     │ Commit  │     │ Re-test │
+└─────────┘     └─────────┘     └──────────┘     └─────────┘     └─────────┘
+                     │                ↑                               │
+                     ▼                │                               ▼
+              ┌─────────────┐   ┌──────────┐                  ┌──────────┐
+              │Failure Report│──►│   Main   │                  │Final Test│
+              │  (3 failed) │   │Orchestrator│                 │   Suite  │
+              └─────────────┘   └──────────┘                  └──────────┘
+                                                                       │
+                                                                       ▼
+                                                               ┌──────────┐
+                                                               │ Reviewer │──►[PR/Merge]
+                                                               └──────────┘
+```
 
 **Workflow:**
 
-#### Initial Phase
-1. **DevOps** prepares test branch
+#### Phase 1: Discovery
+1. **Shipper** prepares test branch
    - Creates branch: `test/[timestamp]`
    - Ensures clean working directory
    
-2. **Shipper** starts running test suite
-   - Begins executing all tests
-   - **AS SOON AS** a test fails → reports failure to main agent
-   - Continues running remaining tests in parallel
-   - Keeps reporting each failure as discovered
+2. **Shipper** runs complete test suite
+   - Executes ALL tests to completion
+   - Collects all failures and errors
+   - Compiles comprehensive failure report
+   - Reports to Main Orchestrator with full list
 
-#### Parallel Execution Phase
-3. **For each reported failure:**
-   - **Main agent** immediately assigns to **Builder**
-   - **Builder** works on fix:
-     - Reproduces the specific failure
-     - Implements fix for that functionality
-     - Writes/updates unit test
-     - Reports completion back to main agent
-   - **DevOps** commits each fix:
-     - Creates atomic commit: `fix: [test-name] failing due to [reason]`
-     - Keeps fixes separate for easy tracking
+#### Phase 2: Fix Assignment
+3. **Main Orchestrator** processes failure report
+   - Creates TODO list from all failures
+   - Prioritizes fixes by impact/dependency
+   - Assigns fixes to appropriate developers
    
-4. **Meanwhile, Shipper continues:**
-   - Running remaining untested code
-   - Discovering additional failures
-   - Reporting each to main agent
-   - Tracking which tests are pending fixes
+4. **Full Stack Developer** and/or **Database Admin** fix issues
+   - Work through assigned failures
+   - Each developer handles their domain:
+     - Full Stack: application logic, API, frontend issues
+     - Database Admin: query failures, schema issues, data integrity
+   - Implement fixes with appropriate tests
+   - Report completion for each fix
 
-#### Re-test Phase
-5. **As Builder completes each fix:**
-   - **Main agent** queues the fix for re-testing
-   - **Shipper** (when available) re-runs the specific fixed test
-   - If passes → marks as resolved
-   - If fails → cycles back to Builder with details
+#### Phase 3: Verification
+5. **Shipper** commits all fixes
+   - Creates atomic commits for each fix
+   - Format: `fix: [test-name] - [brief description]`
+   
+6. **Shipper** re-runs failed tests only
+   - Executes just the previously failed tests
+   - If any still fail → reports back for additional fixes
+   - If all pass → proceeds to final validation
 
-#### Completion Phase
-6. **When all tests run and all fixes verified:**
-   - **Reviewer** does final check:
-     - Reviews all fixes made
-     - Ensures no regression introduced
-     - Validates test coverage
-   - **Shipper** runs one final full suite to confirm
-   - **DevOps** finalizes:
-     - Squashes fix commits if desired
-     - Creates PR with test report
-     - Merges to main
+#### Phase 4: Final Validation
+7. **Shipper** runs complete test suite
+   - Full test run to ensure no regressions
+   - Confirms all tests passing
+   
+8. **Reviewer** validates fixes
+   - Reviews code changes made for fixes
+   - Ensures fixes are appropriate
+   - Checks for any introduced issues
+   
+9. **Shipper** finalizes
+   - Creates PR with test report and fixes
+   - Merges to main after approval
 
-#### The Flow Visualized:
+---
+
+### `/add-tests` - Add Critical Test Coverage
+**Purpose:** Add tests ONLY for critical functionality that could cause production issues
+
+**Workflow Diagram:**
 ```
-Shipper: Run test 1 ✓
-Shipper: Run test 2 ✗ → Report to main
-Shipper: Run test 3 ✓     ↓
-Shipper: Run test 4 ✗ → Report → Builder: Fix test 2 issue
-Shipper: Run test 5 ✓            Builder: Fix test 4 issue
-    ↓                               ↓
-DevOps: Commit fixes            (working in parallel)
-    ↓
-Shipper: Re-test 2 ✓
-Shipper: Re-test 4 ✓
-    ↓
-DevOps: Create PR with all fixes
+┌─────────┐     ┌──────────┐     ┌──────────┐     ┌─────────┐     ┌─────────┐
+│ Shipper │────►│ Reviewer │────►│Full Stack│────►│ Shipper │────►│ Shipper │
+│ Branch  │     │ Analyze  │     │ Dev & DB │     │Run Tests│     │ Commit  │
+└─────────┘     └──────────┘     └──────────┘     └─────────┘     └─────────┘
+                      │                                  │              │
+           [Find CRITICAL gaps]                   [Verify new]          ▼
+           [Production risks]                     [tests work]    ┌─────────┐
+                                                                  │ Shipper │
+                                                                  │PR/Merge │
+                                                                  └─────────┘
 ```
+
+**Workflow:**
+1. **Shipper** creates test branch
+   - Creates branch: `test/critical-coverage-[area]`
+   - Sets up clean environment
+   
+2. **Reviewer** identifies CRITICAL test gaps
+   - Focuses ONLY on untested code that could:
+     - Cause data loss or corruption
+     - Break authentication/authorization
+     - Impact payments or financial transactions
+     - Cause production outages
+   - IGNORES non-critical gaps (UI, nice-to-haves, rare edge cases)
+   
+3. **Full Stack Developer** and/or **Database Admin** write minimal tests
+   - Write the MINIMUM tests to prevent disasters
+   - Full Stack: auth flows, payment processing, core business logic
+   - Database Admin: data integrity, critical migrations
+   - Time-boxed effort (hours, not days)
+   - Skip comprehensive coverage in favor of critical protection
+   
+4. **Shipper** runs new test suite
+   - Executes all tests including new ones
+   - Confirms critical paths are now protected
+   
+5. **Shipper** commits and merges
+   - Commits with description of critical risks now covered
+   - Creates PR focusing on production safety improvements
+   - Merges to main
 
 ---
 
@@ -294,11 +451,27 @@ DevOps: Create PR with all fixes
 - **Parallel Work:** Multiple agents can work simultaneously when possible
 - **Fail Fast:** Any agent can halt the workflow if critical issues found
 
-### Git and Version Control (via DevOps Agent)
+### Minimal Testing Philosophy
+- **Test the critical 20% that prevents 80% of disasters**
+- **Critical = anything that could:**
+  - Break authentication or authorization
+  - Lose or corrupt user data
+  - Break payments or money flow
+  - Cause a production outage
+- **Skip tests for:**
+  - UI formatting and styling
+  - Nice-to-have features
+  - Edge cases that won't impact production
+  - Anything that can be quickly fixed if it breaks
+- **Time-boxed testing:** Don't spend days on test coverage
+
+### Pipeline and Version Control (via Shipper Agent)
+- **Complete Ownership:** One agent owns git → test → build → deploy
 - **Clean History:** Meaningful commits that tell a story
 - **Branch Strategy:** Feature branches for development, hotfix for emergencies
 - **PR Process:** All changes go through PRs for audit trail
 - **Conventional Commits:** Consistent format for automation and clarity
+- **Automated Pipeline:** Testing and deployment fully automated
 
 ### Quality Without Bureaucracy
 - **No Blocking:** Reviewer suggestions don't stop deployment (except security)
@@ -317,7 +490,7 @@ DevOps: Create PR with all fixes
 1. **Faster Delivery:** Parallel workflows and minimal handoffs
 2. **Better Quality:** Continuous testing with immediate fixes
 3. **Clear Accountability:** Each agent has specific responsibilities
-4. **Audit Trail:** Complete git history via DevOps agent
+4. **Streamlined Pipeline:** Shipper owns entire code-to-production flow
 5. **Flexibility:** Commands can be combined for different workflows
 6. **Scalability:** Easy to add new agents or commands as needed
 
@@ -327,37 +500,46 @@ DevOps: Create PR with all fixes
 
 ```bash
 > /ship add user authentication
-# DevOps creates feature/user-auth branch
-# Builder implements auth in 20 mins
-# DevOps commits with clear message
+# Shipper creates feature/user-auth branch
+# Full Stack Developer implements auth in 20 mins
+# Shipper commits and tests
 # Shipper deploys to staging
 # Reviewer suggests improvements (non-blocking)
-# DevOps creates PR and merges
+# Shipper creates PR and merges
 # Feature live in 30 mins
 
 > /fix users can't log in
-# DevOps creates hotfix/login-issue branch
-# Fixer identifies missing env var
-# DevOps commits fix
-# Shipper deploys in 5 mins
-# DevOps merges hotfix
+# Shipper creates hotfix/login-issue branch
+# Full Stack Developer identifies missing env var
+# Shipper commits fix
+# Shipper tests and deploys in 5 mins
+# Shipper merges hotfix
 
 > /test
-# DevOps creates test branch
+# Shipper creates test branch
 # Shipper finds 3 failing tests
-# Builder fixes in parallel
-# DevOps commits each fix
+# Full Stack Developer fixes in parallel
+# Shipper commits each fix
 # Shipper re-runs and confirms
-# DevOps creates PR with report
+# Shipper creates PR with report
 # All tests green in 15 mins
 
 > /cleanup authentication module
-# DevOps creates refactor/auth-cleanup branch
+# Shipper creates refactor/auth-cleanup branch
 # Reviewer finds N+1 query and code duplication
-# Builder refactors and adds caching
-# DevOps commits changes
-# Shipper validates performance improvement
-# DevOps merges with metrics
+# Database Admin optimizes query, Full Stack Developer removes duplication
+# Shipper commits changes
+# Shipper tests and validates performance improvement
+# Shipper merges with metrics
+
+> /add-tests user authentication
+# Shipper creates test/add-coverage-auth branch
+# Reviewer identifies missing edge cases and error paths
+# Full Stack Developer writes auth failure tests
+# Database Admin adds session expiry tests
+# Shipper runs all tests - 100% pass
+# Shipper commits and merges
+# Coverage increased from 65% to 85%
 ```
 
 ---
@@ -372,7 +554,7 @@ DevOps: Create PR with all fixes
 ### Error Handling
 - Each agent reports failures immediately
 - Main agent decides on retry vs escalation
-- DevOps agent can always rollback if needed
+- Shipper can always rollback if needed
 
 ### Metrics and Monitoring
 - Track cycle time for each command
@@ -380,4 +562,4 @@ DevOps: Create PR with all fixes
 - Measure deployment frequency
 - Calculate mean time to recovery (MTTR)
 
-This lean system prioritizes shipping working software over perfect software, learning from real users over lengthy planning, and rapid iteration over big releases - all while maintaining a clean, auditable git history through the DevOps agent.
+This lean system prioritizes shipping working software over perfect software, learning from real users over lengthy planning, and rapid iteration over big releases - all while maintaining a clean, auditable git history and automated pipeline through the unified Shipper agent.
