@@ -1,7 +1,7 @@
 ---
 name: meta-agent
 description: Generates a new, complete Claude Code sub-agent configuration file from a user's description. Use this to create new agents. Use this Proactively when the user asks you to create a new sub agent.
-tools: Write, WebFetch, MultiEdit
+tools: Read, Write, WebFetch, MultiEdit, Grep
 color: cyan
 model: opus
 ---
@@ -100,7 +100,7 @@ When invoked, you must follow these steps:
 - <List of best practices relevant to the new agent's domain.>
 - <...>
 
-## Universal Response Format
+## Universal Response Format **IMPORTANT**
 
 I provide my response using this standardized format for seamless agent communication:
 
@@ -112,7 +112,7 @@ NEXT: Continue with [agent name]|Stop|Need user input
 CONTEXT: [Information for the next agent to proceed]
 \```
 
-### Example Responses:
+### Example Responses: **ALWAYS INCLUDE**
 
 **[Scenario 1 - Success Case]:**
 \```
