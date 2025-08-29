@@ -9,9 +9,29 @@ This system enables lean, agile development through custom commands that orchest
 ### Core Philosophy
 **Ship fast, learn faster.** The system uses a minimal set of highly capable agents that work in parallel when possible, fail fast when issues arise, and maintain clean git workflows through dedicated DevOps automation.
 
-### The Meta-Agent
+### The Meta-Agent: Agent Creation Engine
 
-At the core of this system is a **Meta-Agent** - a special agent capable of generating other agents. The Meta-Agent creates our lean team of specialized agents, ensuring consistency and purpose-built functionality. This self-building approach allows the system to evolve as needs change.
+At the heart of this system is the **Meta-Agent** - an architectural powerhouse that generates other specialized agents. Rather than manually coding each agent, the Meta-Agent:
+
+- **Analyzes Requirements**: Parses natural language descriptions to understand agent needs
+- **Selects Optimal Tools**: Intelligently chooses the minimal tool set required for each agent
+- **Generates System Prompts**: Creates detailed, purpose-built instructions for consistent behavior
+- **Enforces Communication Standards**: Ensures all agents use the Universal Response Format for seamless inter-agent collaboration
+- **Maintains Architectural Consistency**: Every generated agent follows best practices and system conventions
+
+This self-building approach enables rapid adaptation - when new capabilities are needed, simply describe them to the Meta-Agent and it generates a fully-functional specialist ready for integration.
+
+### The Agent Team: Specialized Excellence
+
+The system employs a lean team of five core agents, each with laser-focused expertise:
+
+- **Full-Stack Developer**: Implements features end-to-end across all application layers
+- **Database Admin**: Manages schema changes, optimizes queries, ensures data integrity
+- **Reviewer**: Performs pragmatic code reviews focusing on security and critical bugs
+- **Shipper**: Handles testing, building, deployment, and release management
+- **Product Manager**: Coordinates workflows, tracks progress, and maintains project momentum
+
+These agents work in **parallel** whenever possible, dramatically reducing development time. Each agent communicates using a standardized protocol, enabling smooth handoffs and collaborative problem-solving.
 
 ## Key Features
 
@@ -52,39 +72,90 @@ Build Time:                          Runtime:
                               └─────────────────────────────┘
 ```
 
-## Core Commands
+## Custom Commands: Orchestrated Workflows
 
-### `/ship` - Build and Deploy Features
-Rapid feature development from code to production:
-1. **DevOps**: Creates feature branch
-2. **Builder**: Implements the feature end-to-end
-3. **DevOps**: Commits with conventional message
-4. **Shipper**: Tests and deploys to staging/production
-5. **Reviewer**: Post-deployment quality check
-6. **DevOps**: Creates PR and merges
+The real power of this system lies in its **custom commands** - simple slash commands that trigger sophisticated multi-agent workflows. These commands abstract complex development processes into single, intuitive actions.
 
-### `/fix` - Emergency Bug Fixes
-Fast-track critical issue resolution:
-1. **DevOps**: Creates hotfix branch
-2. **Fixer**: Diagnoses and patches the issue
-3. **DevOps**: Commits the fix
-4. **Shipper**: Deploys directly to production
-5. **DevOps**: Merges hotfix to main
+### How Commands Facilitate Development
 
-### `/cleanup` - Technical Debt
-Continuous improvement and refactoring:
-1. **Reviewer**: Identifies code improvements
-2. **Builder**: Refactors and optimizes
-3. **Shipper**: Validates changes
-4. **DevOps**: Commits and merges
+Commands act as **workflow orchestrators**, automatically:
+- Coordinating multiple agents in the optimal sequence
+- Running parallel operations when dependencies allow
+- Managing git branches and commits transparently
+- Handling errors and rollbacks intelligently
+- Maintaining consistent development practices
 
-### `/test` - Parallel Testing with Fixes
-Smart testing that fixes issues in real-time:
-1. **Shipper**: Runs tests, reports failures immediately
-2. **Builder**: Fixes issues in parallel as they're found
-3. **DevOps**: Commits each fix atomically
-4. **Shipper**: Re-tests fixed issues
-5. **Reviewer**: Final validation
+### Core Commands
+
+#### `/ship` - Build and Deploy Features
+**Purpose**: Transform ideas into production code with zero friction
+
+Orchestrates a complete feature lifecycle:
+1. **Shipper**: Creates feature branch with proper naming
+2. **Full-Stack Developer + Database Admin**: Implement feature in parallel across all layers
+3. **Shipper**: Commits changes with conventional messages
+4. **Reviewer**: Performs security and bug analysis
+5. **Shipper**: Runs test suite and deploys to staging
+6. **Shipper**: Promotes to production after validation
+7. **Shipper**: Creates PR and merges to main
+
+**Result**: Feature shipped in minutes, not days
+
+#### `/fix` - Emergency Bug Fixes
+**Purpose**: Minimize downtime with rapid issue resolution
+
+Fast-track workflow for critical issues:
+1. **Shipper**: Creates hotfix branch from main
+2. **Full-Stack Developer/Database Admin**: Diagnoses root cause and implements minimal fix
+3. **Shipper**: Commits fix with issue reference
+4. **Shipper**: Skips full test suite, runs targeted tests only
+5. **Shipper**: Deploys directly to production
+6. **Shipper**: Monitors for immediate issues, ready to rollback
+7. **Shipper**: Merges hotfix to main
+
+**Result**: Production issues resolved in minutes with full audit trail
+
+#### `/cleanup` - Technical Debt and Refactoring
+**Purpose**: Maintain code health without disrupting development
+
+Systematic improvement workflow:
+1. **Shipper**: Creates refactor branch
+2. **Reviewer**: Scans for code smells and performance bottlenecks
+3. **Full-Stack Developer/Database Admin**: Implements improvements maintaining functionality
+4. **Shipper**: Runs full test suite to ensure no regressions
+5. **Shipper**: Deploys to staging for validation
+6. **Shipper**: Creates PR with before/after metrics
+
+**Result**: Continuous improvement without feature freeze
+
+#### `/test` - Batch Test and Fix
+**Purpose**: Discover and fix all issues systematically
+
+Two-phase testing strategy:
+1. **Discovery Phase**:
+   - **Shipper**: Runs complete test suite to completion
+   - Collects ALL failures without stopping
+   - Compiles comprehensive failure report
+
+2. **Fix Phase**:
+   - **Orchestrator**: Creates TODO list from failures
+   - **Full-Stack Developer + Database Admin**: Fix issues in parallel
+   - **Shipper**: Re-runs failed tests after each fix
+   - **Reviewer**: Validates all fixes are appropriate
+
+**Result**: All tests passing with minimal iteration
+
+#### `/add-tests` - Critical Test Coverage
+**Purpose**: Add disaster-prevention tests only
+
+Pragmatic testing workflow:
+1. **Shipper**: Creates test branch
+2. **Reviewer**: Identifies CRITICAL untested code (auth, payments, data integrity)
+3. **Full-Stack Developer/Database Admin**: Write minimal tests for disaster scenarios
+4. **Shipper**: Validates new tests catch real issues
+5. **Shipper**: Merges tests to main
+
+**Result**: 20% effort prevents 80% of production disasters
 
 ## Quick Start
 
@@ -350,16 +421,60 @@ class BuildCommand {
 }
 ```
 
-## The Lean Team
+## The Lean Team: Purpose-Built Specialists
 
-For detailed specifications of each agent and command workflow, see [docs/lean-agile-system.md](docs/lean-agile-system.md).
+Each agent in the team has a specific purpose and works collaboratively to enable rapid, high-quality software development:
 
-### Core Agents
-1. **Builder**: Full-stack developer for rapid implementation
-2. **Shipper**: Automated testing, building, and deployment
-3. **Reviewer**: Pragmatic code quality and security checks
-4. **Fixer**: Expert debugger for rapid issue resolution
-5. **DevOps**: Git workflow and version control management
+### Agent Roles and Responsibilities
+
+#### 1. **Full-Stack Developer**
+- **Purpose**: Rapid feature implementation across all application layers
+- **Expertise**: Frontend, backend, APIs, database interactions
+- **Communication**: Receives requirements, outputs working code
+- **Tools**: Read, Write, Edit, MultiEdit, Grep, Glob
+
+#### 2. **Database Admin**
+- **Purpose**: Ensure data integrity and optimal database performance
+- **Expertise**: Schema design, query optimization, migrations, data consistency
+- **Communication**: Receives data requirements, outputs optimized queries and schemas
+- **Tools**: Read, Write, Edit, Bash, Grep
+
+#### 3. **Reviewer**
+- **Purpose**: Maintain code quality without blocking progress
+- **Expertise**: Security vulnerabilities, performance issues, code smells
+- **Communication**: Receives code changes, outputs prioritized improvement lists
+- **Philosophy**: "Ship now, improve later" - only blocks for critical issues
+- **Tools**: Read, Grep, Glob
+
+#### 4. **Shipper**
+- **Purpose**: Automate the path from code to production
+- **Expertise**: Testing, building, deployment, git operations, CI/CD
+- **Communication**: Receives code, outputs deployment status and test results
+- **Tools**: Bash, Read, Write, Edit, Grep
+
+#### 5. **Product Manager**
+- **Purpose**: Maintain project momentum and visibility
+- **Expertise**: Task prioritization, progress tracking, workflow coordination
+- **Communication**: Receives project status, outputs organized task lists
+- **Tools**: TodoWrite, Read
+
+### Inter-Agent Communication Protocol
+
+All agents use a **Universal Response Format** for seamless collaboration:
+
+```
+STATUS: SUCCESS|FAILED|BLOCKED|IN_PROGRESS
+SUMMARY: Brief description of operation completed
+DETAILS: [What was accomplished]
+NEXT: Continue with [agent]|Stop|Need user input
+CONTEXT: [Information for next agent]
+```
+
+This standardized protocol ensures:
+- Clear handoffs between agents
+- Automatic error propagation
+- Parallel execution capability
+- Consistent user feedback
 
 ## Roadmap
 
