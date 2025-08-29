@@ -157,6 +157,24 @@ Pragmatic testing workflow:
 
 **Result**: 20% effort prevents 80% of production disasters
 
+#### `/repo-status` - Comprehensive Repository Analysis
+**Purpose**: Provide detailed insights into repository health and development activity
+
+Complete diagnostic workflow:
+1. **Git Status Analysis**: Branch health, uncommitted changes, remote sync status
+2. **Development Activity**: Recent commits, contributor patterns, file modification trends
+3. **Action Items Discovery**: TODO, FIXME, HACK comments across the codebase
+4. **Project Health**: Configuration completeness, test coverage, documentation status
+5. **Actionable Recommendations**: Prioritized next steps based on findings
+
+**Usage**: 
+- `/repo-status` - Full repository analysis
+- `/repo-status git` - Focus on git repository health
+- `/repo-status todos` - Comprehensive action item analysis
+- `/repo-status health` - Project health assessment only
+
+**Result**: Complete visibility into project status with prioritized action items
+
 ## Quick Start
 
 ### Installation
