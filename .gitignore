@@ -1,2 +1,5 @@
 # Claude local settings
 .claude/settings.local.json
+
+# Claude logs
+.claude/logs/
