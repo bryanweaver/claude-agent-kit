@@ -285,7 +285,7 @@ Always return results as structured data that can be parsed by other agents.
 allowed-tools: Task, Read, Bash
 description: Build and deploy the application
 argument-hint: [environment]
-model: claude-3-5-sonnet-20241022
+model: sonnet
 ---
 
 # Build and Deploy Command
