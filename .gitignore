@@ -3,3 +3,10 @@
 
 # Claude logs
 .claude/logs/
+
+# Credentials and secrets
+.credentials.json
+*.credentials.json
+.env
+.env.*
+!.env.example
