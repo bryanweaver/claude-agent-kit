@@ -10,6 +10,17 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Global error handlers for uncaught exceptions and unhandled rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error(chalk.red('Unhandled promise rejection:'), reason);
+  process.exit(1);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error(chalk.red('Uncaught exception:'), error);
+  process.exit(1);
+});
+
 // Read package.json for version
 const packageJson = JSON.parse(
   readFileSync(join(__dirname, '../package.json'), 'utf-8')

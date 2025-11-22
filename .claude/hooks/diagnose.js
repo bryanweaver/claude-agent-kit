@@ -116,20 +116,21 @@ function simulateSessionStart() {
 
 function checkProcesses() {
     log('Checking for zombie Node processes');
-    
-    const checkCmd = process.platform === 'win32' 
-        ? 'powershell "Get-Process node -ErrorAction SilentlyContinue | Select-Object Id, ProcessName, StartTime, CPU"'
-        : 'ps aux | grep node';
-    
-    const child = spawn(process.platform === 'win32' ? 'powershell' : 'sh', 
-                        process.platform === 'win32' ? ['-Command', checkCmd.replace('powershell ', '')] : ['-c', checkCmd], 
-                        { shell: true });
-    
+
+    // Use array arguments to prevent command injection (no shell: true)
+    const child = process.platform === 'win32'
+        ? spawn('powershell', [
+            '-NoProfile',
+            '-Command',
+            'Get-Process node -ErrorAction SilentlyContinue | Select-Object Id, ProcessName, StartTime, CPU'
+          ])
+        : spawn('ps', ['aux']);
+
     let output = '';
     child.stdout.on('data', (data) => {
         output += data.toString();
     });
-    
+
     child.on('exit', () => {
         log('Current Node processes:', { output: output.slice(0, 1000) });
     });
