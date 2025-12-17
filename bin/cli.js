@@ -30,18 +30,19 @@ const program = new Command();
 
 program
   .name('claude-agent-kit')
-  .description('Install and manage Claude Code agents, commands, and hooks')
+  .description('Install and manage Claude Code agents, commands, hooks, and skills')
   .version(packageJson.version);
 
 // Install command
 program
   .command('install')
-  .description('Install agents, commands, and hooks to your Claude Code setup')
+  .description('Install agents, commands, hooks, and skills to your Claude Code setup')
   .option('-g, --global', 'Install to global ~/.claude/ directory (default)')
   .option('-p, --project', 'Install to project ./.claude/ directory')
   .option('--agents <names>', 'Install specific agents (comma-separated)')
   .option('--commands <names>', 'Install specific commands (comma-separated)')
   .option('--hooks <names>', 'Install specific hooks (comma-separated)')
+  .option('--skills <names>', 'Install specific skills (comma-separated)')
   .action(async (options) => {
     try {
       await install(options);
@@ -87,6 +88,13 @@ program
     console.log('  - log_analyzer.cjs (Log analysis)');
     console.log('  - session_start.cjs (Session initialization)');
     console.log('  - test_hooks.cjs (Hook testing utilities)\n');
+
+    console.log(chalk.yellow('Skills (auto-activated by context):'));
+    console.log('  - supabase-patterns (RLS, migrations, Edge Functions)');
+    console.log('  - nextjs-app-router (Server/Client Components, routing)');
+    console.log('  - shadcn-components (UI components, forms, theming)');
+    console.log('  - tanstack-query (Data fetching, caching, mutations)');
+    console.log('  - testing-patterns (Jest, RTL, Playwright)\n');
   });
 
 // Parse command line arguments
