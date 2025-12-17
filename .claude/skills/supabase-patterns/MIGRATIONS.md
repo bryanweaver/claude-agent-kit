@@ -101,20 +101,35 @@ ON orders(user_id, created_at);
 
 ## Migration Testing
 
-### Local testing workflow
+### Local testing workflow (Safe)
 ```bash
-# Start fresh
-supabase db reset
-
-# Apply migrations
+# Apply migrations to local database
 supabase db push
 
-# Verify
+# Verify schema
 supabase db psql -c "SELECT * FROM pg_tables WHERE schemaname = 'public';"
 
 # Generate types to verify schema
 supabase gen types typescript --local
 ```
+
+### Full reset workflow (DANGEROUS - Requires User Approval)
+
+**WARNING:** `supabase db reset` destroys ALL local data. Only use when:
+- Starting fresh development environment
+- Migration system is corrupted
+- User explicitly approves data loss
+
+```bash
+# DANGER: This destroys all local data!
+# Only run with explicit user approval
+supabase db reset
+
+# Then apply migrations
+supabase db push
+```
+
+The `database-admin` agent enforces approval requirements before running destructive commands.
 
 ### Seed data for testing
 ```sql

@@ -209,21 +209,40 @@ For detailed patterns, see:
 
 ## Common Commands
 
+### Safe Commands (Local Development)
 ```bash
-# Local development
+# Local Supabase
 supabase start
 supabase stop
 supabase status
 
-# Migrations
+# Migrations (local)
 supabase migration new <name>
-supabase db push              # Apply locally
-supabase db push --linked     # Apply to remote (DANGEROUS)
+supabase db push              # Apply to LOCAL database only
 
 # Types
 supabase gen types typescript --local > src/types/database.types.ts
 
-# Edge Functions
+# Edge Functions (local testing)
 supabase functions serve <name>
-supabase functions deploy <name>
 ```
+
+### DANGEROUS Commands (Require User Approval)
+
+**WARNING:** The following commands affect production data. The `database-admin` agent enforces approval requirements for these operations.
+
+```bash
+# DANGER: Destroys ALL local data - requires explicit user approval
+supabase db reset
+
+# DANGER: Deploys to PRODUCTION database - requires explicit user approval
+supabase db push --linked
+
+# DANGER: Deploys to PRODUCTION - requires explicit user approval
+supabase functions deploy <name>
+
+# DANGER: Can overwrite local work - use with caution
+supabase db pull
+```
+
+**Always test locally first, then get user approval before any remote/production operations.**
