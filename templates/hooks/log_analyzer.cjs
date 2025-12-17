@@ -14,7 +14,7 @@ class LogAnalyzer {
     constructor(sessionId = null) {
         this.sessionId = sessionId || this.getCurrentSession();
         this.events = [];
-        this.loadEvents();
+        // Note: loadEvents() must be called explicitly and awaited before using the analyzer
     }
 
     getCurrentSession() {
@@ -136,8 +136,8 @@ class LogAnalyzer {
             const agentType = (event.agent || {}).agent_type || 'main';
             metrics.agents[agentType] = (metrics.agents[agentType] || 0) + 1;
 
-            // Track tools
-            if (event.tool) {
+            // Track tools (only PostToolUse events to avoid double counting Pre and Post)
+            if (event.event_type === 'PostToolUse' && event.tool) {
                 const toolName = event.tool.name;
                 if (!metrics.tools[toolName]) {
                     metrics.tools[toolName] = { count: 0, success: 0, total_ms: 0 };
@@ -183,8 +183,8 @@ class LogAnalyzer {
                 });
             }
 
-            // Track subagents
-            if (event.subagent) {
+            // Track subagents (only SubagentStop events to count completed tasks)
+            if (event.event_type === 'SubagentStop' && event.subagent) {
                 const subagentType = event.subagent.type || 'unknown';
                 if (!metrics.subagents[subagentType]) {
                     metrics.subagents[subagentType] = { count: 0, success: 0, total_ms: 0 };
@@ -482,10 +482,7 @@ async function main() {
     }
 
     const analyzer = new LogAnalyzer(options.session);
-    
-    if (options.limit) {
-        await analyzer.loadEvents(options.limit);
-    }
+    await analyzer.loadEvents(options.limit);
 
     if (options.report) {
         console.log(analyzer.generateReport(options.format));

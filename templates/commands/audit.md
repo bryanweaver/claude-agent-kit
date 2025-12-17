@@ -44,26 +44,26 @@ Construct the appropriate command for the log analyzer based on parsed arguments
 ! echo "Executing log analyzer..."
 ! echo ""
 
-! CMD="node .claude/hooks/log_analyzer.js"
+# Build argument vector safely to avoid shell injection (no eval)
+! set -- node .claude/hooks/log_analyzer.js
 
 # Add action-specific flags
 ! case "$ACTION" in
 !   "report")
-!     CMD="$CMD --report"
+!     set -- "$@" --report
 !     ;;
 !   "metrics")
-!     CMD="$CMD --metrics"
+!     set -- "$@" --metrics
 !     ;;
 !   "timeline")
-!     CMD="$CMD --timeline --limit $LIMIT"
+!     set -- "$@" --timeline --limit "$LIMIT"
 !     ;;
 !   "verify")
 !     if [ -n "$CLAIMS" ]; then
-!       # Split claims and add them as separate arguments
-!       CMD="$CMD --verify"
+!       set -- "$@" --verify
 !       IFS=',' read -ra CLAIM_ARRAY <<< "$CLAIMS"
 !       for claim in "${CLAIM_ARRAY[@]}"; do
-!         CMD="$CMD \"$(echo $claim | xargs)\""
+!         set -- "$@" "$(echo "$claim" | xargs)"
 !       done
 !     else
 !       echo "Error: Claims required for verify action. Use: /audit verify claims:\"claim1,claim2\""
@@ -71,7 +71,7 @@ Construct the appropriate command for the log analyzer based on parsed arguments
 !     fi
 !     ;;
 !   "anomalies")
-!     CMD="$CMD --anomalies"
+!     set -- "$@" --anomalies
 !     ;;
 !   *)
 !     # Default summary - no additional flags needed
@@ -80,16 +80,16 @@ Construct the appropriate command for the log analyzer based on parsed arguments
 
 # Add session flag if provided
 ! if [ -n "$SESSION" ]; then
-!   CMD="$CMD --session $SESSION"
+!   set -- "$@" --session "$SESSION"
 ! fi
 
 ## Step 3: Execute Log Analyzer
 
 Run the constructed command and display results:
 
-! echo "Executing: $CMD"
+! echo "Executing:" "$@"
 ! echo "==========================================="
-! eval "$CMD"
+! "$@"
 
 ## Available Actions
 
