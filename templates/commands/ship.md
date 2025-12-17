@@ -42,13 +42,18 @@ You will coordinate the lean agile team to implement this feature following the 
 5. **Test Suite** (Shipper)
 
    - Run full test suite
-   - If tests pass → proceed to deployment
+   - If tests pass → proceed to documentation
    - If tests fail → fix regressions
 
-6. **Deployment** (Shipper)
-   - Deploy to staging
-   - Run smoke tests
-   - Deploy to production
+6. **Documentation Update** (Documentor)
+   - Analyze the implemented feature changes
+   - Check existing documentation in docs/
+   - Update affected documentation to reflect new feature
+   - Add new documentation if feature introduces new functionality
+   - Update table of contents if needed
+   - Commit documentation changes to feature branch
+
+7. **Create PR and Merge** (Shipper)
    - Create PR with description and test results
    - Merge to main after approval
    - Tag release if needed
@@ -62,6 +67,7 @@ Use the Task tool to launch the appropriate agents in sequence:
 - Use database-admin agent if data layer changes are needed
 - Launch shipper agent for commits and testing
 - Launch reviewer agent for code review
-- Launch shipper agent for final deployment
+- Launch documentor agent to update documentation for the new feature
+- Launch shipper agent for final deployment (after docs are updated)
 
 Follow the lean philosophy: Ship fast, learn faster. Focus on working code over perfect code.

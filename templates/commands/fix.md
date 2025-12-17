@@ -31,15 +31,19 @@ You will coordinate the lean agile team to fix this issue following the `/fix` w
    - Commit with message: `fix: [description] (fixes #[issue-id])`
    - Push to hotfix branch
 
-4. **Fast-track Deployment** (Shipper)
+4. **Fast-track Testing** (Shipper)
 
    - Run focused tests on fix only
-   - Skip full test suite for speed
-   - Deploy directly to production
-   - Monitor for immediate issues
+   - Verify the fix works
    - Ready to rollback if needed
 
-5. **Merge Hotfix** (Shipper)
+5. **Documentation Update** (Documentor)
+   - Check if the fix affects existing documentation
+   - Update any docs that reference the fixed behavior
+   - Document the fix if it changes user-facing functionality
+   - Commit documentation changes to hotfix branch
+
+6. **Merge Hotfix** (Shipper)
    - Create PR for audit trail
    - Merge to main
    - Tag as patch release
@@ -50,7 +54,8 @@ Use the Task tool to launch agents for rapid response:
 
 - Start with shipper agent for hotfix branch
 - Launch full-stack-developer or database-admin based on issue type
-- Use shipper agent for quick deployment
-- Focus on speed: minimal fix, focused testing, rapid deployment
+- Use shipper agent for quick testing
+- Launch documentor agent to update any affected documentation
+- Use shipper agent to create PR and merge
 
 Remember: Fix first, refactor later. Get production working ASAP.

@@ -63,13 +63,17 @@ program
     console.log('  - reviewer (Code review, security, bugs)');
     console.log('  - meta-agent (Generate custom agents)');
     console.log('  - meta-commands-agent (Create slash commands)');
-    console.log('  - database-admin (AWS Amplify backend)');
-    console.log('  - full-stack-developer (Vue.js frontend)\n');
+    console.log('  - database-admin (Supabase database, RLS, migrations)');
+    console.log('  - full-stack-developer (Next.js/React frontend)');
+    console.log('  - documentor (Documentation management)\n');
 
     console.log(chalk.yellow('Commands:'));
+    console.log('  - /create-agent (Create custom agents with guided requirements)');
     console.log('  - /ship (Build and deploy features)');
     console.log('  - /fix (Emergency bug fixes)');
     console.log('  - /cleanup (Technical debt and refactoring)');
+    console.log('  - /initialize-documentation (Generate codebase documentation)');
+    console.log('  - /update-docs (Update docs after code changes)');
     console.log('  - /audit (Analyze audit logs)');
     console.log('  - /repo-status (Repository status report)');
     console.log('  - /add-tests (Add test coverage)');
@@ -77,12 +81,12 @@ program
     console.log('  - /all_tools (List all available tools)\n');
 
     console.log(chalk.yellow('Hooks:'));
-    console.log('  - audit_logger.js (Audit logging for tool usage)');
-    console.log('  - session_manager.js (Session persistence)');
-    console.log('  - diagnose.js (Diagnostic tools)');
-    console.log('  - log_analyzer.js (Log analysis)');
-    console.log('  - session_start.js (Session initialization)');
-    console.log('  - test_hooks.js (Hook testing utilities)\n');
+    console.log('  - audit_logger.cjs (Audit logging for tool usage)');
+    console.log('  - session_manager.cjs (Session persistence)');
+    console.log('  - diagnose.cjs (Diagnostic tools)');
+    console.log('  - log_analyzer.cjs (Log analysis)');
+    console.log('  - session_start.cjs (Session initialization)');
+    console.log('  - test_hooks.cjs (Hook testing utilities)\n');
   });
 
 // Parse command line arguments

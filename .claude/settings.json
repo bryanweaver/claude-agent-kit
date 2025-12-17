@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \".claude/hooks/audit_logger.js\""
+            "command": "node \".claude/hooks/audit_logger.cjs\""
           }
         ]
       }
@@ -32,7 +32,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \".claude/hooks/audit_logger.js\""
+            "command": "node \".claude/hooks/audit_logger.cjs\""
           }
         ]
       }
@@ -44,11 +44,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \".claude/hooks/audit_logger.js\""
+            "command": "node \".claude/hooks/audit_logger.cjs\""
           },
           {
             "type": "command",
-            "command": "node \".claude/hooks/session_manager.js\""
+            "command": "node \".claude/hooks/session_manager.cjs\""
           }
         ]
       }
@@ -59,11 +59,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \".claude/hooks/audit_logger.js\""
+            "command": "node \".claude/hooks/audit_logger.cjs\""
           },
           {
             "type": "command",
-            "command": "node \".claude/hooks/session_manager.js\""
+            "command": "node \".claude/hooks/session_manager.cjs\""
           }
         ]
       }
