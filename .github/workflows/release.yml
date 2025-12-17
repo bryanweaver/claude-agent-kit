@@ -34,8 +34,6 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -45,7 +43,7 @@ jobs:
             ## Installation
 
             ```bash
-            npx @bryanweaver/claude-agent-kit install
+            npx @bryanofearth/claude-agent-kit install
             ```
 
             See [CHANGELOG.md](https://github.com/bryanweaver/claude-agent-kit/blob/main/CHANGELOG.md) for details.

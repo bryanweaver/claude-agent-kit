@@ -1,5 +1,5 @@
 {
-  "name": "@bryanweaver/claude-agent-kit",
+  "name": "@bryanofearth/claude-agent-kit",
   "version": "1.0.0",
   "description": "A CLI tool and npm package that distributes curated Claude Code agents, slash commands, skills, and hooks to enhance developer productivity",
   "type": "module",
@@ -19,7 +19,7 @@
     "test:coverage": "node --test --experimental-test-coverage test/cli.test.js",
     "lint": "eslint bin/ lib/",
     "lint:fix": "eslint bin/ lib/ --fix",
-    "prepack": "cp PKG-README.md README.md",
+    "prepack": "node -e \"require('fs').copyFileSync('PKG-README.md', 'README.md')\"",
     "postpack": "node -e \"try { require('fs').unlinkSync('README.md') } catch(e) {}\"",
     "version": "npm run changelog && git add CHANGELOG.md",
     "postversion": "git push && git push --tags",
