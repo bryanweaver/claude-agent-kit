@@ -240,7 +240,7 @@ sudo npx @bryanweaver/claude-agent-kit install --global
 
 ## Contributing
 
-Contributions are welcome! See [CONTRIBUTING.md](https://github.com/bryanweaver/agent-orchestration-system/blob/main/CONTRIBUTING.md) for guidelines.
+Contributions are welcome! See [CONTRIBUTING.md](https://github.com/bryanweaver/claude-agent-kit/blob/main/CONTRIBUTING.md) for guidelines.
 
 ## License
 
@@ -248,12 +248,12 @@ MIT License - see LICENSE file for details
 
 ## Support
 
-- **Issues**: https://github.com/bryanweaver/agent-orchestration-system/issues
-- **Repository**: https://github.com/bryanweaver/agent-orchestration-system
+- **Issues**: https://github.com/bryanweaver/claude-agent-kit/issues
+- **Repository**: https://github.com/bryanweaver/claude-agent-kit
 
 ## Version History
 
-See [CHANGELOG.md](https://github.com/bryanweaver/agent-orchestration-system/blob/main/CHANGELOG.md) for detailed release notes.
+See [CHANGELOG.md](https://github.com/bryanweaver/claude-agent-kit/blob/main/CHANGELOG.md) for detailed release notes.
 
 ---
 

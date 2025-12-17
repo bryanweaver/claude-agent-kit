@@ -49,8 +49,8 @@ Be respectful and constructive in all interactions. We're all here to build some
 
 ```bash
 # Clone the repository
-git clone https://github.com/bryanweaver/agent-orchestration-system.git
-cd agent-orchestration-system
+git clone https://github.com/bryanweaver/claude-agent-kit.git
+cd claude-agent-kit
 
 # Install dependencies
 npm install

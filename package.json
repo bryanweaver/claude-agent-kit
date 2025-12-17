@@ -42,12 +42,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bryanweaver/agent-orchestration-system.git"
+    "url": "https://github.com/bryanweaver/claude-agent-kit.git"
   },
   "bugs": {
-    "url": "https://github.com/bryanweaver/agent-orchestration-system/issues"
+    "url": "https://github.com/bryanweaver/claude-agent-kit/issues"
   },
-  "homepage": "https://github.com/bryanweaver/agent-orchestration-system#readme",
+  "homepage": "https://github.com/bryanweaver/claude-agent-kit#readme",
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
