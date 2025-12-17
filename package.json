@@ -1,6 +1,6 @@
 {
   "name": "@bryanofearth/claude-agent-kit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A CLI tool and npm package that distributes curated Claude Code agents, slash commands, skills, and hooks to enhance developer productivity",
   "type": "module",
   "bin": {
