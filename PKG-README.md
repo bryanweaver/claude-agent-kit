@@ -6,13 +6,13 @@ A CLI tool and npm package that distributes curated Claude Code agents, slash co
 
 ```bash
 # Install globally (to ~/.claude/)
-npx @bryanweaver/claude-agent-kit install
+npx @bryanofearth/claude-agent-kit install
 
 # Install to current project (to ./.claude/)
-npx @bryanweaver/claude-agent-kit install --project
+npx @bryanofearth/claude-agent-kit install --project
 
 # List available assets
-npx @bryanweaver/claude-agent-kit list
+npx @bryanofearth/claude-agent-kit list
 ```
 
 ## What's Included
@@ -33,17 +33,17 @@ Professional-grade Claude Code agents for specific development tasks:
 
 Powerful slash commands for common workflows:
 
-- **/ship** - Build and deploy features from start to production
-- **/fix** - Emergency bug fixes and rapid issue resolution
-- **/cleanup** - Technical debt and refactoring
-- **/audit** - Analyze and view audit logs
-- **/repo-status** - Comprehensive repository status report
 - **/add-tests** - Add critical test coverage
-- **/test** - Batch test and fix workflows
-- **/create-agent** - Create new custom agents
-- **/initialize-documentation** - Set up documentation structure
-- **/update-docs** - Update documentation after changes
 - **/all_tools** - List all available tools
+- **/audit** - Analyze and view audit logs
+- **/cleanup** - Technical debt and refactoring
+- **/create-agent** - Create new custom agents
+- **/fix** - Emergency bug fixes and rapid issue resolution
+- **/initialize-documentation** - Set up documentation structure
+- **/repo-status** - Comprehensive repository status report
+- **/ship** - Build and deploy features from start to production
+- **/test** - Batch test and fix workflows
+- **/update-docs** - Update documentation after changes
 
 ### Skills (5)
 
@@ -107,7 +107,7 @@ npx @bryanweaver/claude-agent-kit install --skills
 ### Example 1: Full Global Installation
 
 ```bash
-npx @bryanweaver/claude-agent-kit install --global
+npx @bryanofearth/claude-agent-kit install --global
 ```
 
 This installs all agents, commands, skills, and hooks to `~/.claude/` for use in any project.
@@ -116,7 +116,7 @@ This installs all agents, commands, skills, and hooks to `~/.claude/` for use in
 
 ```bash
 cd my-project
-npx @bryanweaver/claude-agent-kit install --project --agents=shipper,reviewer
+npx @bryanofearth/claude-agent-kit install --project --agents=shipper,reviewer
 ```
 
 This installs only the shipper and reviewer agents to your project's `.claude/` directory.
@@ -125,10 +125,10 @@ This installs only the shipper and reviewer agents to your project's `.claude/` 
 
 ```bash
 # List what's available
-npx @bryanweaver/claude-agent-kit list
+npx @bryanofearth/claude-agent-kit list
 
 # Install everything
-npx @bryanweaver/claude-agent-kit install
+npx @bryanofearth/claude-agent-kit install
 
 # Restart Claude Code and start using /ship, /fix, etc.
 ```
@@ -223,7 +223,7 @@ This package installs JavaScript hooks that execute on Claude Code events. All c
 
 ```bash
 # Use sudo on macOS/Linux if installing globally
-sudo npx @bryanweaver/claude-agent-kit install --global
+sudo npx @bryanofearth/claude-agent-kit install --global
 ```
 
 ### Files not appearing in Claude Code

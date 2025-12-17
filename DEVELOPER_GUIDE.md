@@ -6,8 +6,8 @@ Quick reference for developers working on or with the Claude Agent Kit package.
 
 ```bash
 # Clone the repository
-git clone https://github.com/bryanweaver/agent-orchestration-system.git
-cd agent-orchestration-system
+git clone https://github.com/bryanweaver/claude-agent-kit.git
+cd claude-agent-kit
 
 # Install dependencies
 npm install
@@ -24,18 +24,22 @@ claude-agent-kit install --project
 ## Project Structure
 
 ```
-agent-orchestration-system/
+claude-agent-kit/
 ├── bin/
 │   └── cli.js              # CLI entry point (executable)
 ├── lib/
 │   ├── install.js          # Installation logic
 │   └── file-operations.js  # File utilities
 ├── templates/
-│   ├── agents/             # 6 agent definitions
-│   ├── commands/           # 8 command definitions
-│   └── hooks/              # 6 hook implementations
+│   ├── agents/             # 7 agent definitions
+│   ├── commands/           # 11 command definitions
+│   ├── hooks/              # 6 hook implementations
+│   └── skills/             # 5 skill directories
 ├── package.json            # Package configuration
-├── PKG-README.md           # Package documentation
+├── PKG-README.md           # Package documentation (becomes README.md in npm)
+├── CHANGELOG.md            # Version history
+├── CONTRIBUTING.md         # Contribution guidelines
+├── DEVELOPER_GUIDE.md      # This file
 ├── LICENSE                 # MIT License
 └── .npmignore              # Package exclusions
 ```
@@ -222,15 +226,16 @@ npm view @bryanweaver/claude-agent-kit
 ### Version Bumping
 
 ```bash
-# Patch version (1.0.0 -> 1.0.1)
+# Patch version (1.0.3 -> 1.0.4)
 npm version patch
 
-# Minor version (1.0.0 -> 1.1.0)
+# Minor version (1.0.3 -> 1.1.0)
 npm version minor
 
-# Major version (1.0.0 -> 2.0.0)
+# Major version (1.0.3 -> 2.0.0)
 npm version major
 
+# This updates package.json and creates a git tag
 # Then publish
 npm publish --access public
 ```
@@ -240,10 +245,13 @@ npm publish --access public
 ### Update All Templates
 
 ```bash
-# Copy all updated files
+# Copy all updated files from .claude to templates
 cp .claude/agents/*.md templates/agents/
 cp .claude/commands/*.md templates/commands/
-cp .claude/hooks/*.js templates/hooks/
+cp .claude/hooks/*.cjs templates/hooks/
+
+# For skills, copy entire directories
+cp -r .claude/skills/* templates/skills/
 
 # Test installation
 claude-agent-kit install --project
@@ -298,7 +306,7 @@ console.log(chalk.gray('Debug:'), 'Files to install:', installAgents);
 
 ```bash
 # Re-link the package
-npm unlink -g @bryanweaver/claude-agent-kit
+npm unlink -g @bryanofearth/claude-agent-kit
 npm link
 
 # Or check npm global bin path
@@ -322,32 +330,32 @@ import { install } from './lib/install';     // Wrong in ESM
 chmod +x bin/cli.js
 
 # Make hooks executable (if needed)
-chmod +x templates/hooks/*.js
+chmod +x templates/hooks/*.cjs
 ```
 
-## Next Steps for Phase 2
+## Future Enhancement Ideas
 
-Priority features to implement:
+Potential features for future versions:
 
-1. **Conflict Detection** (lib/conflict-resolver.js)
-   - Hash comparison
-   - File diffing
-   - Conflict categorization
+1. **Conflict Detection**
+   - Hash comparison for files
+   - File diffing to show changes
+   - Interactive conflict resolution
 
-2. **Backup System** (lib/backup.js)
-   - Timestamped backups
+2. **Backup System**
+   - Timestamped backups before overwriting
    - Restore functionality
-   - Backup listing
+   - Backup listing and management
 
 3. **Dry-run Mode**
-   - Preview changes
-   - No actual file operations
+   - Preview changes before applying
    - Show what would be installed
+   - No actual file operations
 
-4. **Interactive Prompts** (lib/prompts.js)
-   - Conflict resolution UI
-   - Asset selection
-   - Confirmation dialogs
+4. **Update Command**
+   - Check for newer versions
+   - Selective update of assets
+   - Version comparison
 
 ## Resources
 
