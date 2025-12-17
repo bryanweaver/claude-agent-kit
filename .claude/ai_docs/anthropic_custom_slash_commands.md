@@ -162,7 +162,7 @@ For example:
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
 argument-hint: [message]
 description: Create a git commit
-model: claude-3-5-haiku-20241022
+model: haiku
 ---
 
 An example command
