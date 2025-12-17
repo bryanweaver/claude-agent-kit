@@ -1,7 +1,7 @@
 {
   "name": "@bryanweaver/claude-agent-kit",
   "version": "1.0.0",
-  "description": "A CLI tool and npm package that distributes curated Claude Code agents, slash commands, and hooks to enhance developer productivity",
+  "description": "A CLI tool and npm package that distributes curated Claude Code agents, slash commands, skills, and hooks to enhance developer productivity",
   "type": "module",
   "bin": {
     "claude-agent-kit": "./bin/cli.js"
@@ -15,9 +15,15 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test test/*.test.js",
+    "test:coverage": "node --test --experimental-test-coverage test/*.test.js",
+    "lint": "eslint bin/ lib/",
+    "lint:fix": "eslint bin/ lib/ --fix",
     "prepack": "cp PKG-README.md README.md",
-    "postpack": "node -e \"try { require('fs').unlinkSync('README.md') } catch(e) {}\""
+    "postpack": "node -e \"try { require('fs').unlinkSync('README.md') } catch(e) {}\"",
+    "version": "npm run changelog && git add CHANGELOG.md",
+    "postversion": "git push && git push --tags",
+    "changelog": "echo 'Update CHANGELOG.md manually before release'"
   },
   "keywords": [
     "claude",
@@ -28,7 +34,9 @@
     "developer-tools",
     "productivity",
     "automation",
-    "slash-commands"
+    "slash-commands",
+    "supabase",
+    "nextjs"
   ],
   "author": "Bryan Weaver",
   "license": "MIT",
@@ -43,10 +51,14 @@
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
-    "inquirer": "^9.2.12",
-    "ora": "^7.0.1",
     "diff": "^5.1.0",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "inquirer": "^9.2.12",
+    "ora": "^7.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "eslint": "^9.16.0"
   },
   "engines": {
     "node": ">=18.0.0"
