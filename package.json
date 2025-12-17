@@ -20,10 +20,7 @@
     "lint": "eslint bin/ lib/",
     "lint:fix": "eslint bin/ lib/ --fix",
     "prepack": "node -e \"require('fs').copyFileSync('PKG-README.md', 'README.md')\"",
-    "postpack": "node -e \"try { require('fs').unlinkSync('README.md') } catch(e) {}\"",
-    "version": "npm run changelog && git add CHANGELOG.md",
-    "postversion": "git push && git push --tags",
-    "changelog": "echo 'Update CHANGELOG.md manually before release'"
+    "postpack": "node -e \"try { require('fs').unlinkSync('README.md') } catch(e) {}\""
   },
   "keywords": [
     "claude",
