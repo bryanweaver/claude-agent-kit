@@ -71,7 +71,7 @@ Use the Universal Response Format to communicate results.
 
 ## File Structure
 
-```
+```text
 /src
   /app                  # Next.js App Router pages and API routes
   /components/ui        # shadcn/ui components
@@ -83,7 +83,7 @@ Use the Universal Response Format to communicate results.
 
 ## Universal Response Format
 
-```
+```text
 STATUS: SUCCESS|FAILED|BLOCKED|IN_PROGRESS
 SUMMARY: Brief description of operation completed
 DETAILS: [What was done, files modified]
@@ -93,7 +93,7 @@ CONTEXT: [Information for the next agent]
 
 ### Example Response
 
-```
+```text
 STATUS: SUCCESS
 SUMMARY: Implemented user profile page with form validation
 DETAILS:

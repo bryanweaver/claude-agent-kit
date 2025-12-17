@@ -13,7 +13,7 @@ const AUDIT_BASE_DIR = path.join(os.homedir(), '.claude', 'logs', 'audit');
 const testScenarios = [
     {
         name: 'Valid PreToolUse event',
-        hook: 'audit_logger.js',
+        hook: 'audit_logger.cjs',
         env: { CLAUDE_HOOK_EVENT: 'PreToolUse' },
         input: JSON.stringify({
             tool_name: 'Read',
@@ -23,7 +23,7 @@ const testScenarios = [
     },
     {
         name: 'Valid PostToolUse event',
-        hook: 'audit_logger.js',
+        hook: 'audit_logger.cjs',
         env: { CLAUDE_HOOK_EVENT: 'PostToolUse' },
         input: JSON.stringify({
             tool_name: 'Write',
@@ -35,21 +35,21 @@ const testScenarios = [
     },
     {
         name: 'Invalid JSON input',
-        hook: 'audit_logger.js',
+        hook: 'audit_logger.cjs',
         env: { CLAUDE_HOOK_EVENT: 'PreToolUse' },
         input: '{ invalid json',
         expectSuccess: false
     },
     {
         name: 'Empty input',
-        hook: 'audit_logger.js',
+        hook: 'audit_logger.cjs',
         env: { CLAUDE_HOOK_EVENT: 'PreToolUse' },
         input: '',
         expectSuccess: false
     },
     {
         name: 'Very large input',
-        hook: 'audit_logger.js',
+        hook: 'audit_logger.cjs',
         env: { CLAUDE_HOOK_EVENT: 'PreToolUse' },
         input: JSON.stringify({
             tool_name: 'Edit',
@@ -63,14 +63,14 @@ const testScenarios = [
     },
     {
         name: 'Session start event',
-        hook: 'session_manager.js',
+        hook: 'session_manager.cjs',
         env: { CLAUDE_HOOK_EVENT: 'SessionStart' },
         input: JSON.stringify({ is_new: true }),
         expectSuccess: true
     },
     {
         name: 'Session end event',
-        hook: 'session_manager.js',
+        hook: 'session_manager.cjs',
         env: { CLAUDE_HOOK_EVENT: 'Stop' },
         input: JSON.stringify({ is_final: true }),
         expectSuccess: true

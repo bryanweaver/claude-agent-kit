@@ -288,6 +288,16 @@ class AuditLogger {
     }
 
     sanitizeParameters(params) {
+        if (params === null || params === undefined) {
+            return params;
+        }
+        if (Array.isArray(params)) {
+            return params.map(item => this.sanitizeParameters(item));
+        }
+        if (typeof params !== 'object') {
+            return params;
+        }
+
         const sanitized = {};
         const sensitiveKeys = ['password', 'token', 'secret', 'key', 'api', 'auth'];
 
@@ -304,6 +314,14 @@ class AuditLogger {
         }
 
         return sanitized;
+    }
+
+    sanitizeForPath(name) {
+        // Remove path traversal characters and other unsafe characters
+        return String(name)
+            .replace(/\.\./g, '')
+            .replace(/[\/\\:*?"<>|]/g, '_')
+            .substring(0, 100);
     }
 
     writeLogEntry(logEntry) {
@@ -330,13 +348,13 @@ class AuditLogger {
 
             // Write to tool-specific log if applicable
             if (logEntry.tool) {
-                const toolName = logEntry.tool.name.toLowerCase();
+                const toolName = this.sanitizeForPath(logEntry.tool.name.toLowerCase());
                 const toolLog = path.join(AUDIT_BASE_DIR, 'tools', `${toolName}.jsonl`);
                 fs.appendFileSync(toolLog, JSON.stringify(logEntry) + '\n');
             }
 
             // Write to agent-specific log
-            const agentType = (logEntry.agent || {}).agent_type || 'main';
+            const agentType = this.sanitizeForPath((logEntry.agent || {}).agent_type || 'main');
             const agentLog = path.join(AUDIT_BASE_DIR, 'agents', `${agentType}.jsonl`);
             fs.appendFileSync(agentLog, JSON.stringify(logEntry) + '\n');
 

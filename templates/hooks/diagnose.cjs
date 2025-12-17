@@ -33,8 +33,8 @@ function simulateSessionStart() {
     log('Starting SessionStart simulation');
     
     const hooks = [
-        '.claude/hooks/audit_logger.js',
-        '.claude/hooks/session_manager.js'
+        '.claude/hooks/audit_logger.cjs',
+        '.claude/hooks/session_manager.cjs'
     ];
     
     const testInput = JSON.stringify({

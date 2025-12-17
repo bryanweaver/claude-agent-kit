@@ -94,7 +94,7 @@ export function DashboardClient({ initialStats }) {
 ## Routing Patterns
 
 ### File-based routing
-```
+```text
 app/
 ├── page.tsx                    # /
 ├── about/page.tsx              # /about
