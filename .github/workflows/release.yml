@@ -31,6 +31,9 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+      - name: Upgrade npm for OIDC support
+        run: npm install -g npm@latest
+
       - name: Publish to npm
         run: npm publish --provenance --access public
 
