@@ -2,6 +2,15 @@
 
 A CLI tool and npm package that distributes curated Claude Code agents, slash commands, skills, and hooks to enhance developer productivity with AI-assisted development workflows.
 
+## Prerequisites
+
+> **⚠️ Requires Claude Code**
+>
+> This package installs assets for [Claude Code](https://claude.com/claude-code), Anthropic's official CLI tool.
+> The installed agents, commands, skills, and hooks will only work if you have Claude Code installed and configured.
+>
+> [Get Claude Code →](https://claude.com/claude-code)
+
 ## Quick Start
 
 ```bash
