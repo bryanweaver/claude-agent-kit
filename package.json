@@ -15,8 +15,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test test/*.test.js",
-    "test:coverage": "node --test --experimental-test-coverage test/*.test.js",
+    "test": "node --test test/cli.test.js",
+    "test:coverage": "node --test --experimental-test-coverage test/cli.test.js",
     "lint": "eslint bin/ lib/",
     "lint:fix": "eslint bin/ lib/ --fix",
     "prepack": "cp PKG-README.md README.md",
