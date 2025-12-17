@@ -42,11 +42,15 @@ You will coordinate the lean agile team to cleanup this area following the `/cle
 
    - Run full test suite
    - Check performance metrics
-   - Deploy to staging first
    - Monitor for regressions
-   - Deploy to production if stable
 
-6. **Complete Merge** (Shipper)
+6. **Documentation Update** (Documentor)
+   - Check if refactoring affects existing documentation
+   - Update docs if code structure/architecture changed
+   - Update any outdated code examples in docs
+   - Commit documentation changes to refactor branch
+
+7. **Complete Merge** (Shipper)
    - Create PR with before/after metrics
    - Document performance improvements
    - Merge after review
@@ -58,7 +62,8 @@ Use the Task tool to launch agents for systematic improvement:
 - Start with shipper agent for branch creation
 - Launch reviewer agent to analyze code
 - Use full-stack-developer or database-admin for refactoring
-- Launch shipper agent for testing and deployment
-- Include metrics to show improvements
+- Launch shipper agent for testing
+- Launch documentor agent to update any affected documentation
+- Launch shipper agent to create PR and merge
 
 Focus on high-impact improvements, skip minor nitpicks.
