@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/bryanweaver/claude-agent-kit/compare/v1.0.3...v1.1.0) (2025-12-19)
+
+
+### Features
+
+* Add init command with multi-stack support ([#3](https://github.com/bryanweaver/claude-agent-kit/issues/3)) ([bf7ef48](https://github.com/bryanweaver/claude-agent-kit/commit/bf7ef48c911f53830af2dfee04b278029cbe2401))
+* Add release-please for automated semantic versioning ([1f3bbf2](https://github.com/bryanweaver/claude-agent-kit/commit/1f3bbf2e5aa40490e9248ddbd4e60299879d76c5))
+
 ## [Unreleased]
 
 ### Added
