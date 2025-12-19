@@ -20,6 +20,7 @@ describe('CLI', () => {
     it('should display help text', () => {
       const output = execSync(`node "${CLI_PATH}" --help`, { encoding: 'utf8' });
       assert.ok(output.includes('claude-agent-kit'));
+      assert.ok(output.includes('init'));
       assert.ok(output.includes('install'));
       assert.ok(output.includes('list'));
     });
@@ -37,7 +38,8 @@ describe('CLI', () => {
       const output = execSync(`node "${CLI_PATH}" list`, { encoding: 'utf8' });
       assert.ok(output.includes('shipper'));
       assert.ok(output.includes('reviewer'));
-      assert.ok(output.includes('database-admin'));
+      assert.ok(output.includes('developer'));
+      assert.ok(output.includes('database'));
     });
 
     it('should show command names', () => {

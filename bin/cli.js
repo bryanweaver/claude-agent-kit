@@ -3,6 +3,8 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import { install } from '../lib/install.js';
+import { init } from '../lib/init.js';
+import { getStackChoices } from '../lib/stacks/index.js';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -33,18 +35,42 @@ program
   .description('Install and manage Claude Code agents, commands, hooks, and skills')
   .version(packageJson.version);
 
-// Install command
+// Init command (recommended for new users)
+program
+  .command('init')
+  .description('Initialize Claude Agent Kit with auto-detected or selected tech stack')
+  .option('-g, --global', 'Install to global ~/.claude/ directory')
+  .option('-p, --project', 'Install to project ./.claude/ directory (default)')
+  .option('-y, --yes', 'Skip confirmations and use detected/default stack')
+  .action(async (options) => {
+    try {
+      // Project is the default unless --global is specified
+      if (!options.global) {
+        options.project = true;
+      }
+      await init(options);
+    } catch (error) {
+      console.error(chalk.red('Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
+// Install command (advanced: selective installation)
 program
   .command('install')
-  .description('Install agents, commands, hooks, and skills to your Claude Code setup')
-  .option('-g, --global', 'Install to global ~/.claude/ directory (default)')
-  .option('-p, --project', 'Install to project ./.claude/ directory')
+  .description('Install specific agents, commands, hooks, and skills (advanced)')
+  .option('-g, --global', 'Install to global ~/.claude/ directory')
+  .option('-p, --project', 'Install to project ./.claude/ directory (default)')
   .option('--agents <names>', 'Install specific agents (comma-separated)')
   .option('--commands <names>', 'Install specific commands (comma-separated)')
   .option('--hooks <names>', 'Install specific hooks (comma-separated)')
   .option('--skills <names>', 'Install specific skills (comma-separated)')
   .action(async (options) => {
     try {
+      // Project is the default unless --global is specified
+      if (!options.global) {
+        options.project = true;
+      }
       await install(options);
     } catch (error) {
       console.error(chalk.red('Error:'), error.message);
@@ -52,34 +78,43 @@ program
     }
   });
 
-// List command (basic for Phase 1)
+// List command
 program
   .command('list')
-  .description('List available agents, commands, and hooks')
+  .description('List available stacks, agents, commands, and hooks')
   .action(() => {
     console.log(chalk.blue.bold('\nClaude Agent Kit - Available Assets\n'));
 
-    console.log(chalk.yellow('Agents:'));
-    console.log('  - shipper (Git operations, testing, deployment)');
-    console.log('  - reviewer (Code review, security, bugs)');
-    console.log('  - meta-agent (Generate custom agents)');
-    console.log('  - meta-commands-agent (Create slash commands)');
-    console.log('  - database-admin (Supabase database, RLS, migrations)');
-    console.log('  - full-stack-developer (Next.js/React frontend)');
-    console.log('  - documentor (Documentation management)\n');
+    console.log(chalk.yellow('Supported Stacks:'));
+    const stacks = getStackChoices();
+    stacks.forEach(stack => {
+      console.log(`  - ${chalk.cyan(stack.name)}`);
+      console.log(`    ${chalk.gray(stack.description)}`);
+    });
+    console.log();
+
+    console.log(chalk.yellow('Agents (installed via init):'));
+    console.log(chalk.gray('  Generated for your stack:'));
+    console.log('    - developer (Stack-specific implementation specialist)');
+    console.log('    - database (Stack-specific database administrator)');
+    console.log(chalk.gray('  Tech-agnostic (same for all stacks):'));
+    console.log('    - shipper (Git operations, testing, deployment)');
+    console.log('    - reviewer (Code review, security, bugs)');
+    console.log('    - documentor (Documentation management)');
+    console.log('    - meta-agent (Generate custom agents)');
+    console.log('    - meta-commands-agent (Create slash commands)\n');
 
     console.log(chalk.yellow('Commands:'));
-    console.log('  - /create-agent (Create custom agents with guided requirements)');
     console.log('  - /ship (Build and deploy features)');
     console.log('  - /fix (Emergency bug fixes)');
     console.log('  - /cleanup (Technical debt and refactoring)');
-    console.log('  - /initialize-documentation (Generate codebase documentation)');
-    console.log('  - /update-docs (Update docs after code changes)');
-    console.log('  - /audit (Analyze audit logs)');
-    console.log('  - /repo-status (Repository status report)');
-    console.log('  - /add-tests (Add test coverage)');
     console.log('  - /test (Batch test and fix workflows)');
-    console.log('  - /all_tools (List all available tools)\n');
+    console.log('  - /add-tests (Add test coverage)');
+    console.log('  - /create-agent (Create custom agents)');
+    console.log('  - /initialize-documentation (Generate docs)');
+    console.log('  - /update-docs (Update docs after changes)');
+    console.log('  - /repo-status (Repository status report)');
+    console.log('  - /audit (Analyze audit logs)\n');
 
     console.log(chalk.yellow('Hooks:'));
     console.log('  - audit_logger.cjs (Audit logging for tool usage)');
@@ -95,6 +130,9 @@ program
     console.log('  - shadcn-components (UI components, forms, theming)');
     console.log('  - tanstack-query (Data fetching, caching, mutations)');
     console.log('  - testing-patterns (Jest, RTL, Playwright)\n');
+
+    console.log(chalk.blue('Quick Start:'));
+    console.log(chalk.gray('  npx claude-agent-kit init\n'));
   });
 
 // Parse command line arguments
