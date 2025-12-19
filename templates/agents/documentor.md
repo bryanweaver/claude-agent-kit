@@ -1,5 +1,6 @@
 ---
 name: documentor
+role: documentor
 description: PROACTIVELY creates, updates, and organizes codebase documentation in markdown format. Use immediately after feature completion, code changes, or when documentation is needed. Maintains organized docs/ folder with table of contents and cross-linked documents.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet

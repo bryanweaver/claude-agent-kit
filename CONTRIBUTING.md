@@ -70,17 +70,28 @@ node bin/cli.js install --project
 
 ```
 ├── bin/
-│   └── cli.js              # CLI entry point
+│   └── cli.js                  # CLI entry point
 ├── lib/
-│   ├── install.js          # Installation logic
-│   └── file-operations.js  # File system utilities
+│   ├── init.js                 # Init command (stack detection + generation)
+│   ├── detect-claude-code.js   # Claude Code detection
+│   ├── detect-stack.js         # Tech stack detection
+│   ├── generate-agents.js      # Agent generation from templates
+│   ├── stacks/
+│   │   └── index.js            # Stack template definitions
+│   ├── install.js              # Legacy selective install
+│   └── file-operations.js      # File system utilities
 ├── templates/
-│   ├── agents/             # Agent markdown files
-│   ├── commands/           # Slash command files
-│   ├── hooks/              # Hook scripts
-│   └── skills/             # Skill pattern files
-├── .claude/                # Working copies (synced with templates)
-└── test/                   # Test files
+│   ├── agents/                 # Tech-agnostic agents (5 files)
+│   │                           # NOTE: developer + database are GENERATED
+│   ├── commands/               # Slash command files
+│   ├── hooks/                  # Hook scripts
+│   └── skills/                 # Skill pattern files
+├── docs/                       # Documentation
+│   ├── architecture/           # System design docs
+│   ├── guides/                 # How-to guides
+│   └── reference/              # API/CLI reference
+├── .claude/                    # Working copies for this repo
+└── test/                       # Test files
 ```
 
 ## Coding Standards
@@ -119,22 +130,38 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ## Adding New Content
 
-### Adding an Agent
+### Adding a New Stack
+
+**See detailed guide**: [docs/guides/adding-new-stacks.md](./docs/guides/adding-new-stacks.md)
+
+1. Add stack template to `lib/stacks/index.js`
+2. Add detection rules to `lib/detect-stack.js`
+3. Map stack in `mapToStackTemplate()` function
+4. Test with `npx . init` in a project with that stack
+5. Update README.md supported stacks table
+6. Update docs/reference/supported-stacks.md
+
+### Adding a Tech-Agnostic Agent
+
+**Note**: Developer and database agents are now GENERATED per stack, not static templates.
+
+For tech-agnostic agents (shipper, reviewer, documentor, etc.):
 
 1. Create `templates/agents/your-agent.md`
-2. Include required frontmatter:
+2. Include required frontmatter with `role` field:
    ```yaml
    ---
    name: your-agent
+   role: your-role    # NEW: developer, database, shipper, reviewer, etc.
    description: Brief description for CLI listing
    tools: Read, Write, Edit, Bash, Grep, Glob
    model: sonnet
    color: green
    ---
    ```
-3. Copy to `.claude/agents/` for testing
-4. Update PKG-README.md agent count and list
-5. Add tests if applicable
+3. Update `lib/init.js` to include it in `techAgnosticAgents` array
+4. Test with `npx . init`
+5. Update README.md agent count and list
 
 ### Adding a Command
 
@@ -164,6 +191,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
    ```
 3. Add additional resource files as needed
 4. Copy to `.claude/skills/` for testing
+5. Test with `npx . init`
 
 ### Adding a Hook
 
@@ -185,6 +213,7 @@ npm run test:coverage
 
 # Run specific test file
 npm test -- test/cli.test.js
+npm test -- test/init.test.js
 ```
 
 ### Writing Tests
@@ -193,6 +222,27 @@ npm test -- test/cli.test.js
 - Name files `*.test.js`
 - Test both success and error cases
 - Mock file system operations where appropriate
+
+### Manual Testing
+
+```bash
+# Test init command
+npm link
+cd /tmp/test-nextjs-project
+npx @bryanofearth/claude-agent-kit init
+
+# Test stack detection
+cd /tmp/test-django-project
+npx @bryanofearth/claude-agent-kit init
+
+# Test interactive selection
+cd /tmp/empty-project
+npx @bryanofearth/claude-agent-kit init
+
+# Verify generated agents
+cat .claude/agents/developer.md
+cat .claude/agents/database.md
+```
 
 ## Release Process
 

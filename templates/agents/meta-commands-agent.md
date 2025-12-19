@@ -1,5 +1,6 @@
 ---
 name: meta-commands-agent
+role: meta
 description: Use proactively for generating perfect custom slash commands for Claude Code. Specialist for creating command files that follow Claude Code specifications exactly, including proper frontmatter, argument handling, and workflow orchestration.
 tools: Read, Write, MultiEdit, WebFetch, Grep, Glob
 model: sonnet

@@ -1,5 +1,6 @@
 ---
 name: reviewer
+role: reviewer
 description: PROACTIVELY performs pragmatic code reviews focusing on security vulnerabilities, obvious bugs, performance bottlenecks, and code that will cause future problems. NON-BLOCKING approach except for critical security issues.
 tools: Read, Grep, Glob, Bash
 model: sonnet
