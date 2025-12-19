@@ -18,7 +18,7 @@ npm link
 # Test the CLI
 claude-agent-kit --version
 claude-agent-kit list
-claude-agent-kit install --project
+claude-agent-kit init
 ```
 
 ## Project Structure
@@ -26,61 +26,176 @@ claude-agent-kit install --project
 ```
 claude-agent-kit/
 ├── bin/
-│   └── cli.js              # CLI entry point (executable)
+│   └── cli.js                  # CLI entry point (executable)
 ├── lib/
-│   ├── install.js          # Installation logic
-│   └── file-operations.js  # File utilities
+│   ├── init.js                 # Init command (NEW - stack detection + generation)
+│   ├── detect-claude-code.js   # Claude Code detection (NEW)
+│   ├── detect-stack.js         # Tech stack detection (NEW)
+│   ├── generate-agents.js      # Agent generation from templates (NEW)
+│   ├── stacks/
+│   │   └── index.js            # Stack template definitions (NEW)
+│   ├── install.js              # Legacy selective install
+│   └── file-operations.js      # File utilities
 ├── templates/
-│   ├── agents/             # 7 agent definitions
-│   ├── commands/           # 11 command definitions
-│   ├── hooks/              # 6 hook implementations
-│   └── skills/             # 5 skill directories
-├── package.json            # Package configuration
-├── PKG-README.md           # Package documentation (becomes README.md in npm)
-├── CHANGELOG.md            # Version history
-├── CONTRIBUTING.md         # Contribution guidelines
-├── DEVELOPER_GUIDE.md      # This file
-├── LICENSE                 # MIT License
-└── .npmignore              # Package exclusions
+│   ├── agents/                 # Tech-agnostic agents only (5 files)
+│   │                           # NOTE: developer + database are now GENERATED
+│   ├── commands/               # 11 command definitions
+│   ├── hooks/                  # 6 hook implementations
+│   └── skills/                 # 5 skill directories
+├── docs/                       # Documentation (NEW)
+│   ├── architecture/           # System design docs
+│   ├── guides/                 # How-to guides
+│   └── reference/              # API/CLI reference
+├── test/                       # Test files
+├── package.json                # Package configuration
+├── README.md                   # Main README (updated for v2.0)
+├── CHANGELOG.md                # Version history
+├── CONTRIBUTING.md             # Contribution guidelines
+├── DEVELOPER_GUIDE.md          # This file
+├── LICENSE                     # MIT License
+└── .npmignore                  # Package exclusions
 ```
 
-## Adding New Templates
+## Major Changes in v2.0
 
-### Add a New Agent
+### 1. Init Command (Primary Installation Method)
 
-1. Create agent definition in `.claude/agents/new-agent.md`
-2. Copy to templates: `cp .claude/agents/new-agent.md templates/agents/`
-3. Update bin/cli.js list command to include the new agent
-4. Test: `claude-agent-kit install --agents=new-agent`
+The `init` command replaces `install` as the primary installation method:
+
+- Auto-detects project tech stack
+- Generates stack-specific developer and database agents
+- Interactive stack selection for empty/unknown projects
+- Claude Code prerequisite checking
+
+### 2. Generated Agents (Not Static Files)
+
+**Before (v1.x)**:
+- `templates/agents/full-stack-developer.md` (Next.js only)
+- `templates/agents/database-admin.md` (Supabase only)
+
+**Now (v2.x)**:
+- Stack templates in `lib/stacks/index.js`
+- `generateDeveloperAgent(stackId)` creates customized agents
+- `generateDatabaseAgent(stackId)` creates customized agents
+- Supports multiple stacks: Next.js, React+Express, Django, FastAPI, Vue+Express, Generic
+
+### 3. Stack Detection
+
+New detection system scans project for:
+- `package.json` (JavaScript/TypeScript)
+- `requirements.txt`, `pyproject.toml` (Python)
+- `go.mod` (Go)
+- `Gemfile` (Ruby)
+- `Cargo.toml` (Rust)
+
+Maps detected technologies to stack templates.
+
+### 4. Role Field in Agent Frontmatter
+
+Agents now include a `role` field:
+
+```yaml
+---
+name: developer
+role: developer    # NEW
+description: ...
+---
+```
+
+Standard roles: developer, database, shipper, reviewer, documentor, meta
+
+## Adding New Content
+
+### Add a New Stack
+
+See detailed guide: [docs/guides/adding-new-stacks.md](./docs/guides/adding-new-stacks.md)
+
+**Quick overview**:
+
+1. Add stack template to `lib/stacks/index.js`
+2. Add detection rules to `lib/detect-stack.js`
+3. Test with `claude-agent-kit init` in a project with that stack
+
+**Example**:
+
+```javascript
+// lib/stacks/index.js
+'laravel-mysql': {
+  id: 'laravel-mysql',
+  name: 'Laravel + MySQL',
+  description: 'Full-stack PHP with Laravel and MySQL',
+  developer: { /* content spec */ },
+  database: { /* content spec */ }
+}
+```
+
+### Add a New Tech-Agnostic Agent
+
+**Note**: Developer and database agents are now GENERATED, not static templates.
+
+For tech-agnostic agents (like shipper, reviewer):
+
+1. Create agent definition in `templates/agents/new-agent.md`
+2. Include `role` field in frontmatter
+3. Update `lib/init.js` to copy it during init
+4. Test: `claude-agent-kit init`
 
 ### Add a New Command
 
-1. Create command definition in `.claude/commands/new-command.md`
-2. Copy to templates: `cp .claude/commands/new-command.md templates/commands/`
-3. Update bin/cli.js list command to include the new command
-4. Test: `claude-agent-kit install --commands=new-command`
+1. Create command definition in `templates/commands/new-command.md`
+2. Test: `claude-agent-kit init` (commands are auto-copied)
 
 ### Add a New Hook
 
-1. Create hook script in `.claude/hooks/new_hook.js`
-2. Copy to templates: `cp .claude/hooks/new_hook.js templates/hooks/`
-3. Update bin/cli.js list command to include the new hook
-4. Test: `claude-agent-kit install --hooks=new_hook`
+1. Create hook script in `templates/hooks/new_hook.cjs`
+2. Test: `claude-agent-kit init` (hooks are auto-copied)
 
 ## Testing Changes
 
-### Test Locally with npm link
+### Test Stack Detection
+
+```bash
+# In a test project with a specific stack
+cd /path/to/nextjs-project
+claude-agent-kit init
+
+# Should detect Next.js + Supabase (if applicable)
+# And generate appropriate agents
+```
+
+### Test Agent Generation
+
+```bash
+# Test generation logic directly
+node -e "
+import { generateStackAgents } from './lib/generate-agents.js';
+const agents = generateStackAgents('nextjs-supabase');
+console.log(Object.keys(agents));
+console.log(agents['developer.md'].substring(0, 200));
+"
+```
+
+### Test Init Command
 
 ```bash
 # After making changes
 npm link
 
-# Test in a temporary directory
-cd /tmp/test-project
-claude-agent-kit install --project
+# Test in different project types
+cd /tmp/nextjs-project
+claude-agent-kit init
 
-# Verify files were installed
-ls -la .claude/agents/ .claude/commands/ .claude/hooks/
+cd /tmp/django-project
+claude-agent-kit init
+
+cd /tmp/empty-project
+claude-agent-kit init
+# Should show interactive stack selection
+
+# Verify generated files
+ls -la .claude/agents/
+cat .claude/agents/developer.md
+cat .claude/agents/database.md
 ```
 
 ### Test Package Build
@@ -93,22 +208,18 @@ npm pack --dry-run
 npm pack
 
 # Extract and inspect
-tar -xzf bryanweaver-claude-agent-kit-1.0.0.tgz
+tar -xzf bryanofearth-claude-agent-kit-2.0.0.tgz
 cd package/
-ls -la
+ls -la lib/stacks/
 ```
 
-### Test Selective Installation
+### Test Selective Installation (Legacy)
 
 ```bash
-# Test specific agents
-claude-agent-kit install --project --agents=shipper,reviewer
-
-# Test specific commands
-claude-agent-kit install --project --commands=ship,fix
-
-# Test specific hooks
-claude-agent-kit install --project --hooks=audit_logger
+# Test legacy install command
+claude-agent-kit install --agents=shipper,reviewer
+claude-agent-kit install --commands=ship,fix
+claude-agent-kit install --hooks=audit_logger
 ```
 
 ## Extending the CLI
@@ -242,19 +353,49 @@ npm publish --access public
 
 ## Common Development Tasks
 
-### Update All Templates
+### Update Tech-Agnostic Agents
 
 ```bash
-# Copy all updated files from .claude to templates
-cp .claude/agents/*.md templates/agents/
+# NOTE: developer.md and database.md are now GENERATED, not in templates/
+
+# Update tech-agnostic agents only
+cp .claude/agents/shipper.md templates/agents/
+cp .claude/agents/reviewer.md templates/agents/
+cp .claude/agents/documentor.md templates/agents/
+cp .claude/agents/meta-agent.md templates/agents/
+cp .claude/agents/meta-commands-agent.md templates/agents/
+
+# Test
+claude-agent-kit init
+```
+
+### Update Stack Templates
+
+```bash
+# Edit stack templates directly in code
+vim lib/stacks/index.js
+
+# Test generation
+node -e "
+import { generateStackAgents } from './lib/generate-agents.js';
+console.log(generateStackAgents('nextjs-supabase')['developer.md']);
+"
+
+# Test with init
+cd /path/to/test-project
+claude-agent-kit init
+```
+
+### Update Commands, Hooks, Skills
+
+```bash
+# Copy updated files from .claude to templates
 cp .claude/commands/*.md templates/commands/
 cp .claude/hooks/*.cjs templates/hooks/
-
-# For skills, copy entire directories
 cp -r .claude/skills/* templates/skills/
 
-# Test installation
-claude-agent-kit install --project
+# Test
+claude-agent-kit init
 ```
 
 ### Test Error Handling
@@ -285,9 +426,8 @@ console.log(chalk.gray('Debug:'), 'Files to install:', installAgents);
 |---------|---------|---------|
 | chalk | Terminal colors | All output |
 | commander | CLI framework | bin/cli.js |
-| inquirer | Interactive prompts | Phase 2+ |
-| ora | Spinners | lib/install.js |
-| diff | File comparison | Phase 2+ |
+| @inquirer/prompts | Interactive prompts | lib/init.js (stack selection) |
+| ora | Spinners | lib/init.js, lib/install.js |
 | fs-extra | Enhanced file ops | lib/file-operations.js |
 
 ## Code Style Guidelines
