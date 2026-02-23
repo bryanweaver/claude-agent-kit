@@ -1,13 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell.exe:*)",
-      "Bash(git pull:*)",
-      "WebFetch(domain:docs.anthropic.com)",
-      "Bash(dir:*)"
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "WebFetch(domain:code.claude.com)"
     ],
     "deny": [],
     "ask": []
+  },
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "statusLine": {
     "type": "command",
