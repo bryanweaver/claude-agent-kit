@@ -6,20 +6,20 @@ Welcome to the Claude Agent Kit documentation. This documentation covers the arc
 
 ### Architecture
 
-- [System Overview](./architecture/system-overview.md) - High-level architecture and design decisions
+- [System Overview](./architecture/system-overview.md) - High-level architecture, design decisions, and distribution methods
 - [Stack Detection](./architecture/stack-detection.md) - How tech stack detection works
 - [Agent Generation](./architecture/agent-generation.md) - Dynamic agent generation system
 
 ### Guides
 
-- [Getting Started](./guides/getting-started.md) - Installation and first steps
+- [Getting Started](./guides/getting-started.md) - Installation via marketplace or npm CLI, first steps
 - [Adding New Stacks](./guides/adding-new-stacks.md) - How to add support for new tech stacks
 - [Development Workflow](./guides/development-workflow.md) - Local development and testing
 
 ### Reference
 
 - [Supported Stacks](./reference/supported-stacks.md) - Complete list of supported tech stacks
-- [CLI Commands](./reference/cli-commands.md) - Full CLI command reference
+- [CLI Commands](./reference/cli-commands.md) - Full npm CLI command reference
 - [Agent Templates](./reference/agent-templates.md) - Agent template structure and conventions
 
 ## Quick Links
@@ -45,4 +45,4 @@ This documentation is designed to:
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-24

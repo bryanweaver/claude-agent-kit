@@ -5,34 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0](https://github.com/bryanweaver/claude-agent-kit/compare/v1.0.3...v1.1.0) (2025-12-19)
+## [1.2.0] - 2026-02-24
 
+### Added
+- Claude Code marketplace distribution via `.claude-plugin/marketplace.json`
+- Plugin can now be installed directly through the Claude Code plugin marketplace:
+  - `claude plugin marketplace add bryanweaver/claude-agent-kit`
+  - `claude plugin install team@claude-agent-kit`
+- `.claude-plugin/marketplace.json` manifest describing the `team` plugin and its metadata
+
+### Changed
+- Two distribution methods now available: npm CLI (`npx @bryanofearth/claude-agent-kit init`) and Claude Code plugin marketplace
+
+## [1.1.0](https://github.com/bryanweaver/claude-agent-kit/compare/v1.0.3...v1.1.0) (2025-12-19)
 
 ### Features
 
 * Add init command with multi-stack support ([#3](https://github.com/bryanweaver/claude-agent-kit/issues/3)) ([bf7ef48](https://github.com/bryanweaver/claude-agent-kit/commit/bf7ef48c911f53830af2dfee04b278029cbe2401))
 * Add release-please for automated semantic versioning ([1f3bbf2](https://github.com/bryanweaver/claude-agent-kit/commit/1f3bbf2e5aa40490e9248ddbd4e60299879d76c5))
-
-## [Unreleased]
-
-### Added
-- Skills system for code patterns (supabase-patterns, nextjs-app-router, shadcn-components, tanstack-query, testing-patterns)
-- `--skills` option for installing Skills
-- CHANGELOG.md for version tracking
-- GitHub Actions CI/CD workflows
-- ESLint configuration
-- Basic CLI tests
-- CONTRIBUTING.md
-
-### Changed
-- Updated agents from AWS/Vue.js to Supabase/Next.js stack
-- Slimmed down full-stack-developer and database-admin agents
-- Renamed hook files from .js to .cjs for CommonJS compatibility
-- Added safety warnings to supabase-patterns Skill
-
-### Fixed
-- Path traversal vulnerability in file operations
-- Command injection vulnerability in CLI
 
 ## [1.0.3] - 2024-12-16
 
@@ -76,7 +66,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global and project installation support
 - Selective installation with `--agents`, `--commands`, `--hooks`, `--skills` options
 
-[Unreleased]: https://github.com/bryanweaver/claude-agent-kit/compare/v1.0.3...HEAD
+[1.2.0]: https://github.com/bryanweaver/claude-agent-kit/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/bryanweaver/claude-agent-kit/compare/v1.0.3...v1.1.0
 [1.0.3]: https://github.com/bryanweaver/claude-agent-kit/releases/tag/v1.0.3
 [1.0.2]: https://github.com/bryanweaver/claude-agent-kit/releases/tag/v1.0.2
 [1.0.1]: https://github.com/bryanweaver/claude-agent-kit/releases/tag/v1.0.1

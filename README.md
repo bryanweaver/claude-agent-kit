@@ -10,13 +10,33 @@ Ship fast, learn faster. 6 agents, 10 skills, Agent Teams coordination.
 
 ## Quick Start
 
+### Option 1: Claude Code Marketplace (Recommended)
+
 ```bash
-# Install the plugin (from GitHub)
-claude plugin add github:bryanweaver/claude-agent-kit
+# Add the repository to the marketplace
+claude plugin marketplace add bryanweaver/claude-agent-kit
 
-# Or load locally during development
-# claude --plugin-dir /path/to/agent-orchestration-system
+# Install the team plugin
+claude plugin install team@claude-agent-kit
+```
 
+### Option 2: npm CLI
+
+```bash
+# Initialize in your project (copies agents, skills, hooks into .claude/)
+npx @bryanofearth/claude-agent-kit init
+```
+
+### Option 3: Load Locally (Development)
+
+```bash
+# Load plugin directly from a local directory
+# claude --plugin-dir /path/to/claude-agent-kit
+```
+
+### Start Using the Team
+
+```bash
 # Ship a feature
 /team-ship add user authentication
 
@@ -148,7 +168,8 @@ Test the 20% that prevents 80% of disasters.
 ```text
 agent-orchestration-system/
 ├── .claude-plugin/
-│   └── plugin.json              # Plugin manifest
+│   ├── plugin.json              # Plugin manifest
+│   └── marketplace.json         # Marketplace distribution manifest
 ├── agents/
 │   ├── full-stack-developer.md  # Rapid full-stack implementation
 │   ├── database-admin.md        # Database and data layer

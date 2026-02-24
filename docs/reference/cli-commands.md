@@ -1,16 +1,22 @@
 # CLI Commands Reference
 
-Complete reference for the Claude Agent Kit CLI.
+Complete reference for the Claude Agent Kit npm CLI.
+
+> **Note**: As of v1.2.0, Claude Agent Kit also supports installation via the Claude Code plugin marketplace. The CLI commands documented here apply to the npm distribution method only. See [Getting Started](../guides/getting-started.md) for both installation methods.
 
 ## Installation
 
 ```bash
-# Run without installing
+# Run without installing (npm CLI)
 npx @bryanofearth/claude-agent-kit <command>
 
 # Or install globally
 npm install -g @bryanofearth/claude-agent-kit
 claude-agent-kit <command>
+
+# Plugin marketplace (alternative distribution method)
+# claude plugin marketplace add bryanweaver/claude-agent-kit
+# claude plugin install team@claude-agent-kit
 ```
 
 ## Commands
@@ -252,4 +258,4 @@ The CLI does not use configuration files. All settings are passed via command-li
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-24

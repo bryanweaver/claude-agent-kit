@@ -1,6 +1,6 @@
 # Getting Started
 
-Welcome to Claude Agent Kit! This guide will get you up and running quickly.
+Welcome to Claude Agent Kit! This guide covers both installation methods and gets you up and running quickly.
 
 ## Prerequisites
 
@@ -17,14 +17,48 @@ Verify installation:
 claude --version
 ```
 
-### Required: Node.js
+### Required for npm CLI method only: Node.js
 
 - Node.js >= 18.0.0
 - npm or npx
 
-## Quick Start
+## Installation Methods
 
-### 1. Navigate to Your Project
+There are two ways to install Claude Agent Kit. Choose the one that fits your workflow.
+
+---
+
+### Method 1: Claude Code Marketplace (Recommended)
+
+The marketplace method installs the plugin directly through Claude Code. No Node.js or npm required.
+
+#### Step 1: Add the repository to the marketplace
+
+```bash
+claude plugin marketplace add bryanweaver/claude-agent-kit
+```
+
+#### Step 2: Install the team plugin
+
+```bash
+claude plugin install team@claude-agent-kit
+```
+
+#### Step 3: Start using the team
+
+```bash
+/team-ship add user authentication
+/team-fix users can't log in
+/team-cleanup authentication module
+```
+
+---
+
+### Method 2: npm CLI
+
+The npm CLI method copies templates into your project's `.claude/` directory, with automatic tech stack detection and customized agent generation.
+
+#### 1. Navigate to Your Project
 
 ```bash
 cd /path/to/your/project
@@ -37,7 +71,7 @@ Claude Agent Kit will detect your project's tech stack by scanning for:
 - `Gemfile` (Ruby)
 - `Cargo.toml` (Rust)
 
-### 2. Run Init Command
+#### 2. Run Init Command
 
 ```bash
 npx @bryanofearth/claude-agent-kit init
@@ -127,7 +161,26 @@ Check that agents are available:
 
 ## Installation Options
 
-### Project Installation (Default)
+### Marketplace Plugin (Recommended)
+
+Installs agents, skills, and hooks as a Claude Code plugin:
+
+```bash
+claude plugin marketplace add bryanweaver/claude-agent-kit
+claude plugin install team@claude-agent-kit
+```
+
+**Use when**: You want the simplest setup, or prefer managing plugins through Claude Code directly.
+
+**Pros**:
+- No npm or Node.js required
+- Managed entirely within Claude Code
+- Single install command
+
+**Cons**:
+- Does not perform per-project stack detection
+
+### npm CLI — Project Installation (Default)
 
 Installs to `./.claude/` in your current project:
 
@@ -143,9 +196,10 @@ npx @bryanofearth/claude-agent-kit init
 - Easy to version control
 
 **Cons**:
+- Requires Node.js >= 18.0.0
 - Need to initialize each project separately
 
-### Global Installation
+### npm CLI — Global Installation
 
 Installs to `~/.claude/` in your home directory:
 
@@ -319,4 +373,4 @@ npx @bryanofearth/claude-agent-kit init
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-24

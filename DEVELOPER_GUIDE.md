@@ -25,15 +25,18 @@ claude-agent-kit init
 
 ```
 claude-agent-kit/
+├── .claude-plugin/
+│   ├── plugin.json             # Claude Code plugin manifest
+│   └── marketplace.json        # Marketplace distribution manifest (v1.2+)
 ├── bin/
 │   └── cli.js                  # CLI entry point (executable)
 ├── lib/
-│   ├── init.js                 # Init command (NEW - stack detection + generation)
-│   ├── detect-claude-code.js   # Claude Code detection (NEW)
-│   ├── detect-stack.js         # Tech stack detection (NEW)
-│   ├── generate-agents.js      # Agent generation from templates (NEW)
+│   ├── init.js                 # Init command (stack detection + generation)
+│   ├── detect-claude-code.js   # Claude Code detection
+│   ├── detect-stack.js         # Tech stack detection
+│   ├── generate-agents.js      # Agent generation from templates
 │   ├── stacks/
-│   │   └── index.js            # Stack template definitions (NEW)
+│   │   └── index.js            # Stack template definitions
 │   ├── install.js              # Legacy selective install
 │   └── file-operations.js      # File utilities
 ├── templates/
@@ -42,13 +45,13 @@ claude-agent-kit/
 │   ├── commands/               # 11 command definitions
 │   ├── hooks/                  # 6 hook implementations
 │   └── skills/                 # 5 skill directories
-├── docs/                       # Documentation (NEW)
+├── docs/                       # Documentation
 │   ├── architecture/           # System design docs
 │   ├── guides/                 # How-to guides
 │   └── reference/              # API/CLI reference
 ├── test/                       # Test files
 ├── package.json                # Package configuration
-├── README.md                   # Main README (updated for v2.0)
+├── README.md                   # Main README
 ├── CHANGELOG.md                # Version history
 ├── CONTRIBUTING.md             # Contribution guidelines
 ├── DEVELOPER_GUIDE.md          # This file
@@ -317,8 +320,9 @@ const exists = await fileExists('/path/file.txt');
 
 - [ ] All tests pass
 - [ ] Version number updated in package.json
-- [ ] PKG-README.md updated with changes
-- [ ] CHANGELOG.md created/updated (for v1.1+)
+- [ ] CHANGELOG.md updated with new version entry
+- [ ] README.md reflects any new features or distribution methods
+- [ ] `.claude-plugin/marketplace.json` version updated if plugin content changed
 - [ ] No sensitive files in package (check with `npm pack --dry-run`)
 - [ ] npm audit shows no vulnerabilities
 
@@ -332,7 +336,7 @@ npm login
 npm publish --access public
 
 # Verify published
-npm view @bryanweaver/claude-agent-kit
+npm view @bryanofearth/claude-agent-kit
 ```
 
 ### Version Bumping
@@ -351,6 +355,26 @@ npm version major
 # Then publish
 npm publish --access public
 ```
+
+### Updating the Marketplace Manifest
+
+When releasing a new version that changes plugin content (agents, skills, hooks), update the version field in `.claude-plugin/marketplace.json` and `.claude-plugin/plugin.json`:
+
+```json
+{
+  "plugins": [
+    {
+      "name": "team",
+      "version": "1.2.0"
+    }
+  ],
+  "metadata": {
+    "version": "1.2.0"
+  }
+}
+```
+
+The marketplace manifest and plugin manifest versions are independent from the npm package version — increment them when the plugin content changes meaningfully.
 
 ## Common Development Tasks
 

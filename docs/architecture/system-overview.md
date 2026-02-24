@@ -1,12 +1,35 @@
 # System Overview
 
-Claude Agent Kit is a CLI tool that installs curated Claude Code agents, commands, skills, and hooks customized for your specific tech stack.
+Claude Agent Kit is a lean agile development toolkit that installs curated Claude Code agents, commands, skills, and hooks customized for your specific tech stack. It is distributed as both a Claude Code plugin (via the marketplace) and an npm CLI tool.
 
 ## Core Concept
 
 **Before (v1.0)**: One-size-fits-all agents designed for Next.js + Supabase only.
 
-**Now (v2.0)**: Stack-aware agents generated dynamically based on your project's technology.
+**Now (v1.2+)**: Stack-aware agents generated dynamically based on your project's technology, distributed via two methods.
+
+## Distribution Methods
+
+### Method 1: Claude Code Marketplace Plugin (v1.2+)
+
+Installs agents, skills, and hooks directly as a Claude Code plugin. Users add the repository to the marketplace and install the `team` plugin — no npm or Node.js required.
+
+```bash
+claude plugin marketplace add bryanweaver/claude-agent-kit
+claude plugin install team@claude-agent-kit
+```
+
+Plugin manifests live in `.claude-plugin/`:
+- `plugin.json` — Plugin name, version, description, author
+- `marketplace.json` — Marketplace registry entry with plugin listing and metadata
+
+### Method 2: npm CLI Tool
+
+Copies templates into a project's `.claude/` directory. Stack detection generates customized developer and database agents.
+
+```bash
+npx @bryanofearth/claude-agent-kit init
+```
 
 ## High-Level Architecture
 
@@ -16,8 +39,12 @@ Claude Agent Kit is a CLI tool that installs curated Claude Code agents, command
 │  (Next.js, Django, React+Express, etc.)                     │
 └───────────────────────┬─────────────────────────────────────┘
                         │
-                        │ npx @bryanofearth/claude-agent-kit init
-                        ▼
+            ┌───────────┴────────────┐
+            │                        │
+            │ Plugin Marketplace      │ npm CLI
+            │ claude plugin install  │ npx @bryanofearth/
+            │ team@claude-agent-kit  │ claude-agent-kit init
+            ▼                        ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                  Init Command Workflow                       │
 │                                                              │
@@ -190,17 +217,28 @@ These do NOT exist as pre-made files. They are generated from templates in `lib/
 
 ## Installation Modes
 
-### Project Installation (Default)
+### Plugin Marketplace (Recommended, v1.2+)
+
+```bash
+claude plugin marketplace add bryanweaver/claude-agent-kit
+claude plugin install team@claude-agent-kit
+```
+
+Installs agents, skills, and hooks as a Claude Code plugin. No npm required.
+
+**Use when**: You want the simplest installation experience, or are working from within Claude Code.
+
+### npm CLI — Project Installation (Default)
 
 ```bash
 npx @bryanofearth/claude-agent-kit init
 ```
 
-Installs to `./.claude/` in the current directory.
+Installs to `./.claude/` in the current directory. Performs stack detection and generates customized agents.
 
-**Use when**: Different projects use different stacks.
+**Use when**: Different projects use different stacks, or you want stack-specific agent generation.
 
-### Global Installation
+### npm CLI — Global Installation
 
 ```bash
 npx @bryanofearth/claude-agent-kit init --global
@@ -215,7 +253,8 @@ Installs to `~/.claude/` in your home directory.
 - [Stack Detection](./stack-detection.md) - Deep dive into how stack detection works
 - [Agent Generation](./agent-generation.md) - How agents are generated from templates
 - [Adding New Stacks](../guides/adding-new-stacks.md) - How to add support for new stacks
+- [Getting Started](../guides/getting-started.md) - Installation guide for all methods
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-24
