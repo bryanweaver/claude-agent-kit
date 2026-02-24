@@ -1,0 +1,7 @@
+{
+  "name": "team",
+  "version": "1.0.0",
+  "description": "Lean agile development with 5 specialized agents and 11 skills. Coordinates agent teams for rapid delivery.",
+  "author": { "name": "Bryan Weaver" },
+  "license": "MIT"
+}
