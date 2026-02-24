@@ -87,11 +87,10 @@ claude --plugin-dir /path/to/agent-orchestration-system
 
 | Skill | Purpose |
 |-------|---------|
-| `/team-docs-init [area]` | Generate comprehensive codebase documentation |
-| `/team-docs-update [changes]` | Update docs to reflect recent code changes |
-| `/team-agent-create <description>` | Create a new custom agent via meta-agent |
+| `/team-init-docs [area]` | Generate comprehensive codebase documentation |
+| `/team-update-docs [changes]` | Update docs to reflect recent code changes |
+| `/team-create-agent <description>` | Create a new custom agent via meta-agent |
 | `/team-repo-status [focus]` | Repository health report (git, todos, activity) |
-| `/team-audit-session [action]` | Analyze Claude Code audit logs |
 | `/team-all-tools` | List all available tools with signatures |
 
 ## Workflow Details
@@ -160,11 +159,10 @@ agent-orchestration-system/
 │   ├── team-cleanup/SKILL.md         # Tech debt refactoring workflow
 │   ├── team-run-tests/SKILL.md        # Batch test and fix workflow
 │   ├── team-add-tests/SKILL.md       # Critical test coverage workflow
-│   ├── team-docs-init/SKILL.md       # Full documentation generation
-│   ├── team-docs-update/SKILL.md     # Documentation maintenance
-│   ├── team-agent-create/SKILL.md    # Custom agent creation
+│   ├── team-init-docs/SKILL.md       # Full documentation generation
+│   ├── team-update-docs/SKILL.md     # Documentation maintenance
+│   ├── team-create-agent/SKILL.md    # Custom agent creation
 │   ├── team-repo-status/SKILL.md     # Repository health report
-│   ├── team-audit-session/SKILL.md   # Audit log analysis
 │   └── team-all-tools/SKILL.md       # List available tools
 ├── hooks/
 │   └── hooks.json               # Quality gates and observability

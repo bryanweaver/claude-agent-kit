@@ -1,5 +1,5 @@
 ---
-name: team-agent-create
+name: team-create-agent
 description: Create a new custom agent using the meta-agent with guided requirements gathering
 argument-hint: [agent description or purpose]
 disable-model-invocation: true

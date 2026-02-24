@@ -1,5 +1,5 @@
 ---
-name: team-docs-init
+name: team-init-docs
 description: Initialize comprehensive documentation for the codebase
 argument-hint: [optional: specific area to document]
 disable-model-invocation: true
