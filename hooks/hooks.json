@@ -1,0 +1,38 @@
+{
+  "hooks": [
+    {
+      "matcher": {
+        "event": "TaskCompleted"
+      },
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "Before marking this task as completed, verify: (1) All acceptance criteria from the task description are met. (2) No partial implementations or TODO placeholders remain. (3) If code was changed, it compiles/runs without errors. If any criteria are not met, reject the completion and explain what remains."
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "event": "TeammateIdle"
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "node -e \"const os=require('os'),fs=require('fs'),p=require('path');fs.appendFileSync(p.join(os.tmpdir(),'lean-agile-team.log'),'['+new Date().toTimeString().slice(0,8)+'] Teammate idle: '+process.env.CLAUDE_TEAMMATE_NAME+'\\n');\""
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "event": "SubagentStop",
+        "agent_name": "shipper"
+      },
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "The shipper agent has finished. Validate git state: (1) No uncommitted changes (git status is clean). (2) No failed pushes or unresolved merge conflicts. (3) Current branch is in a consistent state. Report any issues found."
+        }
+      ]
+    }
+  ]
+}

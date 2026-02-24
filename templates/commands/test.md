@@ -12,7 +12,7 @@ Run comprehensive tests, identify all issues, then fix systematically. Focus are
 
 ## Workflow
 
-You will coordinate the lean agile team following the `/test` workflow:
+You will coordinate the lean agile team following the `/team-run-tests` workflow:
 
 ### Phase 1: Discovery
 

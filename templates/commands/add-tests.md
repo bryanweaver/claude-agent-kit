@@ -12,7 +12,7 @@ Add tests ONLY for critical functionality that could cause production issues in:
 
 ## Workflow
 
-You will coordinate the lean agile team following the `/add-tests` workflow:
+You will coordinate the lean agile team following the `/team-add-tests` workflow:
 
 1. **Test Branch** (Shipper)
 

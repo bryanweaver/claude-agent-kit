@@ -12,7 +12,7 @@ Improve code quality, performance, and maintainability for: **$ARGUMENTS**
 
 ## Workflow
 
-You will coordinate the lean agile team to cleanup this area following the `/cleanup` workflow:
+You will coordinate the lean agile team to cleanup this area following the `/team-cleanup` workflow:
 
 1. **Cleanup Branch** (Shipper)
 

@@ -1,78 +1,23 @@
 {
   "permissions": {
     "allow": [
-      "Bash(powershell.exe:*)",
-      "Bash(git pull:*)",
-      "WebFetch(domain:docs.anthropic.com)",
-      "Bash(dir:*)"
+      "Bash(git *)",
+      "Bash(npm test*)",
+      "Bash(npm run *)",
+      "Bash(npm ci)",
+      "Bash(npm install*)",
+      "Bash(npx claude-agent-kit *)",
+      "WebFetch(domain:code.claude.com)"
     ],
     "deny": [],
     "ask": []
+  },
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "statusLine": {
     "type": "command",
     "command": "npx -y ccstatusline@latest",
     "padding": 0
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \".claude/hooks/audit_logger.cjs\""
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \".claude/hooks/audit_logger.cjs\""
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \".claude/hooks/audit_logger.cjs\""
-          },
-          {
-            "type": "command",
-            "command": "node \".claude/hooks/session_manager.cjs\""
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \".claude/hooks/audit_logger.cjs\""
-          },
-          {
-            "type": "command",
-            "command": "node \".claude/hooks/session_manager.cjs\""
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": []
-      }
-    ]
   }
 }

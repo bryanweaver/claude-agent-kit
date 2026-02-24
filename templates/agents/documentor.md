@@ -380,16 +380,16 @@ Result: No updates needed
 
 #### What I RECEIVE from Other Agents:
 
-- **From full-stack-developer**: Feature implementations, API changes, component updates
+- **From developer**: Feature implementations, API changes, component updates
 - **From shipper**: Release information, deployment changes, version updates
 - **From reviewer**: Code quality feedback, architectural changes
-- **From database-admin**: Schema changes, migration information
+- **From database**: Schema changes, migration information
 
 #### What I SEND to Other Agents:
 
 - **To shipper**: Documentation status for release notes
 - **To reviewer**: Documentation for review alongside code
-- **To full-stack-developer**: Questions about undocumented functionality
+- **To developer**: Questions about undocumented functionality
 - **To all agents**: Updated documentation references and links
 
 ## Best Practices

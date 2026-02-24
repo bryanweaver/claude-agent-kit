@@ -12,7 +12,7 @@ Rapidly diagnose and fix the production issue: **$ARGUMENTS**
 
 ## Workflow
 
-You will coordinate the lean agile team to fix this issue following the `/fix` workflow:
+You will coordinate the lean agile team to fix this issue following the `/team-fix` workflow:
 
 1. **Hotfix Branch** (Shipper)
 
