@@ -52,7 +52,8 @@ Project Directory
 3. **Backend**: Check for Express → NestJS → Fastify → Koa → Hono
    - Special case: If Next.js is detected as frontend, also set as backend
 4. **Database**: Check for Supabase → Firebase → MongoDB → PostgreSQL → MySQL → SQLite
-5. **UI Library**: Check for shadcn/ui → Chakra UI → Material UI → Bootstrap
+5. **UI Library**: Check for shadcn/ui → Chakra UI → Material UI → Bootstrap → Tailwind CSS
+   (shadcn/ui is checked first since it implies Tailwind; Tailwind alone is the lowest priority UI match)
 6. **Testing**: Check for Vitest → Jest → Mocha → Playwright → Cypress
 
 **Example**:
@@ -149,7 +150,7 @@ require (
 
 1. **Language**: Rust if `Cargo.toml` exists
 2. **Backend**: Actix-web → Axum → Rocket → Warp
-3. **Database**: PostgreSQL (tokio-postgres or sqlx) → MongoDB
+3. **Database**: PostgreSQL if `tokio-postgres` present, or if `sqlx` AND `postgres` both appear; MongoDB otherwise
 4. **Testing**: Cargo's built-in testing
 
 ## Stack Template Mapping
@@ -161,13 +162,19 @@ After detection, results are mapped to a known stack template ID.
 **Mapping rules** (in priority order):
 
 ```javascript
-// Exact matches (frontend + database)
+// Exact match: Next.js + Supabase
 if (frontend === 'nextjs' && database === 'supabase')
   return 'nextjs-supabase';
 
+// Next.js without Supabase falls back to generic
+if (frontend === 'nextjs')
+  return 'generic';
+
+// React + Express + PostgreSQL
 if (frontend === 'react' && backend === 'express' && database === 'postgresql')
   return 'react-express-postgres';
 
+// Vue + Express + MongoDB
 if (frontend === 'vue' && backend === 'express' && database === 'mongodb')
   return 'vue-express-mongodb';
 
@@ -178,19 +185,15 @@ if (backend === 'django')
 if (backend === 'fastapi')
   return 'python-fastapi-postgres';
 
-if (backend === 'rails')
-  return 'ruby-rails-postgres';
+// Any detected language falls back to generic
+if (detection.language)
+  return 'generic';
 
-// Language fallbacks
-if (language === 'python')
-  return 'python-generic';
-
-if (language === 'javascript' || language === 'typescript')
-  return 'node-generic';
-
-// Final fallback
-return 'generic';
+// No detection at all
+return null;
 ```
+
+> **Note**: Language-specific generic stack IDs (`node-generic`, `python-generic`, etc.) were removed in the refactoring. Any project with a detected language but no matched framework now maps directly to `generic`.
 
 ## Interactive Stack Selection
 
@@ -328,4 +331,4 @@ console.log('Description:', describeStack(result));
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-24

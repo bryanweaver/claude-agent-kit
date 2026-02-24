@@ -206,22 +206,7 @@ claude-agent-kit --version
    You are the security auditor...
    ```
 
-2. **Update init.js to install it**
-
-   Edit `lib/init.js`:
-
-   ```javascript
-   const techAgnosticAgents = [
-     'shipper.md',
-     'reviewer.md',
-     'documentor.md',
-     'meta-agent.md',
-     'meta-commands-agent.md',
-     'security-auditor.md'  // Add here
-   ];
-   ```
-
-3. **Test**
+2. **Test** (no changes to `lib/init.js` needed)
 
    ```bash
    cd /tmp/test-project
@@ -231,14 +216,16 @@ claude-agent-kit --version
    # Should see security-auditor.md
    ```
 
-4. **Update README**
+   `lib/init.js` auto-discovers all `.md` files in `templates/agents/` that are not generated stack agents — no code changes required.
+
+3. **Update README**
 
    Add to agents list in README.md
 
-5. **Commit**
+4. **Commit**
 
    ```bash
-   git add templates/agents/security-auditor.md lib/init.js README.md
+   git add templates/agents/security-auditor.md README.md
    git commit -m "feat: add security-auditor agent"
    ```
 
@@ -528,4 +515,4 @@ developer: {
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-24

@@ -155,24 +155,6 @@ Each stack provides:
 
 ---
 
-## Language-Specific Generic Stacks
-
-These are fallback stacks when a specific framework isn't detected but the language is.
-
-### Node.js (Generic)
-
-**Stack ID**: `node-generic`
-
-**Detection**: JavaScript/TypeScript project without recognized framework
-
-### Python (Generic)
-
-**Stack ID**: `python-generic`
-
-**Detection**: Python project without recognized framework (no Django/FastAPI/Flask)
-
----
-
 ## Stack Detection Priority
 
 When multiple stacks could match, detection follows this priority:
@@ -180,17 +162,17 @@ When multiple stacks could match, detection follows this priority:
 1. **Exact frontend + database match**
    - Next.js + Supabase → `nextjs-supabase`
    - React + Express + PostgreSQL → `react-express-postgres`
+   - Vue + Express + MongoDB → `vue-express-mongodb`
 
-2. **Backend framework match**
+2. **Next.js without Supabase** → `generic`
+
+3. **Backend framework match**
    - Django (any database) → `python-django-postgres`
    - FastAPI (any database) → `python-fastapi-postgres`
 
-3. **Language-specific generic**
-   - Python without framework → `python-generic`
-   - JavaScript/TypeScript without framework → `node-generic`
+4. **Any detected language** → `generic`
 
-4. **Final fallback**
-   - No detection → `generic`
+5. **No detection** → `null` (interactive stack selection shown)
 
 ## Requesting New Stacks
 
@@ -208,9 +190,12 @@ Vote or add your request:
 - [ ] Ruby on Rails + PostgreSQL
 - [ ] Go + Gin + PostgreSQL
 - [ ] Rust + Actix + PostgreSQL
+- [ ] Python + Flask + PostgreSQL
 - [ ] Svelte + SvelteKit + Supabase
 - [ ] Angular + NestJS + PostgreSQL
 - [ ] Remix + Prisma + PostgreSQL
+
+> **Note**: Ruby, Go, Rust, and Flask projects are detected but currently fall back to the `generic` stack. Using `generic` still gives you working developer and database agents that adapt to your codebase.
 
 ## Detection Files
 
@@ -247,4 +232,4 @@ Some stacks include additional code pattern skills:
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-24

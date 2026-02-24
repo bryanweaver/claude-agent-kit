@@ -137,8 +137,9 @@ For tech-agnostic agents (like shipper, reviewer):
 
 1. Create agent definition in `templates/agents/new-agent.md`
 2. Include `role` field in frontmatter
-3. Update `lib/init.js` to copy it during init
-4. Test: `claude-agent-kit init`
+3. Test: `claude-agent-kit init`
+
+No changes to `lib/init.js` are needed — it now auto-discovers all files in `templates/agents/` that are not generated stack agents.
 
 ### Add a New Command
 
@@ -226,22 +227,19 @@ claude-agent-kit install --hooks=audit_logger
 
 ### Add a New Command
 
-Edit `bin/cli.js`:
+Edit `bin/cli.js`. Use the `withDefaults()` wrapper to handle the standard project/global scope defaulting and error handling automatically:
 
 ```javascript
 program
   .command('new-command')
   .description('Description of the new command')
   .option('-o, --option', 'Command option')
-  .action(async (options) => {
-    try {
-      await newCommandFunction(options);
-    } catch (error) {
-      console.error(chalk.red('Error:'), error.message);
-      process.exit(1);
-    }
-  });
+  .option('-g, --global', 'Install to global ~/.claude/ directory')
+  .option('-p, --project', 'Install to project ./.claude/ directory (default)')
+  .action(withDefaults(newCommandFunction));
 ```
+
+The `withDefaults()` wrapper (defined in `bin/cli.js`) sets `options.project = true` when `--global` is not specified and wraps the call in a try/catch that exits with code 1 on error.
 
 Create implementation in `lib/`:
 
@@ -293,14 +291,17 @@ Available utilities in `lib/file-operations.js`:
 
 ```javascript
 import {
-  ensureDir,           // Create directory if it doesn't exist
-  copyFile,            // Copy file with error handling
-  listFiles,           // List files in directory
-  fileExists,          // Check if file exists
-  getHomeDir,          // Get user home directory
-  getGlobalClaudeDir,  // Get ~/.claude/ path
-  getProjectClaudeDir, // Get ./.claude/ path
-  createClaudeStructure // Create agents/commands/hooks dirs
+  ensureDir,            // Create directory if it doesn't exist
+  copyFile,             // Copy file with error handling (validates src in templates/, dest in .claude/)
+  copyDir,              // Copy directory with the same security validation
+  listFiles,            // List files in directory
+  listDirs,             // List subdirectories
+  fileExists,           // Check if file exists
+  getHomeDir,           // Get user home directory
+  getGlobalClaudeDir,   // Get ~/.claude/ path
+  getProjectClaudeDir,  // Get ./.claude/ path
+  createClaudeStructure,// Create agents/commands/hooks dirs
+  templateDir           // Absolute path to templates/ directory (re-exported constant)
 } from './lib/file-operations.js';
 
 // Example usage
@@ -358,14 +359,10 @@ npm publish --access public
 ```bash
 # NOTE: developer.md and database.md are now GENERATED, not in templates/
 
-# Update tech-agnostic agents only
+# Update a tech-agnostic agent (any file in templates/agents/ is auto-installed)
 cp .claude/agents/shipper.md templates/agents/
-cp .claude/agents/reviewer.md templates/agents/
-cp .claude/agents/documentor.md templates/agents/
-cp .claude/agents/meta-agent.md templates/agents/
-cp .claude/agents/meta-commands-agent.md templates/agents/
 
-# Test
+# Test (all .md files in templates/agents/ are installed automatically)
 claude-agent-kit init
 ```
 
