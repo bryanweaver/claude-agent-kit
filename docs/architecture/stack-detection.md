@@ -166,10 +166,6 @@ After detection, results are mapped to a known stack template ID.
 if (frontend === 'nextjs' && database === 'supabase')
   return 'nextjs-supabase';
 
-// Next.js without Supabase falls back to generic
-if (frontend === 'nextjs')
-  return 'generic';
-
 // React + Express + PostgreSQL
 if (frontend === 'react' && backend === 'express' && database === 'postgresql')
   return 'react-express-postgres';
@@ -178,11 +174,15 @@ if (frontend === 'react' && backend === 'express' && database === 'postgresql')
 if (frontend === 'vue' && backend === 'express' && database === 'mongodb')
   return 'vue-express-mongodb';
 
-// Backend-focused matches
-if (backend === 'django')
+// Next.js without Supabase falls back to generic
+if (frontend === 'nextjs')
+  return 'generic';
+
+// Backend-focused matches (postgresql assumed or no database detected)
+if (backend === 'django' && (database === 'postgresql' || !database))
   return 'python-django-postgres';
 
-if (backend === 'fastapi')
+if (backend === 'fastapi' && (database === 'postgresql' || !database))
   return 'python-fastapi-postgres';
 
 // Any detected language falls back to generic
@@ -246,14 +246,7 @@ To add detection for a new language or framework:
 // lib/detect-stack.js
 
 function detectFromNewLanguage(projectPath) {
-  const result = {
-    language: null,
-    frontend: null,
-    backend: null,
-    database: null,
-    testing: null,
-    ui: null
-  };
+  const result = createEmptyStack();
 
   // Check for language-specific files
   const configFile = path.join(projectPath, 'config-file.ext');

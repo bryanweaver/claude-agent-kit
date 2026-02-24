@@ -50,7 +50,7 @@ When invoked, follow these steps:
 
 When completing a task, provide:
 
-```
+```text
 ## Documentation Summary
 
 **Status:** SUCCESS | FAILED | BLOCKED

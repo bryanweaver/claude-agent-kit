@@ -12,7 +12,7 @@ Implement and deploy the feature: **$ARGUMENTS**
 
 ## Workflow
 
-You will coordinate the lean agile team to implement this feature following the `/ship` workflow:
+You will coordinate the lean agile team to implement this feature following the `/team-ship` workflow:
 
 1. **Branch Creation** (Shipper)
 

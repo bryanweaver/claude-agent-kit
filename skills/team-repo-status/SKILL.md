@@ -59,4 +59,4 @@ Provide actionable insights:
 - **Technical Debt:** Action items by priority
 - **Project Status:** Config completeness, test coverage, doc gaps
 
-If `$ARGUMENTS` specifies a focus area (git, todos, health, activity), provide deep analysis for that area.
+If `$ARGUMENTS` specifies a focus area (git, todos, health, activity), provide an in-depth analysis for that area.

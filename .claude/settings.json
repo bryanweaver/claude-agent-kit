@@ -2,8 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(git *)",
-      "Bash(npm *)",
-      "Bash(npx *)",
+      "Bash(npm test*)",
+      "Bash(npm run *)",
+      "Bash(npm ci)",
+      "Bash(npm install*)",
+      "Bash(npx claude-agent-kit *)",
       "WebFetch(domain:code.claude.com)"
     ],
     "deny": [],

@@ -57,7 +57,7 @@ Execute sequentially using the Task tool:
 
 ## Workflow Diagram
 
-```
+```text
 ┌─────────┐     ┌──────────────────┐     ┌─────────┐     ┌──────────┐     ┌─────────┐
 │ Shipper │────►│ Full Stack Dev   │────►│ Shipper │────►│ Reviewer │────►│ Shipper │
 │ Branch  │     │ + DB Admin (||)  │     │ Commit  │     │  Review  │     │Run Tests│

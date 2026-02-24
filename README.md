@@ -1,6 +1,6 @@
 # Lean Agile Team — Claude Code Plugin
 
-Ship fast, learn faster. 5 agents, 11 skills, Agent Teams coordination.
+Ship fast, learn faster. 6 agents, 10 skills, Agent Teams coordination.
 
 ## Prerequisites
 
@@ -32,7 +32,7 @@ claude --plugin-dir /path/to/agent-orchestration-system
 
 ## Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────┐
 │                  Team Lead                       │
 │            (Claude Code Main Agent)              │
@@ -95,45 +95,45 @@ claude --plugin-dir /path/to/agent-orchestration-system
 
 ## Workflow Details
 
-### `/ship` — Build and Deploy Features
+### `/team-ship` — Build and Deploy Features
 
-```
+```text
 Shipper ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Reviewer ──► Shipper ──► Documentor ──► Shipper
 Branch       Implement feature                       Commit       Review       Test         Update Docs    Deploy+PR
 ```
 
 Tasks: Create branch → Implement → Commit → Review → Test → Fix regressions (if needed) → Update docs → Deploy & PR
 
-### `/fix` — Emergency Bug Fixes
+### `/team-fix` — Emergency Bug Fixes
 
-```
+```text
 Shipper ──► Full Stack Dev + DB Admin ──► Shipper ──► Shipper ──► Documentor ──► Shipper
 Hotfix       Diagnose & patch              Commit      Test+Deploy  Update Docs    Merge
 ```
 
 No reviewer step — speed is the priority for emergencies.
 
-### `/cleanup` — Technical Debt
+### `/team-cleanup` — Technical Debt
 
-```
+```text
 Shipper ──► Reviewer ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Shipper ──► Documentor ──► Shipper
 Branch       Analyze       Refactor                                Commit      Test         Update Docs     PR
 ```
 
 Reviewer-first: analyze before refactoring.
 
-### `/test` — Batch Test and Fix
+### `/team-run-tests` — Batch Test and Fix
 
-```
+```text
 Shipper ──► Shipper ──► Full Stack Dev + DB Admin ──► Shipper ──► Shipper ──► Reviewer ──► Documentor ──► Shipper
 Branch       Run tests    Fix failures (parallel)      Commit      Re-test     Review       Update Docs     PR
                               ↑                                       │
                               └───────── loop if still failing ───────┘
 ```
 
-### `/add-tests` — Critical Test Coverage
+### `/team-add-tests` — Critical Test Coverage
 
-```
+```text
 Shipper ──► Reviewer ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Documentor ──► Shipper
 Branch       Find gaps     Write minimal tests                     Run tests    Update Docs    Commit+PR
 ```
@@ -142,7 +142,7 @@ Test the 20% that prevents 80% of disasters.
 
 ## Plugin Structure
 
-```
+```text
 agent-orchestration-system/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin manifest
@@ -221,7 +221,7 @@ Without Agent Teams:
 
 Use the meta-agent to generate new agents:
 
-```
+```text
 Create a new agent that handles API integration testing
 ```
 
@@ -235,7 +235,7 @@ The meta-agent will:
 
 - **Ship fast, learn faster** — working software over perfect software
 - **Minimal testing** — test the 20% that prevents 80% of disasters
-- **Speed focus** — `/fix` is fastest, `/ship` is balanced, `/cleanup` and `/test` are thorough
+- **Speed focus** — `/team-fix` is fastest, `/team-ship` is balanced, `/team-cleanup` and `/team-run-tests` are thorough
 - **Non-blocking reviews** — reviewer suggestions don't stop deployment (except security)
 - **Clean pipeline** — shipper owns the entire git-to-production flow
 - **Quality without bureaucracy** — pragmatic reviews, not nitpicks

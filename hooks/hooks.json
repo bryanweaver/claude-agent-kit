@@ -18,7 +18,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "echo \"[$(date '+%H:%M:%S')] Teammate idle: $CLAUDE_TEAMMATE_NAME\" >> /tmp/lean-agile-team.log"
+          "command": "node -e \"const os=require('os'),fs=require('fs'),p=require('path');fs.appendFileSync(p.join(os.tmpdir(),'lean-agile-team.log'),'['+new Date().toTimeString().slice(0,8)+'] Teammate idle: '+process.env.CLAUDE_TEAMMATE_NAME+'\\n');\""
         }
       ]
     },

@@ -63,7 +63,7 @@ Execute sequentially using the Task tool:
 
 ## Workflow Diagram
 
-```
+```text
      Phase 1: Discovery          Phase 2: Fix              Phase 3: Verify
 ┌─────────┐     ┌─────────┐     ┌──────────────┐     ┌─────────┐     ┌──────────┐
 │ Shipper │────►│ Shipper │────►│Full Stack Dev│────►│ Shipper │────►│ Shipper  │

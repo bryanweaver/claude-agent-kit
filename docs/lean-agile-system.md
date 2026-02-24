@@ -147,9 +147,9 @@ Without Agent Teams, skills execute the same workflow sequentially using `Task()
 
 ### Task List Model
 
-Skills create tasks with explicit dependencies. Example for `/ship`:
+Skills create tasks with explicit dependencies. Example for `/team-ship`:
 
-```
+```text
 Task 1: Create feature branch          → shipper        [no deps]
 Task 2: Implement feature              → full-stack-dev [blocked by 1]
 Task 3: Implement data layer changes   → database-admin [blocked by 1]
@@ -175,7 +175,7 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 ## Workflow Skills
 
-### `/ship` — Build and Deploy Features
+### `/team-ship` — Build and Deploy Features
 
 **Purpose:** Feature branch → implement → commit → review → test → deploy → PR/merge
 
@@ -193,7 +193,7 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 ---
 
-### `/fix` — Emergency Bug Fixes
+### `/team-fix` — Emergency Bug Fixes
 
 **Purpose:** Fast-track hotfix: diagnose → patch → deploy
 
@@ -211,7 +211,7 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 ---
 
-### `/cleanup` — Technical Debt and Refactoring
+### `/team-cleanup` — Technical Debt and Refactoring
 
 **Purpose:** Analyze → refactor → validate
 
@@ -228,7 +228,7 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 ---
 
-### `/test` — Batch Test and Fix
+### `/team-run-tests` — Batch Test and Fix
 
 **Purpose:** Run all tests, batch-fix failures, verify
 
@@ -247,7 +247,7 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 ---
 
-### `/add-tests` — Critical Test Coverage
+### `/team-add-tests` — Critical Test Coverage
 
 **Purpose:** Add tests for CRITICAL functionality only
 
@@ -269,7 +269,7 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 This system is distributed as a Claude Code Plugin:
 
-```
+```text
 .claude-plugin/plugin.json    # Plugin manifest
 agents/                       # Agent definitions
 skills/                       # Workflow skills
@@ -306,7 +306,7 @@ Install with: `claude --plugin-dir /path/to/agent-orchestration-system`
 
 ### Quality Without Bureaucracy
 - **Non-blocking reviews:** Reviewer suggestions don't stop deployment (except security)
-- **Speed focus:** `/fix` is fastest, `/ship` is balanced, `/cleanup` and `/test` are thorough
+- **Speed focus:** `/team-fix` is fastest, `/team-ship` is balanced, `/team-cleanup` and `/team-run-tests` are thorough
 - **Pragmatic reviews:** Focus on what matters, skip the nitpicks
 
 ### Dual-Mode Operation

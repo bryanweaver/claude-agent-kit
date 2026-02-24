@@ -35,7 +35,7 @@ Once requirements are clear:
 
 After creation, inform the user:
 
-```
+```text
 Agent created successfully!
 Location: agents/[agent-name].md
 
