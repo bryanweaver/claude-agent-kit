@@ -1,5 +1,5 @@
 ---
-name: cleanup
+name: team-cleanup
 description: Technical debt and refactoring — analyze, refactor, and validate code improvements
 argument-hint: <area or module to clean up>
 disable-model-invocation: true
@@ -21,7 +21,7 @@ Enable with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 Create a team and spawn teammates:
 
 1. **Create team** named `cleanup-<area-slug>`
-2. **Spawn teammates:** shipper, reviewer, full-stack-developer, database-admin (if data layer)
+2. **Spawn teammates:** shipper, reviewer, full-stack-developer, database-admin (if data layer), documentor
 
 Create the following task list with dependencies:
 
@@ -33,7 +33,8 @@ Create the following task list with dependencies:
 | 4 | Refactor data layer based on review findings (if needed) | database-admin | 2 |
 | 5 | Commit refactoring changes | shipper | 3, 4 |
 | 6 | Run full test suite and validate | shipper | 5 |
-| 7 | Create PR to main with before/after summary | shipper | 6 |
+| 7 | Update documentation for refactoring changes | documentor | 6 |
+| 8 | Create PR to main with before/after summary | shipper | 6, 7 |
 
 **Parallelism:** Tasks 3 and 4 can run simultaneously after the review completes.
 
@@ -47,15 +48,16 @@ Execute sequentially using the Task tool:
 4. `Task(database-admin, "Refactor data layer: <findings>")` — only if needed
 5. `Task(shipper, "Commit changes: refactor: <description>")`
 6. `Task(shipper, "Run full test suite, validate no regressions")`
-7. `Task(shipper, "Create PR to main with before/after summary")`
+7. `Task(documentor, "Update docs for refactoring changes in: $ARGUMENTS")`
+8. `Task(shipper, "Create PR to main with before/after summary")`
 
 ## Workflow Diagram
 
 ```
-┌─────────┐     ┌──────────┐     ┌──────────────────┐     ┌─────────┐     ┌─────────┐
-│ Shipper │────►│ Reviewer │────►│ Full Stack Dev   │────►│ Shipper │────►│ Shipper │
-│ Branch  │     │ Analyze  │     │ + DB Admin (||)  │     │ Commit  │     │Test/PR  │
-└─────────┘     └──────────┘     │ Refactor         │     └─────────┘     └─────────┘
+┌─────────┐     ┌──────────┐     ┌──────────────────┐     ┌─────────┐     ┌─────────┐     ┌────────────┐     ┌─────────┐
+│ Shipper │────►│ Reviewer │────►│ Full Stack Dev   │────►│ Shipper │────►│ Shipper │────►│ Documentor │────►│ Shipper │
+│ Branch  │     │ Analyze  │     │ + DB Admin (||)  │     │ Commit  │     │  Test   │     │ Update Docs│     │  PR     │
+└─────────┘     └──────────┘     │ Refactor         │     └─────────┘     └─────────┘     └────────────┘     └─────────┘
                      │           └──────────────────┘
               [Identify Issues]
               [Prioritize]

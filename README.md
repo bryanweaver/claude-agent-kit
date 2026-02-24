@@ -1,6 +1,6 @@
 # Lean Agile Team — Claude Code Plugin
 
-Ship fast, learn faster. 4 agents, 5 workflows, Agent Teams coordination.
+Ship fast, learn faster. 5 agents, 11 skills, Agent Teams coordination.
 
 ## Prerequisites
 
@@ -15,19 +15,19 @@ Ship fast, learn faster. 4 agents, 5 workflows, Agent Teams coordination.
 claude --plugin-dir /path/to/agent-orchestration-system
 
 # Ship a feature
-/ship add user authentication
+/team-ship add user authentication
 
 # Fix a production bug
-/fix users can't log in
+/team-fix users can't log in
 
 # Clean up tech debt
-/cleanup authentication module
+/team-cleanup authentication module
 
 # Run and fix tests
-/test
+/team-run-tests
 
 # Add critical test coverage
-/add-tests payment processing
+/team-add-tests payment processing
 ```
 
 ## Architecture
@@ -38,15 +38,15 @@ claude --plugin-dir /path/to/agent-orchestration-system
 │            (Claude Code Main Agent)              │
 └──────────────────┬──────────────────────────────┘
                    │
-        ┌──────────┼──────────┐
-        │          │          │
-        ▼          ▼          ▼
-  ┌──────────┐ ┌────────┐ ┌──────────┐
-  │Full Stack│ │Database│ │ Reviewer  │
-  │Developer │ │ Admin  │ │          │
-  └──────────┘ └────────┘ └──────────┘
-        │          │          │
-        └──────────┼──────────┘
+        ┌──────────┼──────────┬──────────┐
+        │          │          │          │
+        ▼          ▼          ▼          ▼
+  ┌──────────┐ ┌────────┐ ┌──────────┐ ┌────────────┐
+  │Full Stack│ │Database│ │ Reviewer │ │ Documentor │
+  │Developer │ │ Admin  │ │          │ │            │
+  └──────────┘ └────────┘ └──────────┘ └────────────┘
+        │          │          │          │
+        └──────────┼──────────┼──────────┘
                    │
                    ▼
             ┌──────────┐
@@ -68,34 +68,48 @@ claude --plugin-dir /path/to/agent-orchestration-system
 | **Database Admin** | Schema, queries, migrations, data integrity | Sonnet | Worktree isolation, project memory |
 | **Shipper** | Git, testing, building, deployment, PRs | Sonnet | Unblocked pipeline access |
 | **Reviewer** | Security, bugs, performance review | Sonnet | Read-only (plan mode) |
+| **Documentor** | Create, maintain, organize codebase docs | Sonnet | Runs after tests pass |
 | **Meta-Agent** | Generate new custom agents | Opus | On-demand agent creation |
 
-## Workflow Skills
+## Skills
+
+### Workflow Skills
 
 | Skill | Purpose | Speed |
 |-------|---------|-------|
-| `/ship <feature>` | Feature branch → implement → review → test → deploy → PR | Balanced |
-| `/fix <bug>` | Hotfix → diagnose → patch → deploy (no review step) | Fastest |
-| `/cleanup <area>` | Analyze tech debt → refactor → validate | Thorough |
-| `/test [scope]` | Run all tests → batch-fix failures → verify | Thorough |
-| `/add-tests <area>` | Identify critical gaps → write minimal tests | Focused |
+| `/team-ship <feature>` | Feature branch → implement → review → test → deploy → PR | Balanced |
+| `/team-fix <bug>` | Hotfix → diagnose → patch → deploy (no review step) | Fastest |
+| `/team-cleanup <area>` | Analyze tech debt → refactor → validate | Thorough |
+| `/team-run-tests [scope]` | Run all tests → batch-fix failures → verify | Thorough |
+| `/team-add-tests <area>` | Identify critical gaps → write minimal tests | Focused |
+
+### Utility Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `/team-docs-init [area]` | Generate comprehensive codebase documentation |
+| `/team-docs-update [changes]` | Update docs to reflect recent code changes |
+| `/team-agent-create <description>` | Create a new custom agent via meta-agent |
+| `/team-repo-status [focus]` | Repository health report (git, todos, activity) |
+| `/team-audit-session [action]` | Analyze Claude Code audit logs |
+| `/team-all-tools` | List all available tools with signatures |
 
 ## Workflow Details
 
 ### `/ship` — Build and Deploy Features
 
 ```
-Shipper ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Reviewer ──► Shipper ──► Shipper
-Branch       Implement feature                       Commit       Review       Test         Deploy+PR
+Shipper ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Reviewer ──► Shipper ──► Documentor ──► Shipper
+Branch       Implement feature                       Commit       Review       Test         Update Docs    Deploy+PR
 ```
 
-Tasks: Create branch → Implement → Commit → Review → Test → Fix regressions (if needed) → Deploy & PR
+Tasks: Create branch → Implement → Commit → Review → Test → Fix regressions (if needed) → Update docs → Deploy & PR
 
 ### `/fix` — Emergency Bug Fixes
 
 ```
-Shipper ──► Full Stack Dev + DB Admin ──► Shipper ──► Shipper ──► Shipper
-Hotfix       Diagnose & patch              Commit      Test+Deploy  Merge
+Shipper ──► Full Stack Dev + DB Admin ──► Shipper ──► Shipper ──► Documentor ──► Shipper
+Hotfix       Diagnose & patch              Commit      Test+Deploy  Update Docs    Merge
 ```
 
 No reviewer step — speed is the priority for emergencies.
@@ -103,8 +117,8 @@ No reviewer step — speed is the priority for emergencies.
 ### `/cleanup` — Technical Debt
 
 ```
-Shipper ──► Reviewer ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Shipper
-Branch       Analyze       Refactor                                Commit      Test+PR
+Shipper ──► Reviewer ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Shipper ──► Documentor ──► Shipper
+Branch       Analyze       Refactor                                Commit      Test         Update Docs     PR
 ```
 
 Reviewer-first: analyze before refactoring.
@@ -112,8 +126,8 @@ Reviewer-first: analyze before refactoring.
 ### `/test` — Batch Test and Fix
 
 ```
-Shipper ──► Shipper ──► Full Stack Dev + DB Admin ──► Shipper ──► Shipper ──► Reviewer ──► Shipper
-Branch       Run tests    Fix failures (parallel)      Commit      Re-test     Review       PR
+Shipper ──► Shipper ──► Full Stack Dev + DB Admin ──► Shipper ──► Shipper ──► Reviewer ──► Documentor ──► Shipper
+Branch       Run tests    Fix failures (parallel)      Commit      Re-test     Review       Update Docs     PR
                               ↑                                       │
                               └───────── loop if still failing ───────┘
 ```
@@ -121,8 +135,8 @@ Branch       Run tests    Fix failures (parallel)      Commit      Re-test     R
 ### `/add-tests` — Critical Test Coverage
 
 ```
-Shipper ──► Reviewer ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Shipper
-Branch       Find gaps     Write minimal tests                     Run tests    Commit+PR
+Shipper ──► Reviewer ──► Full Stack Dev + DB Admin (parallel) ──► Shipper ──► Documentor ──► Shipper
+Branch       Find gaps     Write minimal tests                     Run tests    Update Docs    Commit+PR
 ```
 
 Test the 20% that prevents 80% of disasters.
@@ -138,13 +152,20 @@ agent-orchestration-system/
 │   ├── database-admin.md        # Database and data layer
 │   ├── shipper.md               # Pipeline: git, test, build, deploy
 │   ├── reviewer.md              # Security, bugs, performance review
+│   ├── documentor.md            # Documentation creation and maintenance
 │   └── meta-agent.md            # Agent generator
 ├── skills/
-│   ├── ship/SKILL.md            # Feature development workflow
-│   ├── fix/SKILL.md             # Emergency hotfix workflow
-│   ├── cleanup/SKILL.md         # Tech debt refactoring workflow
-│   ├── test/SKILL.md            # Batch test and fix workflow
-│   └── add-tests/SKILL.md       # Critical test coverage workflow
+│   ├── team-ship/SKILL.md            # Feature development workflow
+│   ├── team-fix/SKILL.md             # Emergency hotfix workflow
+│   ├── team-cleanup/SKILL.md         # Tech debt refactoring workflow
+│   ├── team-run-tests/SKILL.md        # Batch test and fix workflow
+│   ├── team-add-tests/SKILL.md       # Critical test coverage workflow
+│   ├── team-docs-init/SKILL.md       # Full documentation generation
+│   ├── team-docs-update/SKILL.md     # Documentation maintenance
+│   ├── team-agent-create/SKILL.md    # Custom agent creation
+│   ├── team-repo-status/SKILL.md     # Repository health report
+│   ├── team-audit-session/SKILL.md   # Audit log analysis
+│   └── team-all-tools/SKILL.md       # List available tools
 ├── hooks/
 │   └── hooks.json               # Quality gates and observability
 ├── settings.json                # Plugin settings (Agent Teams flag)

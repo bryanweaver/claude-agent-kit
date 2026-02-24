@@ -1,5 +1,5 @@
 ---
-name: add-tests
+name: team-add-tests
 description: Add critical test coverage — tests ONLY for functionality that could cause production disasters
 argument-hint: <area or module to add tests for>
 disable-model-invocation: true
@@ -21,7 +21,7 @@ Enable with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 Create a team and spawn teammates:
 
 1. **Create team** named `add-tests-<area-slug>`
-2. **Spawn teammates:** shipper, reviewer, full-stack-developer, database-admin (if data layer)
+2. **Spawn teammates:** shipper, reviewer, full-stack-developer, database-admin (if data layer), documentor
 
 Create the following task list with dependencies:
 
@@ -32,7 +32,8 @@ Create the following task list with dependencies:
 | 3 | Write minimal tests for critical application paths | full-stack-developer | 2 |
 | 4 | Write minimal tests for critical data integrity paths (if needed) | database-admin | 2 |
 | 5 | Run full test suite including new tests | shipper | 3, 4 |
-| 6 | Commit and create PR to main | shipper | 5 |
+| 6 | Update documentation for new test coverage | documentor | 5 |
+| 7 | Commit and create PR to main | shipper | 5, 6 |
 
 **Critical = code that could:**
 - Break authentication or authorization
@@ -57,15 +58,16 @@ Execute sequentially using the Task tool:
 3. `Task(full-stack-developer, "Write minimal tests for critical paths: <reviewer findings>")`
 4. `Task(database-admin, "Write data integrity tests: <reviewer findings>")` — only if needed
 5. `Task(shipper, "Run full test suite including new tests")`
-6. `Task(shipper, "Commit and create PR: test: add critical coverage for <area>")`
+6. `Task(documentor, "Update docs to reflect new test coverage for: $ARGUMENTS")`
+7. `Task(shipper, "Commit and create PR: test: add critical coverage for <area>")`
 
 ## Workflow Diagram
 
 ```
-┌─────────┐     ┌──────────┐     ┌──────────────────┐     ┌─────────┐     ┌─────────┐
-│ Shipper │────►│ Reviewer │────►│ Full Stack Dev   │────►│ Shipper │────►│ Shipper │
-│ Branch  │     │ Identify │     │ + DB Admin (||)  │     │Run Tests│     │Commit+PR│
-└─────────┘     │ Critical │     │ Write Tests      │     └─────────┘     └─────────┘
+┌─────────┐     ┌──────────┐     ┌──────────────────┐     ┌─────────┐     ┌────────────┐     ┌─────────┐
+│ Shipper │────►│ Reviewer │────►│ Full Stack Dev   │────►│ Shipper │────►│ Documentor │────►│ Shipper │
+│ Branch  │     │ Identify │     │ + DB Admin (||)  │     │Run Tests│     │ Update Docs│     │Commit+PR│
+└─────────┘     │ Critical │     │ Write Tests      │     └─────────┘     └────────────┘     └─────────┘
                 │ Gaps     │     └──────────────────┘
                 └──────────┘
 ```

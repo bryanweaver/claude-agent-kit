@@ -19,7 +19,7 @@ Without Agent Teams, skills execute the same workflow sequentially using `Task()
 
 ---
 
-## The Lean Team (4 Core Agents)
+## The Lean Team (5 Core Agents)
 
 ### 1. Full Stack Developer Agent
 
@@ -121,6 +121,28 @@ Without Agent Teams, skills execute the same workflow sequentially using `Task()
 
 ---
 
+### 5. Documentor Agent
+
+**Purpose:** Create, maintain, and organize codebase documentation
+
+**Configuration:**
+- Model: Sonnet
+- Tools: Read, Write, Edit, Glob, Grep, Bash
+
+**Key Responsibilities:**
+- Create and maintain structured docs/ folder with table of contents
+- Generate documentation from code analysis
+- Update documentation when code changes
+- Cross-link related documents and maintain navigation
+
+**Approach:**
+- Initialize full documentation with `initialize-documentation`
+- Maintain documentation with `update-docs` after changes
+- Use kebab-case file naming, clear structure
+- Cross-link generously with relative paths
+
+---
+
 ## Agent Teams Coordination
 
 ### Task List Model
@@ -134,7 +156,8 @@ Task 3: Implement data layer changes   → database-admin [blocked by 1]
 Task 4: Commit changes                 → shipper        [blocked by 2, 3]
 Task 5: Review implementation          → reviewer       [blocked by 4]
 Task 6: Run test suite                 → shipper        [blocked by 5]
-Task 7: Deploy and create PR           → shipper        [blocked by 6]
+Task 7: Update documentation           → documentor     [blocked by 6]
+Task 8: Deploy and create PR           → shipper        [blocked by 6, 7]
 ```
 
 Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
@@ -145,7 +168,8 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 2. **Tasks created** → Agents check `TaskList` for assigned work
 3. **Agents work** → Each agent completes tasks and marks them done
 4. **Dependencies resolve** → Blocked tasks become available automatically
-5. **Completion** → Team lead sends shutdown requests, cleans up team
+5. **Documentor updates** → Documentation is updated before final PR/deploy step
+6. **Completion** → Team lead sends shutdown requests, cleans up team
 
 ---
 
@@ -155,7 +179,7 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 **Purpose:** Feature branch → implement → commit → review → test → deploy → PR/merge
 
-**Team:** shipper, full-stack-developer, database-admin (conditional), reviewer
+**Team:** shipper, full-stack-developer, database-admin (conditional), reviewer, documentor
 
 **Flow:**
 1. **Shipper** creates feature branch `feature/<name>`
@@ -164,7 +188,8 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 4. **Reviewer** validates implementation
 5. **Shipper** runs full test suite
 6. If tests fail → developers fix, shipper re-tests (loop)
-7. **Shipper** deploys and creates PR
+7. **Documentor** updates documentation for feature changes
+8. **Shipper** deploys and creates PR
 
 ---
 
@@ -172,14 +197,15 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 **Purpose:** Fast-track hotfix: diagnose → patch → deploy
 
-**Team:** shipper, full-stack-developer, database-admin (conditional)
+**Team:** shipper, full-stack-developer, database-admin (conditional), documentor
 
 **Flow:**
 1. **Shipper** creates hotfix branch `hotfix/<issue-id>`
 2. **Developer(s)** diagnose and implement minimal fix (parallel if both needed)
 3. **Shipper** commits with `fix:` prefix
 4. **Shipper** runs focused tests and deploys
-5. **Shipper** merges hotfix to main
+5. **Documentor** updates docs if fix affects documented behavior
+6. **Shipper** merges hotfix to main
 
 **No reviewer step** — speed is priority for emergencies.
 
@@ -189,14 +215,16 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 **Purpose:** Analyze → refactor → validate
 
-**Team:** shipper, reviewer, full-stack-developer, database-admin (conditional)
+**Team:** shipper, reviewer, full-stack-developer, database-admin (conditional), documentor
 
 **Flow:**
 1. **Shipper** creates branch `refactor/<area>`
 2. **Reviewer** analyzes for code smells, bottlenecks, opportunities
 3. **Developer(s)** refactor based on findings (parallel)
 4. **Shipper** commits refactoring changes
-5. **Shipper** tests, validates, creates PR
+5. **Shipper** tests and validates
+6. **Documentor** updates documentation for refactoring changes
+7. **Shipper** creates PR
 
 ---
 
@@ -204,7 +232,7 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 **Purpose:** Run all tests, batch-fix failures, verify
 
-**Team:** shipper, full-stack-developer, database-admin, reviewer
+**Team:** shipper, full-stack-developer, database-admin, reviewer, documentor
 
 **Flow:**
 1. **Shipper** creates branch `test/<timestamp>`
@@ -214,7 +242,8 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 5. **Shipper** re-tests → loop if still failing
 6. **Shipper** runs full validation
 7. **Reviewer** validates fixes
-8. **Shipper** creates PR with test report
+8. **Documentor** updates docs if fixes affect documented behavior
+9. **Shipper** creates PR with test report
 
 ---
 
@@ -222,14 +251,15 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 **Purpose:** Add tests for CRITICAL functionality only
 
-**Team:** shipper, reviewer, full-stack-developer, database-admin (conditional)
+**Team:** shipper, reviewer, full-stack-developer, database-admin (conditional), documentor
 
 **Flow:**
 1. **Shipper** creates branch `test/critical-coverage-<area>`
 2. **Reviewer** identifies critical untested paths
 3. **Developer(s)** write minimal tests (parallel)
 4. **Shipper** runs full suite
-5. **Shipper** commits and creates PR
+5. **Documentor** updates documentation for new test coverage
+6. **Shipper** commits and creates PR
 
 **Philosophy:** Test the 20% that prevents 80% of disasters.
 

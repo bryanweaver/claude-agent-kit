@@ -1,5 +1,5 @@
 ---
-name: test
+name: team-run-tests
 description: Batch test and fix — run comprehensive tests, identify all issues, then fix systematically
 argument-hint: [test pattern or scope]
 disable-model-invocation: true
@@ -21,7 +21,7 @@ Enable with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 Create a team and spawn teammates:
 
 1. **Create team** named `test-run`
-2. **Spawn teammates:** shipper, full-stack-developer, database-admin, reviewer
+2. **Spawn teammates:** shipper, full-stack-developer, database-admin, reviewer, documentor
 
 Create the following task list with dependencies:
 
@@ -35,7 +35,8 @@ Create the following task list with dependencies:
 | 6 | Re-run previously failed tests | shipper | 5 |
 | 7 | Run full validation suite | shipper | 6 |
 | 8 | Review all fixes for quality | reviewer | 7 |
-| 9 | Create PR to main with test report | shipper | 8 |
+| 9 | Update documentation if fixes affect docs | documentor | 8 |
+| 10 | Create PR to main with test report | shipper | 8, 9 |
 
 **Parallelism:** Tasks 3 and 4 can run simultaneously.
 
@@ -57,7 +58,8 @@ Execute sequentially using the Task tool:
 6. If still failing, loop back to step 3
 7. `Task(shipper, "Run full test suite for final validation")`
 8. `Task(reviewer, "Review all test fixes")`
-9. `Task(shipper, "Create PR to main with test report")`
+9. `Task(documentor, "Update docs if test fixes changed documented behavior")`
+10. `Task(shipper, "Create PR to main with test report")`
 
 ## Workflow Diagram
 
@@ -72,7 +74,8 @@ Execute sequentially using the Task tool:
               [Failure Report]────────┘  still failing)            [Full Validation]
                                                                           │
                                                                           ▼
-                                                                   ┌──────────┐
-                                                                   │ Reviewer │──►[PR/Merge]
-                                                                   └──────────┘
+                                                                   ┌──────────┐     ┌────────────┐
+                                                                   │ Reviewer │────►│ Documentor │──►[PR/Merge]
+                                                                   └──────────┘     │ Update Docs│
+                                                                                    └────────────┘
 ```
