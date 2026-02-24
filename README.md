@@ -11,8 +11,11 @@ Ship fast, learn faster. 6 agents, 10 skills, Agent Teams coordination.
 ## Quick Start
 
 ```bash
-# Install the plugin
-claude --plugin-dir /path/to/agent-orchestration-system
+# Install the plugin (from GitHub)
+claude plugin add github:bryanweaver/claude-agent-kit
+
+# Or load locally during development
+# claude --plugin-dir /path/to/agent-orchestration-system
 
 # Ship a feature
 /team-ship add user authentication
@@ -194,8 +197,8 @@ Three hooks provide quality gates and observability:
 | Hook | Type | Purpose |
 |------|------|---------|
 | **TaskCompleted** | Prompt | LLM verifies task is genuinely complete before marking done |
-| **TeammateIdle** | Command | Logs idle events to `/tmp/lean-agile-team.log` |
-| **SubagentStop[shipper]** | Prompt | Validates git state is clean when shipper finishes |
+| **TeammateIdle** | Command | Logs idle events to `<tmpdir>/lean-agile-team.log` |
+| **SubagentStop** | Prompt | Validates git state is clean when shipper finishes (scoped via `agent_name` matcher) |
 
 ## Dual-Mode Operation
 
@@ -222,7 +225,7 @@ Without Agent Teams:
 Use the meta-agent to generate new agents:
 
 ```text
-Create a new agent that handles API integration testing
+/team-create-agent Create a new agent that handles API integration testing
 ```
 
 The meta-agent will:
