@@ -1,0 +1,18 @@
+{
+  "name": "claude-agent-kit",
+  "owner": {
+    "name": "Bryan Weaver"
+  },
+  "plugins": [
+    {
+      "name": "team",
+      "source": "./",
+      "description": "Lean agile development with 6 specialized agents and 10 skills. Coordinates agent teams for rapid delivery.",
+      "version": "1.0.0"
+    }
+  ],
+  "metadata": {
+    "description": "Curated Claude Code agents, skills, and hooks for rapid team-based development",
+    "version": "1.0.0"
+  }
+}
