@@ -52,7 +52,7 @@ function withDefaults(fn) {
 
 program
   .name('claude-agent-kit')
-  .description('Install and manage Claude Code agents, commands, hooks, and skills')
+  .description('Install and manage Claude Code agents, hooks, and skills')
   .version(packageJson.version);
 
 // Init command (recommended for new users)
@@ -67,11 +67,10 @@ program
 // Install command (advanced: selective installation)
 program
   .command('install')
-  .description('Install specific agents, commands, hooks, and skills (advanced)')
+  .description('Install specific agents, hooks, and skills (advanced)')
   .option('-g, --global', 'Install to global ~/.claude/ directory')
   .option('-p, --project', 'Install to project ./.claude/ directory (default)')
   .option('--agents <names>', 'Install specific agents (comma-separated)')
-  .option('--commands <names>', 'Install specific commands (comma-separated)')
   .option('--hooks <names>', 'Install specific hooks (comma-separated)')
   .option('--skills <names>', 'Install specific skills (comma-separated)')
   .action(withDefaults(install));
@@ -102,14 +101,6 @@ program
     });
     console.log();
 
-    console.log(chalk.yellow('Commands:'));
-    const commands = await listFiles(join(templateDir, 'commands'), '.md');
-    commands.forEach(f => {
-      const name = f.replace('.md', '');
-      console.log(`  - /${name}`);
-    });
-    console.log();
-
     console.log(chalk.yellow('Hooks:'));
     const hooks = await listFiles(join(templateDir, 'hooks'), '.cjs');
     hooks.forEach(f => {
@@ -117,7 +108,7 @@ program
     });
     console.log();
 
-    console.log(chalk.yellow('Skills (auto-activated by context):'));
+    console.log(chalk.yellow('Skills (workflow + tech-stack):'));
     const skills = await listDirs(join(templateDir, 'skills'));
     skills.forEach(s => {
       console.log(`  - ${s}`);
