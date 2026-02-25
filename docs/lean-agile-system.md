@@ -265,6 +265,19 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 ---
 
+### `/team-audit` — Audit Log Analysis
+
+**Purpose:** Analyze and view Claude Code audit logs for tool usage, session activity, and patterns
+
+**Team:** documentor (or team lead directly)
+
+**Flow:**
+1. **Team lead** (or documentor) reads audit log files from `~/.claude/logs/`
+2. Parses and summarizes tool usage, session counts, and activity patterns
+3. Reports findings in structured format
+
+---
+
 ## Plugin Format
 
 This system is distributed as a Claude Code Plugin:

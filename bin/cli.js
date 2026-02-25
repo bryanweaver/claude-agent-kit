@@ -78,7 +78,7 @@ program
 // List command
 program
   .command('list')
-  .description('List available stacks, agents, commands, and hooks')
+  .description('List available stacks, agents, hooks, and skills')
   .action(async () => {
     console.log(chalk.blue.bold('\nClaude Agent Kit - Available Assets\n'));
 

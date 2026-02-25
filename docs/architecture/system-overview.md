@@ -65,7 +65,6 @@ npx @bryanofearth/claude-agent-kit init
 │  │   ├── shipper.md        ← Tech-agnostic (copied)         │
 │  │   ├── reviewer.md       ← Tech-agnostic (copied)         │
 │  │   └── ...                                                 │
-│  ├── commands/                                               │
 │  ├── skills/                                                 │
 │  └── hooks/                                                  │
 └─────────────────────────────────────────────────────────────┘
@@ -174,7 +173,7 @@ Orchestrates the entire initialization process:
 3. Confirm or select stack
 4. Generate stack-specific agents
 5. Copy tech-agnostic agents (shipper, reviewer, etc.)
-6. Copy commands, hooks, and skills
+6. Copy hooks and skills
 7. Report success
 
 ## Tech-Agnostic vs Stack-Specific
@@ -183,10 +182,9 @@ Orchestrates the entire initialization process:
 
 These work the same regardless of your stack:
 
-- **Agents**: shipper, reviewer, documentor, meta-agent, meta-commands-agent
-- **Commands**: /ship, /fix, /cleanup, /test, /add-tests, etc.
+- **Agents**: shipper, reviewer, documentor, meta-agent
+- **Skills**: /team-ship, /team-fix, /team-cleanup, /team-run-tests, /team-add-tests, etc.
 - **Hooks**: audit_logger.cjs, session_manager.cjs, etc.
-- **Skills**: (Most skills are stack-specific)
 
 These are stored in `templates/` and copied directly to `.claude/`.
 

@@ -298,21 +298,17 @@ claude-agent-kit --version
 
 ---
 
-### Adding a Command or Skill
+### Adding a Skill
 
-**Goal**: Add a new slash command or skill
+**Goal**: Add a new workflow skill
 
 **Steps**:
 
-1. **Create the file**
+1. **Create the skill directory and file**
 
    ```bash
-   # For command
-   vim templates/commands/new-command.md
-
-   # For skill
-   mkdir templates/skills/new-skill
-   vim templates/skills/new-skill/SKILL.md
+   mkdir templates/skills/team-new-skill
+   vim templates/skills/team-new-skill/SKILL.md
    ```
 
 2. **Test**
@@ -321,7 +317,7 @@ claude-agent-kit --version
    cd /tmp/test-project
    rm -rf .claude/
    claude-agent-kit init
-   ls .claude/commands/  # or .claude/skills/
+   ls .claude/skills/
    ```
 
 3. **Update docs**
@@ -331,8 +327,8 @@ claude-agent-kit --version
 4. **Commit**
 
    ```bash
-   git add templates/commands/new-command.md README.md
-   git commit -m "feat: add /new-command for X functionality"
+   git add templates/skills/team-new-skill/SKILL.md README.md
+   git commit -m "feat: add /team-new-skill for X functionality"
    ```
 
 ---

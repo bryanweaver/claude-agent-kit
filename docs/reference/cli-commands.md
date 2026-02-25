@@ -63,7 +63,7 @@ npx @bryanofearth/claude-agent-kit init --project --yes
 3. Maps detection to a known stack template
 4. Generates `developer.md` and `database.md` agents for your stack
 5. Copies tech-agnostic agents (shipper, reviewer, documentor, etc.)
-6. Installs commands, hooks, and skills
+6. Installs hooks and skills
 7. Reports installation summary
 
 **Interactive prompts**:
@@ -81,7 +81,7 @@ npx @bryanofearth/claude-agent-kit init --project --yes
 
 ### `list`
 
-List all available agents, commands, hooks, and skills.
+List all available agents, hooks, and skills.
 
 **Usage**:
 ```bash
@@ -96,17 +96,8 @@ Available Agents:
   - reviewer: Code review focusing on security and bugs
   - documentor: Documentation creation and maintenance
   - meta-agent: Generate new custom agents
-  - meta-commands-agent: Create custom slash commands
 
 Note: developer and database agents are generated based on your stack
-
-Available Commands:
-  - ship: Build and deploy features from start to production
-  - fix: Emergency bug fixes
-  - cleanup: Technical debt and refactoring
-  - test: Batch test and fix workflows
-  - add-tests: Add critical test coverage
-  ... and more
 
 Available Hooks:
   - audit_logger.cjs: Audit logging
@@ -115,6 +106,16 @@ Available Hooks:
   ... and more
 
 Available Skills:
+  - team-ship: Build and deploy features from start to production
+  - team-fix: Emergency bug fixes
+  - team-cleanup: Technical debt and refactoring
+  - team-run-tests: Batch test and fix workflows
+  - team-add-tests: Add critical test coverage
+  - team-create-agent: Create new custom agents
+  - team-init-docs: Set up docs structure
+  - team-update-docs: Update docs after changes
+  - team-repo-status: Comprehensive repository status
+  - team-audit: Analyze and view audit logs
   - supabase-patterns: RLS, migrations, Edge Functions
   - nextjs-app-router: Server/Client Components
   - shadcn-components: CVA variants, forms
@@ -125,7 +126,7 @@ Available Skills:
 
 ### `install` (Advanced)
 
-Selectively install specific agents, commands, or hooks without stack detection.
+Selectively install specific agents, hooks, or skills without stack detection.
 
 > **Note**: For most users, `init` is recommended. Use `install` only for advanced use cases.
 
@@ -136,8 +137,8 @@ npx @bryanofearth/claude-agent-kit install [options]
 
 **Options**:
 - `--agents=<list>` - Comma-separated agent names
-- `--commands=<list>` - Comma-separated command names
 - `--hooks=<list>` - Comma-separated hook names
+- `--skills=<list>` - Comma-separated skill names
 - `--global` - Install to `~/.claude/`
 - `--project` - Install to `./.claude/` (default)
 
@@ -147,8 +148,8 @@ npx @bryanofearth/claude-agent-kit install [options]
 # Install specific agents only
 npx @bryanofearth/claude-agent-kit install --agents=shipper,reviewer
 
-# Install specific commands
-npx @bryanofearth/claude-agent-kit install --commands=ship,fix
+# Install specific skills
+npx @bryanofearth/claude-agent-kit install --skills=team-ship,team-fix
 
 # Install specific hooks
 npx @bryanofearth/claude-agent-kit install --hooks=audit_logger
@@ -156,7 +157,7 @@ npx @bryanofearth/claude-agent-kit install --hooks=audit_logger
 # Combine multiple options
 npx @bryanofearth/claude-agent-kit install \
   --agents=shipper,reviewer \
-  --commands=ship,fix \
+  --skills=team-ship,team-fix \
   --global
 ```
 
