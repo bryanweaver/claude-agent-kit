@@ -1,6 +1,6 @@
 # Lean Agile Team — Claude Code Plugin
 
-Ship fast, learn faster. 6 agents, 10 skills, Agent Teams coordination.
+Ship fast, learn faster. 6 agents, 11 skills, Agent Teams coordination.
 
 ## Prerequisites
 
@@ -115,6 +115,7 @@ npx @bryanofearth/claude-agent-kit init
 | `/team-create-agent <description>` | Create a new custom agent via meta-agent |
 | `/team-repo-status [focus]` | Repository health report (git, todos, activity) |
 | `/team-all-tools` | List all available tools with signatures |
+| `/team-audit [action]` | Analyze audit logs (summary, report, metrics, timeline, verify, anomalies) |
 
 ## Workflow Details
 
@@ -177,17 +178,19 @@ agent-orchestration-system/
 │   ├── reviewer.md              # Security, bugs, performance review
 │   ├── documentor.md            # Documentation creation and maintenance
 │   └── meta-agent.md            # Agent generator
-├── skills/
-│   ├── team-ship/SKILL.md            # Feature development workflow
-│   ├── team-fix/SKILL.md             # Emergency hotfix workflow
-│   ├── team-cleanup/SKILL.md         # Tech debt refactoring workflow
-│   ├── team-run-tests/SKILL.md        # Batch test and fix workflow
-│   ├── team-add-tests/SKILL.md       # Critical test coverage workflow
-│   ├── team-init-docs/SKILL.md       # Full documentation generation
-│   ├── team-update-docs/SKILL.md     # Documentation maintenance
-│   ├── team-create-agent/SKILL.md    # Custom agent creation
-│   ├── team-repo-status/SKILL.md     # Repository health report
-│   └── team-all-tools/SKILL.md       # List available tools
+├── templates/
+│   └── skills/
+│       ├── team-ship/SKILL.md        # Feature development workflow
+│       ├── team-fix/SKILL.md         # Emergency hotfix workflow
+│       ├── team-cleanup/SKILL.md     # Tech debt refactoring workflow
+│       ├── team-run-tests/SKILL.md   # Batch test and fix workflow
+│       ├── team-add-tests/SKILL.md   # Critical test coverage workflow
+│       ├── team-init-docs/SKILL.md   # Full documentation generation
+│       ├── team-update-docs/SKILL.md # Documentation maintenance
+│       ├── team-create-agent/SKILL.md # Custom agent creation
+│       ├── team-repo-status/SKILL.md # Repository health report
+│       ├── team-audit/SKILL.md       # Audit log analysis
+│       └── team-all-tools/SKILL.md   # List available tools
 ├── hooks/
 │   └── hooks.json               # Quality gates and observability
 ├── settings.json                # Plugin settings (Agent Teams flag)
