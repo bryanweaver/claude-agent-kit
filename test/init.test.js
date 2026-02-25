@@ -274,12 +274,12 @@ describe('Security - Path Validation', () => {
     const templatesDir = path.join(__dirname, '..', 'templates');
     assert.ok(fs.existsSync(templatesDir), 'Templates directory should exist');
     assert.ok(fs.existsSync(path.join(templatesDir, 'agents')), 'Agents directory should exist');
-    assert.ok(fs.existsSync(path.join(templatesDir, 'commands')), 'Commands directory should exist');
+    assert.ok(fs.existsSync(path.join(templatesDir, 'skills')), 'Skills directory should exist');
   });
 
   it('should have all tech-agnostic agents', () => {
     const agentsDir = path.join(__dirname, '..', 'templates', 'agents');
-    const expectedAgents = ['shipper.md', 'reviewer.md', 'documentor.md', 'meta-agent.md', 'meta-commands-agent.md'];
+    const expectedAgents = ['shipper.md', 'reviewer.md', 'documentor.md', 'meta-agent.md'];
 
     for (const agent of expectedAgents) {
       assert.ok(fs.existsSync(path.join(agentsDir, agent)), `Agent ${agent} should exist`);

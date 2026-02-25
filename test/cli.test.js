@@ -30,8 +30,8 @@ describe('CLI', () => {
     it('should list available assets', () => {
       const output = execSync(`node "${CLI_PATH}" list`, { encoding: 'utf8' });
       assert.ok(output.includes('Agents'));
-      assert.ok(output.includes('Commands'));
       assert.ok(output.includes('Hooks'));
+      assert.ok(output.includes('Skills'));
     });
 
     it('should show agent names', () => {
@@ -42,11 +42,11 @@ describe('CLI', () => {
       assert.ok(output.includes('database'));
     });
 
-    it('should show command names', () => {
+    it('should show skill names', () => {
       const output = execSync(`node "${CLI_PATH}" list`, { encoding: 'utf8' });
-      assert.ok(output.includes('ship'));
-      assert.ok(output.includes('fix'));
-      assert.ok(output.includes('cleanup'));
+      assert.ok(output.includes('team-ship'));
+      assert.ok(output.includes('team-fix'));
+      assert.ok(output.includes('team-cleanup'));
     });
   });
 });
@@ -80,13 +80,14 @@ describe('File Operations', () => {
     assert.ok(files.some(f => f.endsWith('.md')));
   });
 
-  it('should have commands templates', () => {
-    const commandsDir = path.join(__dirname, '..', 'templates', 'commands');
-    assert.ok(fs.existsSync(commandsDir));
+  it('should have workflow skills templates', () => {
+    const skillsDir = path.join(__dirname, '..', 'templates', 'skills');
+    assert.ok(fs.existsSync(skillsDir));
 
-    const files = fs.readdirSync(commandsDir);
-    assert.ok(files.length > 0);
-    assert.ok(files.some(f => f.endsWith('.md')));
+    const dirs = fs.readdirSync(skillsDir);
+    assert.ok(dirs.includes('team-ship'));
+    assert.ok(dirs.includes('team-fix'));
+    assert.ok(dirs.includes('team-cleanup'));
   });
 
   it('should have hooks templates', () => {
@@ -121,18 +122,17 @@ describe('Template Validation', () => {
     }
   });
 
-  it('should have valid command frontmatter', () => {
-    const commandsDir = path.join(__dirname, '..', 'templates', 'commands');
-    const files = fs.readdirSync(commandsDir).filter(f => f.endsWith('.md'));
+  it('should have valid workflow skill frontmatter', () => {
+    const skillsDir = path.join(__dirname, '..', 'templates', 'skills');
+    const dirs = fs.readdirSync(skillsDir).filter(d => d.startsWith('team-'));
 
-    for (const file of files) {
-      const content = fs.readFileSync(path.join(commandsDir, file), 'utf8');
-      // all_tools.md is a special reference file without frontmatter
-      if (file === 'all_tools.md') {
-        continue;
-      }
-      assert.ok(content.startsWith('---'), `${file} should start with frontmatter`);
-      assert.ok(content.includes('description:'), `${file} should have description field`);
+    for (const dir of dirs) {
+      const skillPath = path.join(skillsDir, dir, 'SKILL.md');
+      assert.ok(fs.existsSync(skillPath), `${dir}/SKILL.md should exist`);
+      const content = fs.readFileSync(skillPath, 'utf8');
+      assert.ok(content.startsWith('---'), `${dir}/SKILL.md should start with frontmatter`);
+      assert.ok(content.includes('name:'), `${dir}/SKILL.md should have name field`);
+      assert.ok(content.includes('description:'), `${dir}/SKILL.md should have description field`);
     }
   });
 
