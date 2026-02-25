@@ -182,8 +182,8 @@ Orchestrates the entire initialization process:
 
 These work the same regardless of your stack:
 
-- **Agents**: shipper, reviewer, documentor, meta-agent
-- **Skills**: /team-ship, /team-fix, /team-cleanup, /team-run-tests, /team-add-tests, etc.
+- **Agents**: shipper, reviewer, documentor, meta-agent, meta-skills-agent
+- **Skills**: /team-ship, /team-fix, /team-cleanup, /team-run-tests, /team-add-tests, /team-create-skill, etc.
 - **Hooks**: audit_logger.cjs, session_manager.cjs, etc.
 
 These are stored in `templates/` and copied directly to `.claude/`.
@@ -255,4 +255,4 @@ Installs to `~/.claude/` in your home directory.
 
 ---
 
-Last updated: 2026-02-24
+Last updated: 2026-02-25

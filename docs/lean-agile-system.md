@@ -19,7 +19,7 @@ Without Agent Teams, skills execute the same workflow sequentially using `Task()
 
 ---
 
-## The Lean Team (5 Core Agents)
+## The Lean Team (5 Core Agents + 2 Meta Agents)
 
 ### 1. Full Stack Developer Agent
 
@@ -278,6 +278,22 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 ---
 
+### `/team-create-skill` — Workflow Skill Generation
+
+**Purpose:** Create a new workflow skill (SKILL.md) with guided requirements gathering
+
+**Team:** meta-skills-agent (via Task)
+
+**Flow:**
+1. **Team lead** evaluates the user's skill description for clarity
+2. If unclear, gathers requirements: workflow purpose, agents involved, task order, parallelism
+3. **Meta-skills-agent** generates complete SKILL.md with frontmatter, dual-mode execution, task dependencies, and workflow diagram
+4. Verifies file created, informs user to restart Claude Code
+
+**Invocation:** `/team-create-skill <skill description or workflow purpose>`
+
+---
+
 ## Plugin Format
 
 This system is distributed as a Claude Code Plugin:
@@ -325,3 +341,7 @@ Install with: `claude --plugin-dir /path/to/agent-orchestration-system`
 ### Dual-Mode Operation
 - **Agent Teams (recommended):** Full parallel execution with shared task list
 - **Sequential fallback:** Same workflow via Task() calls, works everywhere
+
+---
+
+Last updated: 2026-02-25

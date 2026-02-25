@@ -1,6 +1,6 @@
 # Lean Agile Team — Claude Code Plugin
 
-Ship fast, learn faster. 6 agents, 11 skills, Agent Teams coordination.
+Ship fast, learn faster. 6 agents, 12 skills, Agent Teams coordination.
 
 ## Prerequisites
 
@@ -113,6 +113,7 @@ npx @bryanofearth/claude-agent-kit init
 | `/team-init-docs [area]` | Generate comprehensive codebase documentation |
 | `/team-update-docs [changes]` | Update docs to reflect recent code changes |
 | `/team-create-agent <description>` | Create a new custom agent via meta-agent |
+| `/team-create-skill <description>` | Create a new workflow skill via meta-skills-agent |
 | `/team-repo-status [focus]` | Repository health report (git, todos, activity) |
 | `/team-all-tools` | List all available tools with signatures |
 | `/team-audit [action]` | Analyze audit logs (summary, report, metrics, timeline, verify, anomalies) |
@@ -188,6 +189,7 @@ agent-orchestration-system/
 │       ├── team-init-docs/SKILL.md   # Full documentation generation
 │       ├── team-update-docs/SKILL.md # Documentation maintenance
 │       ├── team-create-agent/SKILL.md # Custom agent creation
+│       ├── team-create-skill/SKILL.md # Workflow skill generation
 │       ├── team-repo-status/SKILL.md # Repository health report
 │       ├── team-audit/SKILL.md       # Audit log analysis
 │       └── team-all-tools/SKILL.md   # List available tools

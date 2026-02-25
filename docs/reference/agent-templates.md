@@ -23,6 +23,7 @@ These agents work the same regardless of your tech stack:
 - **reviewer** - Code review (security, bugs, performance)
 - **documentor** - Documentation creation and maintenance
 - **meta-agent** - Generates new custom agents
+- **meta-skills-agent** - Generates new workflow skills
 
 **Source**: `templates/agents/*.md`
 
@@ -516,4 +517,4 @@ claude
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-25
