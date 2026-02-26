@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://github.com/bryanweaver/claude-agent-kit/compare/v1.1.0...v2.0.0) (2026-02-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* Old custom slash commands (/ship, /fix, /cleanup, etc.) are removed. Use the new workflow skills instead (/team-ship, /team-fix, /team-cleanup).
+
+### Features
+
+* Add marketplace manifest for plugin distribution ([31ccd8d](https://github.com/bryanweaver/claude-agent-kit/commit/31ccd8dfacc5b821c5a52637730157fdc780eccd))
+* Migrate to skills-only architecture ([#13](https://github.com/bryanweaver/claude-agent-kit/issues/13)) ([d0970ae](https://github.com/bryanweaver/claude-agent-kit/commit/d0970ae53c39f1db95bd1b0b9a7cf79ee45278e0))
+
 ## [1.2.0] - 2026-02-24
 
 ### Added
