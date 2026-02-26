@@ -136,10 +136,44 @@ Without Agent Teams, skills execute the same workflow sequentially using `Task()
 - Cross-link related documents and maintain navigation
 
 **Approach:**
-- Initialize full documentation with `initialize-documentation`
-- Maintain documentation with `update-docs` after changes
+- Initialize full documentation with `/team-init-docs`
+- Maintain documentation with `/team-update-docs` after changes
 - Use kebab-case file naming, clear structure
 - Cross-link generously with relative paths
+
+---
+
+### 6. Meta-Agent
+
+**Purpose:** Generate new custom agent definitions on demand
+
+**Configuration:**
+- Model: Opus
+- Tools: Read, Write, WebFetch, Grep, Glob
+
+**Key Responsibilities:**
+- Analyze user requirements for new agents
+- Select appropriate tools, model, and permissions
+- Generate complete agent markdown files
+- Save agents to `.claude/agents/`
+
+---
+
+### 7. Meta-Skills-Agent
+
+**Purpose:** Generate new workflow skill files (SKILL.md) on demand
+
+**Configuration:**
+- Model: Opus
+- Tools: Read, Write, WebFetch, Grep, Glob
+
+**Key Responsibilities:**
+- Read existing skill patterns for reference
+- Analyze workflow requirements (agents, task order, parallelism)
+- Generate complete SKILL.md with frontmatter, dual-mode execution, and task dependencies
+- Save skills to `.claude/skills/<name>/SKILL.md`
+
+**Invoked by:** `/team-create-skill`
 
 ---
 

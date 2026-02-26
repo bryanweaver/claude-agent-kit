@@ -1,7 +1,7 @@
 ---
 name: team-repo-status
 description: Comprehensive repository status report with git info, development activity, and project health
-argument-hint: [optional: specific area like 'git', 'todos', 'health']
+argument-hint: "[optional: specific area like 'git', 'todos', 'health']"
 disable-model-invocation: true
 allowed-tools: Bash(git *), Bash(echo *), Read, Grep, Glob
 ---

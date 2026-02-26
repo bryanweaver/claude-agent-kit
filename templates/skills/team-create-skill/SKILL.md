@@ -1,7 +1,7 @@
 ---
 name: team-create-skill
 description: Create a new workflow skill using the meta-skills-agent with guided requirements gathering
-argument-hint: [skill description or workflow purpose]
+argument-hint: "[skill description or workflow purpose]"
 disable-model-invocation: true
 allowed-tools: Task, AskUserQuestion, WebFetch, WebSearch
 ---
@@ -38,7 +38,7 @@ After creation, inform the user:
 
 ```text
 Workflow skill created successfully!
-Location: skills/[skill-name]/SKILL.md
+Location: .claude/skills/[skill-name]/SKILL.md
 
 IMPORTANT: Restart your Claude Code session to load the new skill.
 

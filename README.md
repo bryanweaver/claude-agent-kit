@@ -1,6 +1,6 @@
 # Lean Agile Team — Claude Code Plugin
 
-Ship fast, learn faster. 6 agents, 12 skills, Agent Teams coordination.
+Ship fast, learn faster. 7 agents, 12 skills, Agent Teams coordination.
 
 ## Prerequisites
 
@@ -93,6 +93,7 @@ npx @bryanofearth/claude-agent-kit init
 | **Reviewer** | Security, bugs, performance review | Sonnet | Read-only (plan mode) |
 | **Documentor** | Create, maintain, organize codebase docs | Sonnet | Runs after tests pass |
 | **Meta-Agent** | Generate new custom agents | Opus | On-demand agent creation |
+| **Meta-Skills-Agent** | Generate new workflow skills | Opus | On-demand skill creation |
 
 ## Skills
 

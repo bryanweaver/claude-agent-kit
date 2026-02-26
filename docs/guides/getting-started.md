@@ -112,7 +112,7 @@ This will:
 ✔ Generated 2 stack-specific agent(s)
 ✔ Installed 5 tech-agnostic agent(s)
 ✔ Installed 6 hook(s)
-✔ Installed 15 skill(s)
+✔ Skills installed
 
   ✓ Initialization complete!
 
@@ -126,7 +126,7 @@ This will:
     • documentor (tech-agnostic)
     • meta-agent (tech-agnostic)
 
-  Skills: 15 installed
+  Skills: installed
     /team-ship, /team-fix, /team-cleanup, /team-run-tests, /team-add-tests, and more
 
   Next steps:

@@ -1,6 +1,6 @@
 # System Overview
 
-Claude Agent Kit is a lean agile development toolkit that installs curated Claude Code agents, commands, skills, and hooks customized for your specific tech stack. It is distributed as both a Claude Code plugin (via the marketplace) and an npm CLI tool.
+Claude Agent Kit is a lean agile development toolkit that installs curated Claude Code agents, skills, and hooks customized for your specific tech stack. It is distributed as both a Claude Code plugin (via the marketplace) and an npm CLI tool.
 
 ## Core Concept
 
@@ -52,7 +52,7 @@ npx @bryanofearth/claude-agent-kit init
 │  2. Detect Stack ───────► Scan project files                │
 │  3. Select Stack ────────► Auto-select or interactive        │
 │  4. Generate Agents ─────► Create developer + database       │
-│  5. Install Assets ──────► Copy commands, hooks, skills      │
+│  5. Install Assets ──────► Copy hooks and skills              │
 └───────────────────────┬─────────────────────────────────────┘
                         │
                         ▼

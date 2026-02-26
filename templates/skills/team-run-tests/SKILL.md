@@ -1,7 +1,7 @@
 ---
 name: team-run-tests
 description: Batch test and fix — run comprehensive tests, identify all issues, then fix systematically
-argument-hint: [test pattern or scope]
+argument-hint: "[test pattern or scope]"
 disable-model-invocation: true
 allowed-tools: Bash(git *), TaskCreate, TaskUpdate, TaskList, TaskGet
 ---

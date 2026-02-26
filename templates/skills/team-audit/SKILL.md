@@ -1,7 +1,7 @@
 ---
 name: team-audit
 description: Analyze Claude Code audit logs — session summaries, metrics, timelines, anomaly detection, and claim verification
-argument-hint: [action] [session:id] [limit:number] [claims:"claim1,claim2"]
+argument-hint: "[action] [session:id] [limit:number] [claims:claim1,claim2]"
 allowed-tools: Bash(node *)
 ---
 
@@ -20,12 +20,11 @@ SESSION=""
 LIMIT="50"
 CLAIMS=""
 
-# Parse action
-if echo "$ARGS" | grep -q "report"; then ACTION="report"; fi
-if echo "$ARGS" | grep -q "metrics"; then ACTION="metrics"; fi
-if echo "$ARGS" | grep -q "timeline"; then ACTION="timeline"; fi
-if echo "$ARGS" | grep -q "verify"; then ACTION="verify"; fi
-if echo "$ARGS" | grep -q "anomalies"; then ACTION="anomalies"; fi
+# Parse action from first token only
+FIRST_TOKEN=$(printf '%s\n' "$ARGS" | awk '{print $1}')
+case "$FIRST_TOKEN" in
+  report|metrics|timeline|verify|anomalies) ACTION="$FIRST_TOKEN" ;;
+esac
 
 # Extract session ID (session:abc123)
 SESSION=$(echo "$ARGS" | grep -o 'session:[^[:space:]]*' | cut -d':' -f2 || echo "")
@@ -40,7 +39,8 @@ CLAIMS=$(echo "$ARGS" | grep -o 'claims:"[^"]*"' | sed 's/claims://; s/"//g' || 
 Build and run the log analyzer command:
 
 ```bash
-set -- node .claude/hooks/log_analyzer.js
+HOOKS_DIR="${CLAUDE_HOOKS:-$HOME/.claude/hooks}"
+set -- node "$HOOKS_DIR/log_analyzer.cjs"
 
 case "$ACTION" in
   "report")   set -- "$@" --report ;;

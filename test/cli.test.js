@@ -47,6 +47,7 @@ describe('CLI', () => {
       assert.ok(output.includes('team-ship'));
       assert.ok(output.includes('team-fix'));
       assert.ok(output.includes('team-cleanup'));
+      assert.ok(output.includes('team-audit'));
     });
   });
 });
@@ -88,6 +89,7 @@ describe('File Operations', () => {
     assert.ok(dirs.includes('team-ship'));
     assert.ok(dirs.includes('team-fix'));
     assert.ok(dirs.includes('team-cleanup'));
+    assert.ok(dirs.includes('team-audit'));
   });
 
   it('should have hooks templates', () => {
