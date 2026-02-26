@@ -23,7 +23,7 @@ These agents work the same regardless of your tech stack:
 - **reviewer** - Code review (security, bugs, performance)
 - **documentor** - Documentation creation and maintenance
 - **meta-agent** - Generates new custom agents
-- **meta-commands-agent** - Creates custom slash commands
+- **meta-skills-agent** - Generates new workflow skills
 
 **Source**: `templates/agents/*.md`
 
@@ -92,7 +92,7 @@ Categorical role for agent organization (NEW in v2.0).
 - `shipper` - Git operations and deployment
 - `reviewer` - Code review
 - `documentor` - Documentation
-- `meta` - Agent/command generation
+- `meta` - Agent generation
 
 **Examples**:
 ```yaml
@@ -517,4 +517,4 @@ claude
 
 ---
 
-Last updated: 2025-12-18
+Last updated: 2026-02-25

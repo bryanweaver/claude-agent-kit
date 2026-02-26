@@ -81,7 +81,7 @@ This will:
 1. Check that Claude Code is installed
 2. Auto-detect your project's tech stack
 3. Generate agents customized for your stack
-4. Install commands, hooks, and skills
+4. Install hooks and skills
 5. Save everything to `./.claude/`
 
 **Example output**:
@@ -111,9 +111,8 @@ This will:
 ✔ Directory structure created
 ✔ Generated 2 stack-specific agent(s)
 ✔ Installed 5 tech-agnostic agent(s)
-✔ Installed 11 command(s)
 ✔ Installed 6 hook(s)
-✔ Installed 5 skill(s)
+✔ Skills installed
 
   ✓ Initialization complete!
 
@@ -126,15 +125,14 @@ This will:
     • reviewer (tech-agnostic)
     • documentor (tech-agnostic)
     • meta-agent (tech-agnostic)
-    • meta-commands-agent (tech-agnostic)
 
-  Commands: 11 installed
-    /ship, /fix, /cleanup, /test, /add-tests, and more
+  Skills: installed
+    /team-ship, /team-fix, /team-cleanup, /team-run-tests, /team-add-tests, and more
 
   Next steps:
     1. Restart Claude Code to load new agents
-    2. Try /ship to start building features
-    3. Use /create-agent to add custom agents
+    2. Try /team-ship to start building features
+    3. Use /team-create-agent to add custom agents
 ```
 
 ### 3. Restart Claude Code
@@ -156,7 +154,7 @@ Check that agents are available:
 # In Claude Code
 @developer hello
 @database status
-/ship --help
+/team-ship --help
 ```
 
 ## Installation Options
@@ -234,27 +232,25 @@ These work the same regardless of stack:
 - **reviewer** - Pragmatic code review (security, bugs, performance)
 - **documentor** - Documentation creation and maintenance
 - **meta-agent** - Generates new custom agents
-- **meta-commands-agent** - Creates custom slash commands
-
-### Commands
-
-11 slash commands for common workflows:
-
-- **/ship** - Build and deploy features from start to production
-- **/fix** - Emergency bug fixes and rapid issue resolution
-- **/cleanup** - Technical debt and refactoring
-- **/test** - Batch test and fix workflows
-- **/add-tests** - Add critical test coverage
-- **/create-agent** - Create new custom agents
-- **/initialize-documentation** - Set up docs structure
-- **/update-docs** - Update docs after changes
-- **/repo-status** - Comprehensive repository status
-- **/audit** - Analyze and view audit logs
-- And more...
 
 ### Skills
 
-Code pattern libraries that auto-activate:
+Workflow skills and code pattern libraries:
+
+**Workflow skills** (invoke with `/`):
+
+- **/team-ship** - Build and deploy features from start to production
+- **/team-fix** - Emergency bug fixes and rapid issue resolution
+- **/team-cleanup** - Technical debt and refactoring
+- **/team-run-tests** - Batch test and fix workflows
+- **/team-add-tests** - Add critical test coverage
+- **/team-create-agent** - Create new custom agents
+- **/team-init-docs** - Set up docs structure
+- **/team-update-docs** - Update docs after changes
+- **/team-repo-status** - Comprehensive repository status
+- **/team-audit** - Analyze and view audit logs
+
+**Code pattern libraries** (auto-activate based on context):
 
 - **supabase-patterns** - RLS policies, migrations, Edge Functions
 - **nextjs-app-router** - Server/Client Components, routing
@@ -289,10 +285,10 @@ Event-driven automation:
 @shipper commit and push these changes
 ```
 
-### Use Commands for Workflows
+### Use Skills for Workflows
 
 ```
-/ship add user authentication
+/team-ship add user authentication
 ```
 
 This will:
@@ -322,8 +318,8 @@ Don't see your stack? Choose "Generic" during init, or [request a new stack](htt
 ## Next Steps
 
 - **Learn the architecture**: Read [System Overview](../architecture/system-overview.md)
-- **Try a command**: Run `/ship add user profile page`
-- **Create custom agents**: Use `/create-agent` or the `meta-agent`
+- **Try a skill**: Run `/team-ship add user profile page`
+- **Create custom agents**: Use `/team-create-agent` or the `meta-agent`
 - **Customize for your stack**: See [Adding New Stacks](./adding-new-stacks.md)
 
 ## Troubleshooting

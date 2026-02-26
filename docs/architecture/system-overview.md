@@ -1,6 +1,6 @@
 # System Overview
 
-Claude Agent Kit is a lean agile development toolkit that installs curated Claude Code agents, commands, skills, and hooks customized for your specific tech stack. It is distributed as both a Claude Code plugin (via the marketplace) and an npm CLI tool.
+Claude Agent Kit is a lean agile development toolkit that installs curated Claude Code agents, skills, and hooks customized for your specific tech stack. It is distributed as both a Claude Code plugin (via the marketplace) and an npm CLI tool.
 
 ## Core Concept
 
@@ -52,7 +52,7 @@ npx @bryanofearth/claude-agent-kit init
 │  2. Detect Stack ───────► Scan project files                │
 │  3. Select Stack ────────► Auto-select or interactive        │
 │  4. Generate Agents ─────► Create developer + database       │
-│  5. Install Assets ──────► Copy commands, hooks, skills      │
+│  5. Install Assets ──────► Copy hooks and skills              │
 └───────────────────────┬─────────────────────────────────────┘
                         │
                         ▼
@@ -65,7 +65,6 @@ npx @bryanofearth/claude-agent-kit init
 │  │   ├── shipper.md        ← Tech-agnostic (copied)         │
 │  │   ├── reviewer.md       ← Tech-agnostic (copied)         │
 │  │   └── ...                                                 │
-│  ├── commands/                                               │
 │  ├── skills/                                                 │
 │  └── hooks/                                                  │
 └─────────────────────────────────────────────────────────────┘
@@ -174,7 +173,7 @@ Orchestrates the entire initialization process:
 3. Confirm or select stack
 4. Generate stack-specific agents
 5. Copy tech-agnostic agents (shipper, reviewer, etc.)
-6. Copy commands, hooks, and skills
+6. Copy hooks and skills
 7. Report success
 
 ## Tech-Agnostic vs Stack-Specific
@@ -183,10 +182,9 @@ Orchestrates the entire initialization process:
 
 These work the same regardless of your stack:
 
-- **Agents**: shipper, reviewer, documentor, meta-agent, meta-commands-agent
-- **Commands**: /ship, /fix, /cleanup, /test, /add-tests, etc.
+- **Agents**: shipper, reviewer, documentor, meta-agent, meta-skills-agent
+- **Skills**: /team-ship, /team-fix, /team-cleanup, /team-run-tests, /team-add-tests, /team-create-skill, etc.
 - **Hooks**: audit_logger.cjs, session_manager.cjs, etc.
-- **Skills**: (Most skills are stack-specific)
 
 These are stored in `templates/` and copied directly to `.claude/`.
 
@@ -257,4 +255,4 @@ Installs to `~/.claude/` in your home directory.
 
 ---
 
-Last updated: 2026-02-24
+Last updated: 2026-02-25

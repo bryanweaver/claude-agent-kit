@@ -1,7 +1,7 @@
 ---
 name: team-update-docs
 description: Update documentation to reflect recent code changes
-argument-hint: [optional: specific changes to document or 'auto' for git diff]
+argument-hint: "[optional: specific changes to document or 'auto' for git diff]"
 disable-model-invocation: true
 allowed-tools: TaskCreate, TaskUpdate, TaskList, TaskGet
 ---

@@ -19,7 +19,7 @@ Without Agent Teams, skills execute the same workflow sequentially using `Task()
 
 ---
 
-## The Lean Team (5 Core Agents)
+## The Lean Team (5 Core Agents + 2 Meta Agents)
 
 ### 1. Full Stack Developer Agent
 
@@ -136,10 +136,44 @@ Without Agent Teams, skills execute the same workflow sequentially using `Task()
 - Cross-link related documents and maintain navigation
 
 **Approach:**
-- Initialize full documentation with `initialize-documentation`
-- Maintain documentation with `update-docs` after changes
+- Initialize full documentation with `/team-init-docs`
+- Maintain documentation with `/team-update-docs` after changes
 - Use kebab-case file naming, clear structure
 - Cross-link generously with relative paths
+
+---
+
+### 6. Meta-Agent
+
+**Purpose:** Generate new custom agent definitions on demand
+
+**Configuration:**
+- Model: Opus
+- Tools: Read, Write, WebFetch, Grep, Glob
+
+**Key Responsibilities:**
+- Analyze user requirements for new agents
+- Select appropriate tools, model, and permissions
+- Generate complete agent markdown files
+- Save agents to `.claude/agents/`
+
+---
+
+### 7. Meta-Skills-Agent
+
+**Purpose:** Generate new workflow skill files (SKILL.md) on demand
+
+**Configuration:**
+- Model: Opus
+- Tools: Read, Write, WebFetch, Grep, Glob
+
+**Key Responsibilities:**
+- Read existing skill patterns for reference
+- Analyze workflow requirements (agents, task order, parallelism)
+- Generate complete SKILL.md with frontmatter, dual-mode execution, and task dependencies
+- Save skills to `.claude/skills/<name>/SKILL.md`
+
+**Invoked by:** `/team-create-skill`
 
 ---
 
@@ -265,6 +299,35 @@ Tasks 2 and 3 run in parallel. The shipper waits for both before committing.
 
 ---
 
+### `/team-audit` — Audit Log Analysis
+
+**Purpose:** Analyze and view Claude Code audit logs for tool usage, session activity, and patterns
+
+**Team:** documentor (or team lead directly)
+
+**Flow:**
+1. **Team lead** (or documentor) reads audit log files from `~/.claude/logs/`
+2. Parses and summarizes tool usage, session counts, and activity patterns
+3. Reports findings in structured format
+
+---
+
+### `/team-create-skill` — Workflow Skill Generation
+
+**Purpose:** Create a new workflow skill (SKILL.md) with guided requirements gathering
+
+**Team:** meta-skills-agent (via Task)
+
+**Flow:**
+1. **Team lead** evaluates the user's skill description for clarity
+2. If unclear, gathers requirements: workflow purpose, agents involved, task order, parallelism
+3. **Meta-skills-agent** generates complete SKILL.md with frontmatter, dual-mode execution, task dependencies, and workflow diagram
+4. Verifies file created, informs user to restart Claude Code
+
+**Invocation:** `/team-create-skill <skill description or workflow purpose>`
+
+---
+
 ## Plugin Format
 
 This system is distributed as a Claude Code Plugin:
@@ -312,3 +375,7 @@ Install with: `claude --plugin-dir /path/to/agent-orchestration-system`
 ### Dual-Mode Operation
 - **Agent Teams (recommended):** Full parallel execution with shared task list
 - **Sequential fallback:** Same workflow via Task() calls, works everywhere
+
+---
+
+Last updated: 2026-02-25
