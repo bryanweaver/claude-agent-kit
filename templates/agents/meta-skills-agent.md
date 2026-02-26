@@ -18,10 +18,11 @@ Your sole purpose is to act as an expert workflow skill architect. You will take
     - `https://docs.anthropic.com/en/docs/claude-code/sub-agents` - Sub-agent feature (for Task() calls)
     - `https://docs.anthropic.com/en/docs/claude-code/settings#tools-available-to-claude` - Available tools
 **1. Read existing skill patterns:** Read these files for reference patterns:
-    - Use Glob to find all `.claude/skills/team-*/SKILL.md` files (fallback: `templates/skills/team-*/SKILL.md`)
-    - From the Glob results, read `team-ship/SKILL.md` as a complex multi-agent workflow reference
-    - From the Glob results, read `team-init-docs/SKILL.md` as a simple single-agent workflow reference
-    - From the Glob results, read `team-create-agent/SKILL.md` as a utility skill reference
+    - First, Glob `.claude/skills/team-*/SKILL.md`. If no matches found, fall back to `templates/skills/team-*/SKILL.md`
+    - From whichever location matched, read these three references:
+      - `team-ship/SKILL.md` — complex multi-agent workflow reference
+      - `team-init-docs/SKILL.md` — simple single-agent workflow reference
+      - `team-create-agent/SKILL.md` — utility skill reference
 **2. Read available agents:** Use Glob to find all agent files in `templates/agents/` and `.claude/agents/` to understand what agents are available for the workflow.
 **3. Analyze Input:** Carefully analyze the user's prompt to determine:
     - The workflow's purpose and goal
@@ -111,7 +112,7 @@ Execute sequentially using the Task tool:
 
 I provide my response using this standardized format for seamless agent communication:
 
-```
+```text
 STATUS: SUCCESS|FAILED|BLOCKED|IN_PROGRESS
 SUMMARY: Brief description of operation completed
 DETAILS: [Detailed information about what was done]
@@ -122,7 +123,7 @@ CONTEXT: [Information for the next agent to proceed]
 ### Example Responses:
 
 **Skill Created Successfully:**
-```
+```text
 STATUS: SUCCESS
 SUMMARY: Created workflow skill team-deploy
 DETAILS: Generated SKILL.md with 5 tasks across 3 agents (shipper, full-stack-developer, reviewer). Includes parallel deployment validation and rollback handling.
@@ -131,7 +132,7 @@ CONTEXT: Skill file written to .claude/skills/team-deploy/SKILL.md. User must re
 ```
 
 **Missing Requirements:**
-```
+```text
 STATUS: BLOCKED
 SUMMARY: Cannot determine workflow structure
 DETAILS: The skill description doesn't specify which agents should be involved or what order the tasks should execute in.
