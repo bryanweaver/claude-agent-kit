@@ -340,7 +340,7 @@ hooks/hooks.json              # Quality gates
 settings.json                 # Plugin settings
 ```
 
-Install with: `claude --plugin-dir /path/to/agent-orchestration-system`
+Install with: `claude --plugin-dir /path/to/claude-agent-kit`
 
 ---
 
@@ -378,4 +378,4 @@ Install with: `claude --plugin-dir /path/to/agent-orchestration-system`
 
 ---
 
-Last updated: 2026-02-25
+Last updated: 2026-02-26
