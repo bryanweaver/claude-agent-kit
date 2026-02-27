@@ -4,7 +4,7 @@ Quick reference for developers working on or with the Claude Agent Kit plugin.
 
 ## Project Structure
 
-```
+```text
 claude-agent-kit/
 ├── .claude-plugin/
 │   ├── plugin.json             # Claude Code plugin manifest

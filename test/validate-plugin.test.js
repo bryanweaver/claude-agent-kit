@@ -150,23 +150,24 @@ describe('Cross-reference integrity: skills → agents', () => {
     describe(`skills/${dir}`, () => {
       const content = readFile(skillFile);
 
+      // Derive known agent names from the filesystem
+      const knownAgentNames = new Set(
+        listFiles('agents', '.md').map(f => path.basename(f, '.md')),
+      );
+
       // Extract agent names from Task(agent, ...) calls
-      const taskCallMatches = [...content.matchAll(/Task\((\w[\w-]*)/g)];
+      const taskCallMatches = [...content.matchAll(/Task\(\s*["'`]?([\w-]+)["'`]?/g)];
       // Extract agent names from task table Owner column (| owner-name |)
       const tableOwnerMatches = [...content.matchAll(/\|\s*([\w-]+)\s*\|/g)];
 
-      const knownAgentNames = [
-        'shipper', 'full-stack-developer', 'database-admin',
-        'reviewer', 'documentor', 'meta-agent', 'meta-skills-agent',
-      ];
-
-      // Collect referenced agents
+      // Collect referenced agents — Task() args are always agent names,
+      // table matches are filtered to known agents (tables contain non-agent text too)
       const referenced = new Set();
       for (const m of taskCallMatches) {
-        if (knownAgentNames.includes(m[1])) referenced.add(m[1]);
+        referenced.add(m[1]);
       }
       for (const m of tableOwnerMatches) {
-        if (knownAgentNames.includes(m[1])) referenced.add(m[1]);
+        if (knownAgentNames.has(m[1])) referenced.add(m[1]);
       }
 
       for (const agent of referenced) {
@@ -186,7 +187,7 @@ describe('Cross-reference integrity: skills → agents', () => {
 // ---------------------------------------------------------------------------
 
 describe('Cross-reference integrity: agents → skills', () => {
-  const agentsToCheck = ['full-stack-developer', 'database-admin'];
+  const agentsToCheck = listFiles('agents', '.md').map(f => path.basename(f, '.md'));
 
   for (const agent of agentsToCheck) {
     const agentFile = `agents/${agent}.md`;
