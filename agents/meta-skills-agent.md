@@ -18,12 +18,12 @@ Your sole purpose is to act as an expert workflow skill architect. You will take
     - `https://docs.anthropic.com/en/docs/claude-code/sub-agents` - Sub-agent feature (for Task() calls)
     - `https://docs.anthropic.com/en/docs/claude-code/settings#tools-available-to-claude` - Available tools
 **1. Read existing skill patterns:** Read these files for reference patterns:
-    - First, Glob `.claude/skills/team-*/SKILL.md`. If no matches found, fall back to `templates/skills/team-*/SKILL.md`
+    - First, Glob `.claude/skills/team-*/SKILL.md`. If no matches found, fall back to `skills/team-*/SKILL.md`
     - From whichever location matched, read these three references:
       - `team-ship/SKILL.md` — complex multi-agent workflow reference
       - `team-init-docs/SKILL.md` — simple single-agent workflow reference
       - `team-create-agent/SKILL.md` — utility skill reference
-**2. Read available agents:** Use Glob to find all agent files in `templates/agents/` and `.claude/agents/` to understand what agents are available for the workflow.
+**2. Read available agents:** Use Glob to find all agent files in `agents/` and `.claude/agents/` to understand what agents are available for the workflow.
 **3. Analyze Input:** Carefully analyze the user's prompt to determine:
     - The workflow's purpose and goal
     - Which agents should be involved and in what order

@@ -10,7 +10,7 @@ Ship fast, learn faster. 7 agents, 12 skills, Agent Teams coordination.
 
 ## Quick Start
 
-### Option 1: Claude Code Marketplace (Recommended)
+### Install via Claude Code Marketplace
 
 ```bash
 # Add the repository to the marketplace
@@ -20,14 +20,7 @@ claude plugin marketplace add bryanweaver/claude-agent-kit
 claude plugin install team@claude-agent-kit
 ```
 
-### Option 2: npm CLI
-
-```bash
-# Initialize in your project (copies agents, skills, hooks into .claude/)
-npx @bryanofearth/claude-agent-kit init
-```
-
-### Option 3: Load Locally (Development)
+### Load Locally (Development)
 
 ```bash
 # Load plugin directly from a local directory
@@ -87,13 +80,23 @@ npx @bryanofearth/claude-agent-kit init
 
 | Agent | Role | Model | Key Traits |
 |-------|------|-------|------------|
-| **Full Stack Developer** | Rapid implementation across entire stack | Sonnet | Worktree isolation, project memory |
-| **Database Admin** | Schema, queries, migrations, data integrity | Sonnet | Worktree isolation, project memory |
+| **Full Stack Developer** | Adaptive implementation across entire stack | Sonnet | Stack detection, worktree isolation, project memory |
+| **Database Admin** | Adaptive schema, queries, migrations, data integrity | Sonnet | Multi-DB support, worktree isolation, project memory |
 | **Shipper** | Git, testing, building, deployment, PRs | Sonnet | Unblocked pipeline access |
 | **Reviewer** | Security, bugs, performance review | Sonnet | Read-only (plan mode) |
 | **Documentor** | Create, maintain, organize codebase docs | Sonnet | Runs after tests pass |
 | **Meta-Agent** | Generate new custom agents | Opus | On-demand agent creation |
 | **Meta-Skills-Agent** | Generate new workflow skills | Opus | On-demand skill creation |
+
+### Adaptive Agents
+
+The **Full Stack Developer** and **Database Admin** agents are stack-adaptive — they detect your project's tech stack on first invocation by scanning configuration files (`package.json`, `requirements.txt`, `go.mod`, etc.) and tailor their approach accordingly. They reference the built-in tech-stack skills for framework-specific patterns:
+
+- **`nextjs-app-router`** — Next.js App Router patterns
+- **`shadcn-components`** — shadcn/ui component patterns
+- **`supabase-patterns`** — Supabase database patterns
+- **`tanstack-query`** — TanStack Query data fetching
+- **`testing-patterns`** — Testing patterns for React/Next.js
 
 ## Skills
 
@@ -169,31 +172,31 @@ Test the 20% that prevents 80% of disasters.
 ## Plugin Structure
 
 ```text
-agent-orchestration-system/
+claude-agent-kit/
 ├── .claude-plugin/
 │   ├── plugin.json              # Plugin manifest
 │   └── marketplace.json         # Marketplace distribution manifest
 ├── agents/
-│   ├── full-stack-developer.md  # Rapid full-stack implementation
-│   ├── database-admin.md        # Database and data layer
+│   ├── full-stack-developer.md  # Adaptive full-stack implementation
+│   ├── database-admin.md        # Adaptive database and data layer
 │   ├── shipper.md               # Pipeline: git, test, build, deploy
 │   ├── reviewer.md              # Security, bugs, performance review
 │   ├── documentor.md            # Documentation creation and maintenance
-│   └── meta-agent.md            # Agent generator
-├── templates/
-│   └── skills/
-│       ├── team-ship/SKILL.md        # Feature development workflow
-│       ├── team-fix/SKILL.md         # Emergency hotfix workflow
-│       ├── team-cleanup/SKILL.md     # Tech debt refactoring workflow
-│       ├── team-run-tests/SKILL.md   # Batch test and fix workflow
-│       ├── team-add-tests/SKILL.md   # Critical test coverage workflow
-│       ├── team-init-docs/SKILL.md   # Full documentation generation
-│       ├── team-update-docs/SKILL.md # Documentation maintenance
-│       ├── team-create-agent/SKILL.md # Custom agent creation
-│       ├── team-create-skill/SKILL.md # Workflow skill generation
-│       ├── team-repo-status/SKILL.md # Repository health report
-│       ├── team-audit/SKILL.md       # Audit log analysis
-│       └── team-all-tools/SKILL.md   # List available tools
+│   ├── meta-agent.md            # Agent generator
+│   └── meta-skills-agent.md     # Skill generator
+├── skills/
+│   ├── team-ship/SKILL.md        # Feature development workflow
+│   ├── team-fix/SKILL.md         # Emergency hotfix workflow
+│   ├── team-cleanup/SKILL.md     # Tech debt refactoring workflow
+│   ├── team-run-tests/SKILL.md   # Batch test and fix workflow
+│   ├── team-add-tests/SKILL.md   # Critical test coverage workflow
+│   ├── team-init-docs/SKILL.md   # Full documentation generation
+│   ├── team-update-docs/SKILL.md # Documentation maintenance
+│   ├── team-create-agent/SKILL.md # Custom agent creation
+│   ├── team-create-skill/SKILL.md # Workflow skill generation
+│   ├── team-repo-status/SKILL.md # Repository health report
+│   ├── team-audit/SKILL.md       # Audit log analysis
+│   └── team-all-tools/SKILL.md   # List available tools
 ├── hooks/
 │   └── hooks.json               # Quality gates and observability
 ├── settings.json                # Plugin settings (Agent Teams flag)
