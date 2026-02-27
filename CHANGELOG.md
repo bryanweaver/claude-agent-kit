@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0](https://github.com/bryanweaver/claude-agent-kit/compare/v2.0.0...v3.0.0) (2026-02-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Package is now a Claude Code plugin only — no CLI entrypoint.
+
+### Features
+
+* Complete v3 migration with structural validation tests ([#14](https://github.com/bryanweaver/claude-agent-kit/issues/14)) ([67da3c5](https://github.com/bryanweaver/claude-agent-kit/commit/67da3c5832e65b6cfe3f015418df5c0f18e4b239))
+
 ## [3.0.0](https://github.com/bryanweaver/claude-agent-kit/compare/v2.0.0...v3.0.0) (2026-02-26)
 
 ### ⚠ BREAKING CHANGES
