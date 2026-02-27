@@ -7,7 +7,7 @@
     {
       "name": "team",
       "source": "./",
-      "description": "Lean agile development with 6 specialized agents and 10 skills. Coordinates agent teams for rapid delivery.",
+      "description": "Lean agile development with 7 specialized agents and 12 workflow skills. Coordinates agent teams for rapid delivery.",
       "version": "1.0.0"
     }
   ],

@@ -15,7 +15,7 @@ Welcome to the Claude Agent Kit documentation. This documentation covers the arc
 
 ### Reference
 
-- [Lean Agile System](./lean-agile-system.md) - Detailed system specification
+- [Lean Agile System](./lean-agile-system.md) - Detailed system specification: agents, skills, workflows, and coordination model
 
 ## Quick Links
 
@@ -32,6 +32,18 @@ This documentation is designed to:
 2. **Guide developers** - Provide clear instructions for extending the toolkit
 3. **Document decisions** - Record why things are designed the way they are
 4. **Enable contribution** - Make it easy for others to add new agents and skills
+
+## Plugin at a Glance
+
+Claude Agent Kit v3 is a pure Claude Code plugin — no CLI, no templates, no npm dependencies at runtime. Key components:
+
+| Directory | Purpose |
+|-----------|---------|
+| `agents/` | 7 agent definitions (5 core + 2 meta) |
+| `skills/` | 12 workflow skills + 5 tech-stack pattern libraries |
+| `hooks/` | 3 quality gates and observability hooks |
+| `settings.json` | Enables Agent Teams mode automatically |
+| `.claude-plugin/` | Plugin and marketplace manifests |
 
 ## Getting Help
 

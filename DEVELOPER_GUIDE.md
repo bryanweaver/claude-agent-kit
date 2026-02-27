@@ -79,6 +79,23 @@ They then tailor their approach (patterns, commands, safety rules) to match the 
 
 ## Testing Changes
 
+### Automated Structural Validation
+
+Run the built-in test suite before committing any structural changes:
+
+```bash
+node --test test/validate-plugin.test.js
+```
+
+This runs 156 tests across 6 categories using the zero-dependency `node:test` runner:
+
+- **Frontmatter validation** — Agent and skill files have required fields with valid values
+- **Cross-references: skills -> agents** — Skills only reference agents that exist in `agents/`
+- **Cross-references: agents -> skills** — Agents only reference skills that exist in `skills/`
+- **Cross-references: hooks -> agents** — Hook agent matchers map to real agent files
+- **Plugin structure completeness** — All required directories and files are present and valid
+- **No stale references** — No files reference removed CLI/lib paths from v1/v2
+
 ### Manual Testing
 
 ```bash
@@ -95,7 +112,7 @@ claude --plugin-dir /path/to/claude-agent-kit
 
 ### Verify Plugin Structure
 
-Ensure these directories and files are present:
+Ensure these directories and files are present (the automated suite checks these for you):
 - `agents/` — All agent markdown files
 - `skills/` — All skill directories with SKILL.md
 - `hooks/` — hooks.json

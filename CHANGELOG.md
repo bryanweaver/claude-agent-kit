@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0](https://github.com/bryanweaver/claude-agent-kit/compare/v2.0.0...v3.0.0) (2026-02-26)
+
+### ⚠ BREAKING CHANGES
+
+* Package is now a Claude Code plugin only — no CLI entrypoint, no npm install, no templates. Install via Claude Code Marketplace or `--plugin-dir`.
+
+### Features
+
+* Complete v3 migration: remove CLI (`bin/cli.js`), libs (`lib/`), and templates (`templates/`) in favor of a pure plugin architecture
+* Agents are now stack-adaptive — detect the project's tech stack at runtime by scanning config files; no per-project generation step needed
+* Add structural validation test suite (`test/validate-plugin.test.js`) — 156 tests using zero-dependency `node:test` covering frontmatter, cross-references, plugin structure, and stale-reference guards
+* Add `meta-skills-agent` to generate new workflow skills on demand via `/team-create-skill`
+* Skills moved from `templates/skills/` to top-level `skills/` directory
+
+### Removed
+
+* `bin/cli.js` — CLI entrypoint removed; plugin-only distribution
+* `lib/` — All runtime library files removed (`init.js`, `install.js`, `detect-stack.js`, `generate-agents.js`, `file-operations.js`, `stacks/`)
+* `templates/` — Agent and hook templates removed; agents now live directly in `agents/`
+* `test/cli.test.js`, `test/init.test.js` — Old CLI tests replaced by `test/validate-plugin.test.js`
+* Docs: Removed `docs/architecture/agent-generation.md`, `docs/architecture/stack-detection.md`, `docs/guides/adding-new-stacks.md`, `docs/reference/agent-templates.md`, `docs/reference/cli-commands.md`, `docs/reference/supported-stacks.md`
+
 ## [2.0.0](https://github.com/bryanweaver/claude-agent-kit/compare/v1.1.0...v2.0.0) (2026-02-26)
 
 
@@ -78,6 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global and project installation support
 - Selective installation with `--agents`, `--commands`, `--hooks`, `--skills` options
 
+[3.0.0]: https://github.com/bryanweaver/claude-agent-kit/compare/v2.0.0...v3.0.0
 [1.2.0]: https://github.com/bryanweaver/claude-agent-kit/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/bryanweaver/claude-agent-kit/compare/v1.0.3...v1.1.0
 [1.0.3]: https://github.com/bryanweaver/claude-agent-kit/releases/tag/v1.0.3

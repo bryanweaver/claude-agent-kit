@@ -115,6 +115,27 @@ cd claude-agent-kit
 
 ## Testing
 
+### Automated Structural Validation
+
+The plugin ships with a structural validation test suite (`test/validate-plugin.test.js`) built on the zero-dependency `node:test` runner. Run it with:
+
+```bash
+node --test test/validate-plugin.test.js
+```
+
+The suite covers 156 tests across 6 categories:
+
+| Category | What It Checks |
+|----------|---------------|
+| **Frontmatter validation** | All agent and skill files have required fields (`name`, `description`, `tools`, `model`) with valid values |
+| **Cross-references: skills -> agents** | Every agent referenced in a skill's task table or `Task()` call has a matching file in `agents/` |
+| **Cross-references: agents -> skills** | Every skill listed in an agent's "Available Tech-Stack Skills" section exists in `skills/` |
+| **Cross-references: hooks -> agents** | Any `agent_name` matcher in `hooks/hooks.json` maps to a real agent file |
+| **Plugin structure completeness** | Required directories (`agents/`, `skills/`, `hooks/`, `.claude-plugin/`) and files (`settings.json`, `hooks/hooks.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`) all exist and are valid JSON |
+| **No stale references** | No `.md` or `.json` file (excluding `CHANGELOG.md`) references removed v1/v2 CLI or library paths (templates directory, bin entrypoint, lib subdirectories) |
+
+Run validation before committing any structural changes to agents, skills, or hooks.
+
 ### Manual Testing
 
 ```bash
@@ -132,6 +153,7 @@ claude --plugin-dir /path/to/claude-agent-kit
 
 ### Manual Testing Checklist
 
+- [ ] Automated tests pass: `node --test test/validate-plugin.test.js`
 - [ ] Agent files have valid frontmatter
 - [ ] Adaptive agents detect the project stack correctly
 - [ ] Skills invoke with proper arguments
