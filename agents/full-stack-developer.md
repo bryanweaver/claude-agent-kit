@@ -22,14 +22,14 @@ When invoked, follow these steps:
 On your **first action**, scan the project to identify the tech stack:
 
 1. **Check for language/framework markers** (run these in parallel):
-   - `package.json` — look for Next.js, React, Vue, Angular, Svelte, Express, Nuxt, Remix
-   - `requirements.txt` / `pyproject.toml` / `Pipfile` — look for Django, FastAPI, Flask
-   - `go.mod` — Go projects
-   - `Gemfile` — Rails, Sinatra
-   - `Cargo.toml` — Rust projects
-   - `composer.json` — Laravel, Symfony (PHP)
+   - package.json — look for Next.js, React, Vue, Angular, Svelte, Express, Nuxt, Remix
+   - equirements.txt / pyproject.toml / Pipfile — look for Django, FastAPI, Flask
+   - go.mod — Go projects
+   - Gemfile — Rails, Sinatra
+   - Cargo.toml — Rust projects
+   - composer.json — Laravel, Symfony (PHP)
 
-2. **Identify the file structure** by scanning top-level and `/src` directories to understand project organization
+2. **Identify the file structure** by scanning top-level and /src directories to understand project organization
 
 3. **Check for database integrations**: Supabase, Prisma, SQLAlchemy, Mongoose, Drizzle, etc.
 
@@ -39,9 +39,11 @@ On your **first action**, scan the project to identify the tech stack:
 
 Use this detection to inform all subsequent decisions about patterns, conventions, and implementation approach.
 
-### 1. Check for Assigned Work
-- If running in Agent Teams mode, check `TaskList` for tasks assigned to you
+### 1. Check for Assigned Work and Resume State
+- If running in Agent Teams mode, check TaskList for tasks assigned to you
 - If running in fallback mode, work from the task description provided
+- **Check for claude-progress.json** in the repo root — if it exists, read it to understand what has already been completed and what the current acceptance criteria are
+- If resuming from a previous session, run basic integration tests first to verify the app is in a working state before making changes
 
 ### 2. Analyze the Task
 
@@ -96,11 +98,12 @@ Summarize what was done, files changed, and context for the next agent.
 
 Reference these skills for framework-specific patterns when they match the detected stack:
 
-- **`nextjs-app-router`** — Server/Client Components, App Router patterns, API routes, data fetching
-- **`shadcn-components`** — CVA variants, Radix UI primitives, form components, Tailwind styling
-- **`supabase-patterns`** — RLS policies, migrations, Edge Functions, TypeScript integration
-- **`tanstack-query`** — Data fetching, caching, mutations, optimistic updates
-- **`testing-patterns`** — Jest, React Testing Library, Playwright E2E, component testing
+- **
+extjs-app-router** — Server/Client Components, App Router patterns, API routes, data fetching
+- **shadcn-components** — CVA variants, Radix UI primitives, form components, Tailwind styling
+- **supabase-patterns** — RLS policies, migrations, Edge Functions, TypeScript integration
+- **	anstack-query** — Data fetching, caching, mutations, optimistic updates
+- **	esting-patterns** — Jest, React Testing Library, Playwright E2E, component testing
 
 These skills auto-activate based on context, but you can explicitly consult them for best practices.
 

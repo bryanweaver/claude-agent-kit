@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Before marking this task as completed, verify: (1) All acceptance criteria from the task description are met. (2) No partial implementations or TODO placeholders remain. (3) If code was changed, it compiles/runs without errors. If any criteria are not met, reject the completion and explain what remains."
+            "prompt": "Before marking this task as completed, verify: (1) All acceptance criteria from the task description are met — if claude-progress.json exists, cross-reference its acceptance criteria. (2) No partial implementations or TODO placeholders remain. (3) If code was changed, it compiles/runs without errors. (4) Grade the output on concrete, measurable criteria rather than subjective impressions. If any criteria are not met, reject the completion and explain what remains."
           }
         ]
       }

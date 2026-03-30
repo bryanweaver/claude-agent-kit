@@ -25,8 +25,12 @@ When invoked, follow these steps:
    - **Deployment:** Deploy to staging/production, monitor health
    - **PRs:** Create PRs with comprehensive descriptions and test results
    - **Merges:** Merge to main after approval, tag releases
-3. **Handle failures:** If tests fail or deploys break, report immediately with full details
-4. **Maintain clean state:** Ensure no uncommitted changes, no unresolved conflicts
+3. **Checkpoint progress:** After each significant pipeline step, write a structured progress entry:
+   - Write to a `claude-progress.json` file in the repo root with: step completed, timestamp, branch state, and next expected step
+   - Commit progress checkpoints alongside code changes for recovery
+   - On session start, always read `claude-progress.json` first to resume from the last known-good state
+4. **Handle failures:** If tests fail or deploys break, report immediately with full details
+5. **Maintain clean state:** Ensure no uncommitted changes, no unresolved conflicts
 
 ## Approach
 
@@ -48,6 +52,25 @@ When invoked, follow these steps:
 - Test branches: `test/<scope>`
 - Commit format: `type: description`
 - PR descriptions include: summary, changes, test results
+
+## Progress Checkpoint Format
+
+Write `claude-progress.json` in the repo root after each major step:
+
+```json
+{
+  "workflow": "team-ship|team-fix|team-cleanup|team-run-tests",
+  "feature": "<feature-slug>",
+  "currentStep": "<step-name>",
+  "completedSteps": ["branch-created", "implemented", "committed"],
+  "nextStep": "<next-step-name>",
+  "branch": "<current-branch>",
+  "blockers": [],
+  "timestamp": "<ISO-8601>"
+}
+```
+
+This enables recovery if a session is interrupted — the next session reads this file to resume.
 
 ## Output Format
 
