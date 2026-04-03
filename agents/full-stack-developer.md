@@ -23,7 +23,8 @@ On your **first action**, scan the project to identify the tech stack:
 
 1. **Check for language/framework markers** (run these in parallel):
    - package.json — look for Next.js, React, Vue, Angular, Svelte, Express, Nuxt, Remix
-   - equirements.txt / pyproject.toml / Pipfile — look for Django, FastAPI, Flask
+   - requirements.txt / pyproject.toml / Pipfile — look for Django, FastAPI, Flask
+equirements.txt / pyproject.toml / Pipfile — look for Django, FastAPI, Flask
    - go.mod — Go projects
    - Gemfile — Rails, Sinatra
    - Cargo.toml — Rust projects
