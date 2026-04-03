@@ -65,6 +65,10 @@ Write `claude-progress.json` in the repo root after each major step:
   "completedSteps": ["branch-created", "implemented", "committed"],
   "nextStep": "<next-step-name>",
   "branch": "<current-branch>",
+  "acceptanceCriteria": [
+    "Criterion 1: <measurable success condition>",
+    "Criterion 2: <measurable success condition>"
+  ],
   "blockers": [],
   "timestamp": "<ISO-8601>"
 }

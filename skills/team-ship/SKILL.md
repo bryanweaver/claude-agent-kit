@@ -16,11 +16,11 @@ Implement a new feature or enhancement from start to production.
 
 ### With Agent Teams (recommended)
 
-Enable with CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+Enable with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 
 Create a team and spawn teammates:
 
-1. **Create team** named ship-<feature-slug>
+1. **Create team** named `ship-<feature-slug>`
 2. **Define acceptance criteria** before implementation begins:
    - Break the feature into testable behaviors and success conditions
    - Write these criteria into claude-progress.json so all agents share the same definition of "done"
@@ -31,7 +31,7 @@ Create the following task list with dependencies:
 
 | # | Task | Owner | Blocked By |
 |---|------|-------|------------|
-| 1 | Create feature branch eature/<name> from main | shipper | — |
+| 1 | Create feature branch `feature/<name>` from main | shipper | — |
 | 2 | Implement the feature end-to-end | full-stack-developer | 1 |
 | 3 | Implement database/data layer changes (if needed) | database-admin | 1 |
 | 4 | Commit all changes with conventional message | shipper | 2, 3 |
@@ -49,15 +49,15 @@ Create the following task list with dependencies:
 
 Execute sequentially using the Task tool:
 
-1. Task(shipper, "Create feature branch feature/<name> from main")
-2. Task(full-stack-developer, "Implement: $ARGUMENTS")
-3. Task(database-admin, "Implement data layer changes for: $ARGUMENTS") — only if needed
-4. Task(shipper, "Commit all changes with message: feat: <description>")
-5. Task(reviewer, "Review the implementation on this branch")
-6. Task(shipper, "Run full test suite")
-7. If tests fail: Task(full-stack-developer, "Fix test failures: <failure details>")
-8. Task(documentor, "Update documentation for: $ARGUMENTS")
-9. Task(shipper, "Deploy and create PR to main")
+1. `Task(shipper, "Create feature branch feature/<name> from main")`
+2. `Task(full-stack-developer, "Implement: $ARGUMENTS")`
+3. `Task(database-admin, "Implement data layer changes for: $ARGUMENTS")` — only if needed
+4. `Task(shipper, "Commit all changes with message: feat: <description>")`
+5. `Task(reviewer, "Review the implementation on this branch")`
+6. `Task(shipper, "Run full test suite")`
+7. If tests fail: `Task(full-stack-developer, "Fix test failures: <failure details>")`
+8. `Task(documentor, "Update documentation for: $ARGUMENTS")`
+9. `Task(shipper, "Deploy and create PR to main")`
 
 ## Workflow Diagram
 
