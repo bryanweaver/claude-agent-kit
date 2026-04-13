@@ -131,6 +131,16 @@ Removing the CLI simplifies distribution:
 - Single installation method via Claude Code marketplace
 - Plugin auto-discovery from repository root
 
+### Brain/Hands Separation
+
+The plugin architecture naturally separates orchestration ("brain") from execution ("hands"):
+
+- **Brain:** Agent definitions in `agents/` contain reasoning instructions, decision logic, and workflow orchestration. They are stateless — no persistent state lives inside agent definitions.
+- **Hands:** Skills in `skills/` and external tools (MCP servers, bash, file system) perform the actual work. These can be independently replaced, scaled, or upgraded.
+- **Session:** The `claude-progress.json` append-only event log connects brain and hands across sessions, enabling durable recovery and multi-agent coordination.
+
+This separation means agents can crash and restart cleanly by reading the event log. It also means execution environments (worktrees, containers, sandboxes) only provision when a tool call demands them, reducing time-to-first-action.
+
 ## Related Documents
 
 - [Getting Started](../guides/getting-started.md) — Installation guide
@@ -138,4 +148,4 @@ Removing the CLI simplifies distribution:
 
 ---
 
-Last updated: 2026-02-26
+Last updated: 2026-04-13
