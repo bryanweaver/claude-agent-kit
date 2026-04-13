@@ -56,6 +56,42 @@ Every component in the harness encodes an assumption about what the model can't 
 
 **Source:** "Harness design for long-running application development" (Mar 2026)
 
+## 9. Decouple Brain from Hands
+
+Separate orchestration logic ("brain") from execution environments ("hands") through uniform interfaces. Agents should interact with all external tools through a consistent `execute(name, input) → string` pattern, whether calling containers, MCP servers, or future execution environments. This decoupling enables:
+
+- Independent scaling and replacement of execution environments
+- Lazy initialization of expensive resources (only provision when a tool call demands it)
+- Stateless orchestration that can crash and restart cleanly from the session log
+
+The agent kit applies this principle by keeping agent definitions (brain) separate from skills and tools (hands), connected through structured handoff artifacts rather than tight coupling.
+
+**Source:** "Scaling Managed Agents: Decoupling the brain from the hands" (Feb/Apr 2026)
+
+## 10. Append-Only Session Logs Over Mutable State
+
+Prefer append-only event logs over mutable state snapshots for workflow persistence. Rather than overwriting a single progress file, emit discrete events (step-completed, error-encountered, criteria-defined) that can be selectively queried. This enables:
+
+- Flexible rewinding without irreversible compaction decisions
+- Multiple agents reading different slices of the same event stream
+- Durable recovery via `wake → getEvents → resume` rather than parsing a possibly-stale snapshot
+
+The `claude-progress.json` pattern remains the lightweight default, but long-running or multi-session workflows should treat it as an append-only log with timestamped entries rather than a single overwritten object.
+
+**Source:** "Scaling Managed Agents: Decoupling the brain from the hands" (Feb/Apr 2026)
+
+## 11. Credential Isolation
+
+Never store sensitive credentials (API keys, tokens, secrets) in environments where untrusted generated code executes. Authentication should be handled through:
+
+- External vaults or proxy patterns that fetch tokens on demand
+- Git access tokens wired into local remotes during sandbox setup, not embedded in agent context
+- MCP tools that access credentials through dedicated proxies rather than passing secrets through the agent
+
+This is especially important for the shipper agent, which executes in environments that also run generated code.
+
+**Source:** "Scaling Managed Agents: Decoupling the brain from the hands" (Feb/Apr 2026)
+
 ---
 
-Last updated: 2026-03-30
+Last updated: 2026-04-13
