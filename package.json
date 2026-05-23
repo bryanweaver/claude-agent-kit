@@ -1,6 +1,6 @@
 {
   "name": "@bryanofearth/claude-agent-kit",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "A Claude Code plugin that distributes curated agents, skills, and hooks with adaptive stack detection to enhance developer productivity",
   "type": "module",
   "keywords": [
