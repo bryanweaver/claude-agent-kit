@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0](https://github.com/bryanweaver/claude-agent-kit/compare/v3.0.1...v3.1.0) (2026-05-23)
+
+
+### Features
+
+* Consolidated Anthropic engineering insights (closes [#17](https://github.com/bryanweaver/claude-agent-kit/issues/17), [#18](https://github.com/bryanweaver/claude-agent-kit/issues/18), [#19](https://github.com/bryanweaver/claude-agent-kit/issues/19)) ([#20](https://github.com/bryanweaver/claude-agent-kit/issues/20)) ([ac29f91](https://github.com/bryanweaver/claude-agent-kit/commit/ac29f91ac1f0dc5b2e00448eccbb78b8731610e3))
+
+
+### Bug Fixes
+
+* **ci:** switch release-please to release-type node so package.json gets bumped ([#23](https://github.com/bryanweaver/claude-agent-kit/issues/23)) ([123b442](https://github.com/bryanweaver/claude-agent-kit/commit/123b4425df07ee7f365dc7208fb26435c2f6672c))
+
 ## [3.0.1](https://github.com/bryanweaver/claude-agent-kit/compare/v3.0.0...v3.0.1) (2026-03-25)
 
 
