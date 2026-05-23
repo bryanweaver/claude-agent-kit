@@ -8,11 +8,11 @@
       "name": "team",
       "source": "./",
       "description": "Lean agile development with 7 specialized agents and 12 workflow skills. Coordinates agent teams for rapid delivery.",
-      "version": "3.1.1"
+      "version": "3.1.2"
     }
   ],
   "metadata": {
     "description": "Curated Claude Code agents, skills, and hooks for rapid team-based development",
-    "version": "3.1.1"
+    "version": "3.1.2"
   }
 }
