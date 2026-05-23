@@ -36,6 +36,16 @@ When invoked, follow these steps:
    - Best practices for the domain
    - Output format specification
 9. **Write the file:** Save to `agents/<generated-agent-name>.md`
+10. **Note the prompt-change discipline in the PR:** New agents — and especially edits to existing ones — are prompt changes. In the PR description, call out which `model:` the agent targets, whether the prompt asks for terseness or reduced effort, and whether any hook or skill it relies on rewrites context. See `docs/architecture/prompt-change-discipline.md` for the four checks the reviewer will apply.
+
+## Approach for prompt edits
+
+When modifying an existing agent rather than creating one new:
+
+- **Make one change per commit** so any single edit can be bisected by revert. Bundled prompt changes hide regressions.
+- **Exercise the agent on every targeted model** before merging — Sonnet, Opus, and Haiku can all respond differently to the same edit.
+- **Be cautious with concision instructions.** "Be more concise", "minimize output", or "use less thinking" have repeatedly produced quality regressions in similar systems. Prefer a soak period or feature-flagged rollout for these.
+- **Audit context-management edits.** If the change touches hooks or skill instructions that clear or rewrite session state, confirm whether the clear runs once or every turn.
 
 ## Output Format
 

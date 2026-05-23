@@ -39,9 +39,12 @@ On your **first action**, scan the project to identify the tech stack:
 
 Use this detection to inform all subsequent decisions about patterns, conventions, and implementation approach.
 
-### 1. Check for Assigned Work
+### 1. Check for Assigned Work and Resume State
 - If running in Agent Teams mode, check `TaskList` for tasks assigned to you
 - If running in fallback mode, work from the task description provided
+- **Check for `claude-progress.json`** in the repo root — if it exists, scan its `events` array (newest-first) to understand what has been completed and what the current acceptance criteria are
+- If resuming from a previous session, run basic integration tests first to verify the app is in a working state before making changes
+- **Lazy initialization:** Only detect the tech stack and provision resources (install deps, start dev servers) when the task actually requires them — avoid upfront setup that may not be needed
 
 ### 2. Analyze the Task
 

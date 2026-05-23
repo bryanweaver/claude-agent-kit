@@ -21,7 +21,11 @@ Enable with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 Create a team and spawn teammates:
 
 1. **Create team** named `ship-<feature-slug>`
-2. **Spawn teammates:** shipper, full-stack-developer, database-admin (if data changes needed), reviewer, documentor
+2. **Define acceptance criteria** before implementation begins:
+   - Break the feature into testable behaviors and success conditions
+   - Write these criteria into claude-progress.json so all agents share the same definition of "done"
+   - This prevents self-evaluation bias where agents confidently approve their own mediocre work
+3. **Spawn teammates:** shipper, full-stack-developer, database-admin (if data changes needed), reviewer, documentor
 
 Create the following task list with dependencies:
 
