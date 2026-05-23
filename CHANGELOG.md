@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.2](https://github.com/bryanweaver/claude-agent-kit/compare/v3.1.1...v3.1.2) (2026-05-23)
+
+
+### Bug Fixes
+
+* **ci:** keep release-please tags as v\${version} not \${component}-v\${version} ([#30](https://github.com/bryanweaver/claude-agent-kit/issues/30)) ([6e843c6](https://github.com/bryanweaver/claude-agent-kit/commit/6e843c6c64e3ce9acd4cfc90ba9369d8972ffa98))
+* **plugin:** sync plugin marketplace versions with package version ([#28](https://github.com/bryanweaver/claude-agent-kit/issues/28)) ([6ea6fa4](https://github.com/bryanweaver/claude-agent-kit/commit/6ea6fa4409b315e81e24e716a72cee170fd23b50))
+
 ## [3.1.1](https://github.com/bryanweaver/claude-agent-kit/compare/v3.1.0...v3.1.1) (2026-05-23)
 
 
