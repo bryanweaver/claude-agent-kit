@@ -1,6 +1,6 @@
 {
   "name": "team",
-  "version": "1.0.0",
+  "version": "3.1.1",
   "description": "Lean agile development with 7 specialized agents and 12 workflow skills. Coordinates agent teams for rapid delivery.",
   "author": { "name": "Bryan Weaver" },
   "license": "MIT"
