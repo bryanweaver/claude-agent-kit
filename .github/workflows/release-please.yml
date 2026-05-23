@@ -39,12 +39,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Run tests
         run: npm test
 
-      - name: Upgrade npm for OIDC support
+      - name: Upgrade npm for provenance support
         run: npm install -g npm@latest
 
       - name: Publish to npm with provenance
         run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
