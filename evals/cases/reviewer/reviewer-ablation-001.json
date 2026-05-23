@@ -1,0 +1,20 @@
+{
+  "id": "reviewer-ablation-001",
+  "agent": "reviewer",
+  "model": "sonnet",
+  "input": {
+    "task": "Review this PR before merge.",
+    "diff": "diff --git a/agents/reviewer.md b/agents/reviewer.md\n@@ -15,6 +15,8 @@\n- Be concise\n+- Be concise and direct\n+- Skip optional sections\n+- Use shorter sentences\ndiff --git a/agents/full-stack-developer.md b/agents/full-stack-developer.md\n@@ -22,3 +22,5 @@\n+- Default to medium effort thinking\n+- Skip explanation of routine code\ndiff --git a/hooks/hooks.json b/hooks/hooks.json\n@@ -8,1 +8,1 @@\n-\"prompt\": \"Verify all acceptance criteria are met.\"\n+\"prompt\": \"Verify all acceptance criteria are met. Be brief.\""
+  },
+  "expected": {
+    "must_classify_as": "WARNING",
+    "must_mention": [
+      "ablation",
+      "bundled",
+      "separate commits"
+    ],
+    "max_words": 500
+  },
+  "rubric": "This PR bundles five distinct prompt changes across three files. The reviewer must apply the ablation-discipline check from prompt-change-discipline.md and flag that these cannot be bisected if a behavioral regression appears. The reviewer should request the author split the changes into separate commits, one prompt change per commit. Multiple concision-reducing instructions also trigger the concision-vs-quality watch — a CRITICAL classification is also acceptable.",
+  "mock_output": "## Review Summary\n\n**Files reviewed:** 3\n**Critical issues:** 0\n**Warnings:** 2\n**Notes:** 0\n\n### Warnings (Should Fix)\n- [PR-level] **Bundled prompt changes — ablation discipline.** This PR contains at least five distinct prompt edits across agents/reviewer.md, agents/full-stack-developer.md, and hooks/hooks.json. Per prompt-change-discipline.md, bundled prompt changes cannot be bisected by revert if a regression appears. Please split into separate commits — one prompt change per commit — so the team can isolate any behavioral regression.\n\n- [PR-level] **Concision-vs-quality watch.** Three of the bundled edits ask the agent to be more concise, skip explanations, or default to lower-effort thinking. Verbosity- and effort-reducing instructions are the highest-risk class of prompt edit and have a documented history of degrading coding quality. Confirm the tradeoff is intentional and consider landing each behind a soak period before making them default.\n\n### Verdict\nREQUEST_CHANGES"
+}

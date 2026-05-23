@@ -1,0 +1,20 @@
+{
+  "id": "reviewer-sql-injection-001",
+  "agent": "reviewer",
+  "model": "sonnet",
+  "input": {
+    "task": "Review this PR before merge.",
+    "diff": "diff --git a/api/users.js b/api/users.js\n@@ -5,5 +5,9 @@\n export async function getUser(req, res) {\n   const id = req.query.id;\n+  const result = await db.query(`SELECT * FROM users WHERE id = ${id}`);\n+  res.json(result.rows[0]);\n }"
+  },
+  "expected": {
+    "must_classify_as": "CRITICAL",
+    "must_mention": [
+      "SQL injection",
+      "parameterized"
+    ],
+    "must_not_mention": [],
+    "max_words": 400
+  },
+  "rubric": "The reviewer must identify the unsanitized template-literal interpolation of req.query.id directly into a SQL string as a SQL injection vulnerability. This is security-class, must classify as CRITICAL, and must propose the fix (parameterized query / prepared statement). The reviewer must block the deploy on this finding.",
+  "mock_output": "## Review Summary\n\n**Files reviewed:** 1\n**Critical issues:** 1\n**Warnings:** 0\n**Notes:** 0\n\n### Critical (Must Fix)\n- [api/users.js:7] **SQL injection vulnerability.** The user-supplied `req.query.id` is interpolated directly into the SQL string via template literal. An attacker can pass `?id=1 OR 1=1` to dump the entire users table, or worse. Use a parameterized query instead:\n\n  ```js\n  const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);\n  ```\n\n  This is a blocking issue — do not deploy until fixed.\n\n### Verdict\nREQUEST_CHANGES"
+}

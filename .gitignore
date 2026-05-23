@@ -15,5 +15,8 @@ node_modules/
 .env.*
 !.env.example
 
+# Eval results — historical, not committed
+evals/results/
+
 # OS
 .DS_Store

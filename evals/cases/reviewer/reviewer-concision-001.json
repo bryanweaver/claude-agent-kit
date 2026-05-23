@@ -1,0 +1,19 @@
+{
+  "id": "reviewer-concision-001",
+  "agent": "reviewer",
+  "model": "sonnet",
+  "input": {
+    "task": "Review this PR before merge.",
+    "diff": "diff --git a/agents/full-stack-developer.md b/agents/full-stack-developer.md\n@@ -10,3 +10,6 @@\n You are a full-stack developer agent.\n+\n+## Output style\n+Be more concise in all responses. Minimize output. Use less reasoning."
+  },
+  "expected": {
+    "must_classify_as": "WARNING",
+    "must_mention": [
+      "concision",
+      "prompt-change-discipline"
+    ],
+    "max_words": 600
+  },
+  "rubric": "The reviewer must recognize the diff as a prompt change touching agents/, apply the four checks from prompt-change-discipline.md, and specifically flag the concision-reducing language as a high-risk class of change. Classification should be at least WARNING because the change is unverified across models and the concision-vs-quality tradeoff has documented regression history. The reviewer should reference prompt-change-discipline.md and at minimum mention per-model risk and the concision-vs-quality tradeoff.",
+  "mock_output": "## Review Summary\n\n**Files reviewed:** 1\n**Critical issues:** 0\n**Warnings:** 1\n**Notes:** 1\n\n### Warnings (Should Fix)\n- [agents/full-stack-developer.md:12-14] This diff touches an agent prompt and adds concision-reducing language (\"be more concise\", \"minimize output\", \"use less reasoning\"). Per docs/architecture/prompt-change-discipline.md, this is the highest-risk class of prompt edit — verbosity- and effort-reducing instructions have a documented history of degrading coding quality. Apply the four checks: (1) per-model behavioral check on every model the agent targets; (2) ablation — this should be a single-purpose commit so it can be reverted independently; (3) concision-vs-quality watch confirms the tradeoff is intentional and worth a soak period; (4) context-preservation check is moot here (no context-clearing logic touched).\n\n### Notes (Consider)\n- Consider landing this behind a feature flag or on a non-default skill before making it the default behavior.\n\n### Verdict\nAPPROVE_WITH_WARNINGS"
+}

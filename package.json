@@ -23,7 +23,18 @@
     "url": "https://github.com/bryanweaver/claude-agent-kit/issues"
   },
   "homepage": "https://github.com/bryanweaver/claude-agent-kit#readme",
+  "files": [
+    "agents/",
+    "skills/",
+    "hooks/",
+    ".claude-plugin/",
+    "settings.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "scripts": {
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "evals": "node evals/runner.js"
   }
 }
