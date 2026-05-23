@@ -238,17 +238,26 @@ describe('Cross-reference integrity: hooks → agents', () => {
 
   if (exists(hooksFile)) {
     const hooksData = JSON.parse(readFile(hooksFile));
-    const hooks = hooksData.hooks || [];
+    // hooks is an object keyed by event name (TaskCompleted, SubagentStop, ...);
+    // each value is an array of matcher entries.
+    const eventMap = hooksData.hooks && typeof hooksData.hooks === 'object' && !Array.isArray(hooksData.hooks)
+      ? hooksData.hooks
+      : {};
 
-    for (const hook of hooks) {
-      const agentName = hook.matcher?.agent_name;
-      if (agentName) {
-        it(`hook with agent_name "${agentName}" references an existing agent`, () => {
-          assert.ok(
-            exists(`agents/${agentName}.md`),
-            `Hook references agent "${agentName}" but agents/${agentName}.md does not exist`,
-          );
-        });
+    for (const [eventName, entries] of Object.entries(eventMap)) {
+      if (!Array.isArray(entries)) continue;
+      for (const entry of entries) {
+        // matcher can be a string (agent name) or an object with agent_name.
+        const matcher = entry.matcher;
+        const agentName = typeof matcher === 'string' ? matcher : matcher?.agent_name;
+        if (agentName) {
+          it(`${eventName} hook matcher "${agentName}" references an existing agent`, () => {
+            assert.ok(
+              exists(`agents/${agentName}.md`),
+              `Hook references agent "${agentName}" but agents/${agentName}.md does not exist`,
+            );
+          });
+        }
       }
     }
   }
